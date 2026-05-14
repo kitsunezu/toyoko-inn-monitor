@@ -1,0 +1,146 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Toyoko Inn Monitor",
+
+  "navMonitor": "Monitor",
+  "navTasks": "Tasks",
+  "navScan": "Scan",
+  "navSettings": "Settings",
+
+  "tabSearch": "Search",
+  "tabResults": "Results",
+
+  "sectionSearch": "Search Params",
+  "labelLocation": "Location",
+  "labelCheckin": "Check-in Date",
+  "labelNights": "Nights",
+  "labelPeople": "Guests",
+  "labelRooms": "Rooms",
+  "labelRoomType": "Room Type",
+  "optionNoSmoking": "Non-smoking",
+  "optionSmoking": "Smoking",
+  "labelTargetPrice": "Target Max Price (¥)",
+  "hintTargetPrice": "e.g. 5000",
+
+  "sectionHotels": "Hotels ({sel}/{total})",
+  "@sectionHotels": {
+    "placeholders": {
+      "sel": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "hintHotelSearch": "Search by hotel name or code",
+  "btnSelectAll": "Select All",
+  "btnSelectNone": "Deselect All",
+
+  "sectionControl": "Monitor Control",
+  "labelInterval": "Check Interval",
+  "labelStopMode": "Stop Condition",
+  "stopModeNever": "Stop on match",
+  "stopModeAttempts": "Max attempts",
+  "stopModeMinutes": "Max minutes",
+  "stopModeMatches": "Stop after N matches",
+  "unitSeconds": "{sec}s",
+  "@unitSeconds": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "btnStopMonitor": "Stop",
+  "btnStartMonitor": "Start Monitoring",
+  "nextCheckLabel": "Next check: {sec}s",
+  "@nextCheckLabel": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+
+  "tabLivePrices": "Live Prices",
+  "tabLog": "Log",
+  "tabPriceHistory": "Price History",
+  "lastUpdateLabel": "Last updated: {time} (query #{n})",
+  "@lastUpdateLabel": {
+    "placeholders": {
+      "time": { "type": "String" },
+      "n": { "type": "int" }
+    }
+  },
+  "noDataYet": "No data yet. Start monitoring first.",
+  "columnHotel": "Hotel",
+  "columnLowestPrice": "Lowest Price",
+  "cantOpenBrowser": "Cannot open browser",
+  "noChartData": "No data",
+
+  "pageSettingsTitle": "Settings",
+  "sectionAppearance": "Appearance",
+  "themeDark": "Dark Theme",
+  "themeLight": "Light Theme",
+  "themeSystem": "Follow System",
+  "sectionLanguage": "Language",
+  "langZhTW": "繁體中文",
+  "langJa": "日本語",
+  "langEn": "English",
+  "sectionMatchActions": "On Price Match",
+  "autoOpenUrlTitle": "Auto-open Booking Page",
+  "autoOpenUrlDesc": "Automatically open the booking page in a browser when a matching hotel is found",
+  "desktopNotifTitle": "Desktop Notification",
+  "desktopNotifDesc": "Show a desktop notification when a matching hotel is found",
+  "sectionAbout": "About",
+  "aboutAppTitle": "Toyoko Inn Monitor",
+  "aboutAppSubtitle": "Hotel price monitor for Toyoko Inn",
+  "currentVersion": "Version",
+  "btnCheckUpdate": "Check for Updates",
+  "updateChecking": "Checking...",
+  "updateLatest": "You are on the latest version.",
+  "updateAvailable": "New version {version} is available!",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "btnDownloadUpdate": "Download Update",
+  "updateCheckFailed": "Could not check for updates.",
+
+  "pageTasksTitle": "Multi-task Monitor",
+  "addTaskTooltip": "Add monitor task",
+  "noTasksMsg": "No monitor tasks",
+  "btnAddTask": "Add Task",
+  "stopTaskTooltip": "Stop monitoring",
+  "startTaskTooltip": "Start monitoring",
+  "deleteTaskTooltip": "Delete task",
+  "labelTargetShort": "Target",
+  "labelLowest": "Lowest",
+  "deleteTaskTitle": "Delete Task",
+  "deleteTaskConfirm": "Delete \"{name}\"?",
+  "@deleteTaskConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "btnCancel": "Cancel",
+  "btnDelete": "Delete",
+  "btnAdd": "Add",
+  "dialogNewTask": "Add Monitor Task",
+  "labelTaskName": "Task Name",
+  "hintTaskName": "Auto-generated or custom",
+  "noHotelSelected": "Please select at least one hotel",
+
+  "pageScanTitle": "Date Range Scan",
+  "labelCity": "City",
+  "labelStartDate": "Start Date",
+  "labelEndDate": "End Date",
+  "btnStartScan": "Start Scan",
+  "btnScanning": "Scanning...",
+  "btnClear": "Clear",
+  "scanHint": "Select city and date range to find the cheapest check-in day",
+  "noValidPrices": "No valid prices",
+  "scanMinLabel": "Lowest",
+  "scanMaxLabel": "Highest",
+  "scanDaysCount": "{count} days scanned",
+  "@scanDaysCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
+}

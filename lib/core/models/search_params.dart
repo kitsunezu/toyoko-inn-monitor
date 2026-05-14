@@ -1,0 +1,84 @@
+/// 使用者的搜尋條件
+class SearchParams {
+  final String location;
+  final List<String> hotelCodes;
+  final String checkin; // YYYY-MM-DD
+  final String checkout; // YYYY-MM-DD
+  final int numPeople; // 1-6
+  final int numRooms; // 1-4
+  final String smokingType; // 'noSmoking' | 'smoking'
+  final int targetPrice; // 目標最高價 (¥)
+  final int intervalSec; // 查詢間隔 (秒)
+  final String stopMode; // 'never' | 'attempts' | 'minutes' | 'matches'
+  final int stopValue; // 停止條件數值
+
+  const SearchParams({
+    required this.location,
+    required this.hotelCodes,
+    required this.checkin,
+    required this.checkout,
+    required this.numPeople,
+    this.numRooms = 1,
+    this.smokingType = 'noSmoking',
+    required this.targetPrice,
+    this.intervalSec = 15,
+    this.stopMode = 'never',
+    this.stopValue = 100,
+  });
+
+  SearchParams copyWith({
+    String? location,
+    List<String>? hotelCodes,
+    String? checkin,
+    String? checkout,
+    int? numPeople,
+    int? numRooms,
+    String? smokingType,
+    int? targetPrice,
+    int? intervalSec,
+    String? stopMode,
+    int? stopValue,
+  }) {
+    return SearchParams(
+      location: location ?? this.location,
+      hotelCodes: hotelCodes ?? this.hotelCodes,
+      checkin: checkin ?? this.checkin,
+      checkout: checkout ?? this.checkout,
+      numPeople: numPeople ?? this.numPeople,
+      numRooms: numRooms ?? this.numRooms,
+      smokingType: smokingType ?? this.smokingType,
+      targetPrice: targetPrice ?? this.targetPrice,
+      intervalSec: intervalSec ?? this.intervalSec,
+      stopMode: stopMode ?? this.stopMode,
+      stopValue: stopValue ?? this.stopValue,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'location': location,
+    'hotelCodes': hotelCodes,
+    'checkin': checkin,
+    'checkout': checkout,
+    'numPeople': numPeople,
+    'numRooms': numRooms,
+    'smokingType': smokingType,
+    'targetPrice': targetPrice,
+    'intervalSec': intervalSec,
+    'stopMode': stopMode,
+    'stopValue': stopValue,
+  };
+
+  factory SearchParams.fromJson(Map<String, dynamic> json) => SearchParams(
+    location: json['location'] as String? ?? '',
+    hotelCodes: (json['hotelCodes'] as List?)?.cast<String>() ?? [],
+    checkin: json['checkin'] as String? ?? '',
+    checkout: json['checkout'] as String? ?? '',
+    numPeople: json['numPeople'] as int? ?? 2,
+    numRooms: json['numRooms'] as int? ?? 1,
+    smokingType: json['smokingType'] as String? ?? 'noSmoking',
+    targetPrice: json['targetPrice'] as int? ?? 5000,
+    intervalSec: json['intervalSec'] as int? ?? 15,
+    stopMode: json['stopMode'] as String? ?? 'never',
+    stopValue: json['stopValue'] as int? ?? 100,
+  );
+}

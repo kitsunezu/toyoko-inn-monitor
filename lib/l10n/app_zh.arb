@@ -1,0 +1,146 @@
+{
+  "@@locale": "zh",
+
+  "appTitle": "東橫 INN 監控器",
+
+  "navMonitor": "監控",
+  "navTasks": "任務",
+  "navScan": "掃描",
+  "navSettings": "設定",
+
+  "tabSearch": "搜尋設定",
+  "tabResults": "結果",
+
+  "sectionSearch": "搜尋條件",
+  "labelLocation": "地點",
+  "labelCheckin": "入住日期",
+  "labelNights": "晚數",
+  "labelPeople": "人數",
+  "labelRooms": "房間數",
+  "labelRoomType": "房型",
+  "optionNoSmoking": "禁煙",
+  "optionSmoking": "吸煙",
+  "labelTargetPrice": "目標最高價 (¥)",
+  "hintTargetPrice": "例: 5000",
+
+  "sectionHotels": "飯店選擇 ({sel}/{total})",
+  "@sectionHotels": {
+    "placeholders": {
+      "sel": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "hintHotelSearch": "搜尋飯店名稱或代碼",
+  "btnSelectAll": "全選",
+  "btnSelectNone": "全不選",
+
+  "sectionControl": "監控控制",
+  "labelInterval": "查詢間隔",
+  "labelStopMode": "停止條件",
+  "stopModeNever": "找到後停止",
+  "stopModeAttempts": "最多次數",
+  "stopModeMinutes": "最多分鐘",
+  "stopModeMatches": "找到N筆停止",
+  "unitSeconds": "{sec} 秒",
+  "@unitSeconds": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "btnStopMonitor": "停止監控",
+  "btnStartMonitor": "開始監控",
+  "nextCheckLabel": "下次查詢: {sec} 秒",
+  "@nextCheckLabel": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+
+  "tabLivePrices": "即時價格",
+  "tabLog": "日誌",
+  "tabPriceHistory": "價格歷史",
+  "lastUpdateLabel": "最後更新: {time}（第 {n} 次查詢）",
+  "@lastUpdateLabel": {
+    "placeholders": {
+      "time": { "type": "String" },
+      "n": { "type": "int" }
+    }
+  },
+  "noDataYet": "尚無資料，請先開始監控",
+  "columnHotel": "飯店",
+  "columnLowestPrice": "最低價",
+  "cantOpenBrowser": "無法開啟瀏覽器",
+  "noChartData": "尚無資料",
+
+  "pageSettingsTitle": "設定",
+  "sectionAppearance": "外觀",
+  "themeDark": "深色主題",
+  "themeLight": "淺色主題",
+  "themeSystem": "跟隨系統",
+  "sectionLanguage": "語言",
+  "langZhTW": "繁體中文",
+  "langJa": "日本語",
+  "langEn": "English",
+  "sectionMatchActions": "找到符合目標價時",
+  "autoOpenUrlTitle": "自動開啟網頁",
+  "autoOpenUrlDesc": "找到符合目標價的飯店時，自動在瀏覽器開啟訂房頁面",
+  "desktopNotifTitle": "桌面通知",
+  "desktopNotifDesc": "找到符合目標價的飯店時，顯示桌面通知",
+  "sectionAbout": "關於",
+  "aboutAppTitle": "東橫 INN 監控器",
+  "aboutAppSubtitle": "東橫 INN 飯店房價監控工具",
+  "currentVersion": "版本",
+  "btnCheckUpdate": "檢查更新",
+  "updateChecking": "檢查中...",
+  "updateLatest": "已是最新版本。",
+  "updateAvailable": "有新版本 {version} 可用！",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "btnDownloadUpdate": "下載更新",
+  "updateCheckFailed": "無法檢查更新。",
+
+  "pageTasksTitle": "多任務監控",
+  "addTaskTooltip": "新增監控任務",
+  "noTasksMsg": "尚無監控任務",
+  "btnAddTask": "新增任務",
+  "stopTaskTooltip": "停止監控",
+  "startTaskTooltip": "開始監控",
+  "deleteTaskTooltip": "刪除任務",
+  "labelTargetShort": "目標",
+  "labelLowest": "最低",
+  "deleteTaskTitle": "刪除任務",
+  "deleteTaskConfirm": "確定刪除「{name}」？",
+  "@deleteTaskConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "btnCancel": "取消",
+  "btnDelete": "刪除",
+  "btnAdd": "新增",
+  "dialogNewTask": "新增監控任務",
+  "labelTaskName": "任務名稱",
+  "hintTaskName": "自動產生或自訂",
+  "noHotelSelected": "請至少選擇一間飯店",
+
+  "pageScanTitle": "日期範圍掃描",
+  "labelCity": "城市",
+  "labelStartDate": "起始日",
+  "labelEndDate": "結束日",
+  "btnStartScan": "開始掃描",
+  "btnScanning": "掃描中...",
+  "btnClear": "清除",
+  "scanHint": "選擇城市和日期範圍後開始掃描，查找最便宜的入住日",
+  "noValidPrices": "無有效報價",
+  "scanMinLabel": "最低",
+  "scanMaxLabel": "最高",
+  "scanDaysCount": "共掃描 {count} 天",
+  "@scanDaysCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
+}

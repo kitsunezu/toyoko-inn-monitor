@@ -1,0 +1,146 @@
+{
+  "@@locale": "ja",
+
+  "appTitle": "東横イン モニター",
+
+  "navMonitor": "監視",
+  "navTasks": "タスク",
+  "navScan": "スキャン",
+  "navSettings": "設定",
+
+  "tabSearch": "検索設定",
+  "tabResults": "結果",
+
+  "sectionSearch": "検索条件",
+  "labelLocation": "場所",
+  "labelCheckin": "チェックイン日",
+  "labelNights": "泊数",
+  "labelPeople": "人数",
+  "labelRooms": "部屋数",
+  "labelRoomType": "客室タイプ",
+  "optionNoSmoking": "禁煙",
+  "optionSmoking": "喫煙",
+  "labelTargetPrice": "目標最高価格 (¥)",
+  "hintTargetPrice": "例: 5000",
+
+  "sectionHotels": "ホテル選択 ({sel}/{total})",
+  "@sectionHotels": {
+    "placeholders": {
+      "sel": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "hintHotelSearch": "ホテル名またはコードを検索",
+  "btnSelectAll": "すべて選択",
+  "btnSelectNone": "すべて解除",
+
+  "sectionControl": "監視コントロール",
+  "labelInterval": "検索間隔",
+  "labelStopMode": "停止条件",
+  "stopModeNever": "見つかったら停止",
+  "stopModeAttempts": "最大回数",
+  "stopModeMinutes": "最大分数",
+  "stopModeMatches": "N件で停止",
+  "unitSeconds": "{sec} 秒",
+  "@unitSeconds": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "btnStopMonitor": "監視停止",
+  "btnStartMonitor": "監視開始",
+  "nextCheckLabel": "次回検索: {sec} 秒",
+  "@nextCheckLabel": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+
+  "tabLivePrices": "リアルタイム価格",
+  "tabLog": "ログ",
+  "tabPriceHistory": "価格履歴",
+  "lastUpdateLabel": "最終更新: {time}（第 {n} 回目）",
+  "@lastUpdateLabel": {
+    "placeholders": {
+      "time": { "type": "String" },
+      "n": { "type": "int" }
+    }
+  },
+  "noDataYet": "データなし。まず監視を開始してください",
+  "columnHotel": "ホテル",
+  "columnLowestPrice": "最安値",
+  "cantOpenBrowser": "ブラウザを開けません",
+  "noChartData": "データなし",
+
+  "pageSettingsTitle": "設定",
+  "sectionAppearance": "外観",
+  "themeDark": "ダークテーマ",
+  "themeLight": "ライトテーマ",
+  "themeSystem": "システムに従う",
+  "sectionLanguage": "言語",
+  "langZhTW": "繁體中文",
+  "langJa": "日本語",
+  "langEn": "English",
+  "sectionMatchActions": "目標価格一致時",
+  "autoOpenUrlTitle": "自動的にWebページを開く",
+  "autoOpenUrlDesc": "目標価格に合うホテルが見つかったとき、ブラウザで予約ページを自動的に開く",
+  "desktopNotifTitle": "デスクトップ通知",
+  "desktopNotifDesc": "目標価格に合うホテルが見つかったとき、デスクトップ通知を表示する",
+  "sectionAbout": "このアプリについて",
+  "aboutAppTitle": "東横イン モニター",
+  "aboutAppSubtitle": "東横イン 客室料金モニターツール",
+  "currentVersion": "バージョン",
+  "btnCheckUpdate": "アップデートを確認",
+  "updateChecking": "確認中...",
+  "updateLatest": "最新バージョンです。",
+  "updateAvailable": "新バージョン {version} が利用可能です！",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": { "type": "String" }
+    }
+  },
+  "btnDownloadUpdate": "アップデートをダウンロード",
+  "updateCheckFailed": "アップデートの確認に失敗しました。",
+
+  "pageTasksTitle": "マルチタスク監視",
+  "addTaskTooltip": "監視タスクを追加",
+  "noTasksMsg": "監視タスクなし",
+  "btnAddTask": "タスクを追加",
+  "stopTaskTooltip": "監視停止",
+  "startTaskTooltip": "監視開始",
+  "deleteTaskTooltip": "タスクを削除",
+  "labelTargetShort": "目標",
+  "labelLowest": "最安値",
+  "deleteTaskTitle": "タスクを削除",
+  "deleteTaskConfirm": "「{name}」を削除しますか？",
+  "@deleteTaskConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "btnCancel": "キャンセル",
+  "btnDelete": "削除",
+  "btnAdd": "追加",
+  "dialogNewTask": "監視タスクを追加",
+  "labelTaskName": "タスク名",
+  "hintTaskName": "自動生成または手動入力",
+  "noHotelSelected": "ホテルを少なくとも1つ選択してください",
+
+  "pageScanTitle": "日付範囲スキャン",
+  "labelCity": "都市",
+  "labelStartDate": "開始日",
+  "labelEndDate": "終了日",
+  "btnStartScan": "スキャン開始",
+  "btnScanning": "スキャン中...",
+  "btnClear": "クリア",
+  "scanHint": "都市と日付範囲を選択してスキャンを開始し、最安値の宿泊日を検索します",
+  "noValidPrices": "有効な料金なし",
+  "scanMinLabel": "最安値",
+  "scanMaxLabel": "最高値",
+  "scanDaysCount": "{count}日間スキャン済み",
+  "@scanDaysCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
+}
