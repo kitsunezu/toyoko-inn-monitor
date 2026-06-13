@@ -13,7 +13,10 @@ class MonitorTask {
   final HotelPrice? lowestPriceHotel;
   final DateTime createdAt;
   final DateTime? lastPolledAt;
+  final List<HotelPrice> latestHotelPrices;
   final List<HotelPrice> matchedHotels;
+  final double tickElapsed;
+  final double tickTotal;
 
   const MonitorTask({
     required this.id,
@@ -24,26 +27,37 @@ class MonitorTask {
     this.lowestPriceHotel,
     required this.createdAt,
     this.lastPolledAt,
+    this.latestHotelPrices = const [],
     this.matchedHotels = const [],
+    this.tickElapsed = 0,
+    this.tickTotal = 1,
   });
 
   MonitorTask copyWith({
+    String? name,
+    SearchParams? params,
     TaskStatus? status,
     int? latestLowestPrice,
     HotelPrice? lowestPriceHotel,
     DateTime? lastPolledAt,
+    List<HotelPrice>? latestHotelPrices,
     List<HotelPrice>? matchedHotels,
+    double? tickElapsed,
+    double? tickTotal,
   }) {
     return MonitorTask(
       id: id,
-      name: name,
-      params: params,
+      name: name ?? this.name,
+      params: params ?? this.params,
       status: status ?? this.status,
       latestLowestPrice: latestLowestPrice ?? this.latestLowestPrice,
       lowestPriceHotel: lowestPriceHotel ?? this.lowestPriceHotel,
       createdAt: createdAt,
       lastPolledAt: lastPolledAt ?? this.lastPolledAt,
+      latestHotelPrices: latestHotelPrices ?? this.latestHotelPrices,
       matchedHotels: matchedHotels ?? this.matchedHotels,
+      tickElapsed: tickElapsed ?? this.tickElapsed,
+      tickTotal: tickTotal ?? this.tickTotal,
     );
   }
 }

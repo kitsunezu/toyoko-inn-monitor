@@ -48,7 +48,8 @@ class SettingsService {
 
   /// 找到符合目標價時顯示桌面通知
   bool get desktopNotification => _getBool('desktop_notification', true);
-  Future<void> setDesktopNotification(bool v) => _setBool('desktop_notification', v);
+  Future<void> setDesktopNotification(bool v) =>
+      _setBool('desktop_notification', v);
 
   /// 'dark' | 'light' | 'system'
   String get themeMode => _get('theme_mode', 'dark');
@@ -65,10 +66,7 @@ class SettingsService {
   }
 
   Future<void> setSelectedHotels(List<String> codes) async {
-    await _prefs.setString(
-      '${_prefix}selected_hotels',
-      jsonEncode(codes),
-    );
+    await _prefs.setString('${_prefix}selected_hotels', jsonEncode(codes));
   }
 
   // ── Private helpers ──

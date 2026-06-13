@@ -7,8 +7,8 @@ import 'settings_provider.dart';
 /// 目前在編輯中的搜尋條件（未必在執行）
 final searchParamsProvider =
     NotifierProvider<SearchParamsNotifier, SearchParams>(
-  SearchParamsNotifier.new,
-);
+      SearchParamsNotifier.new,
+    );
 
 class SearchParamsNotifier extends Notifier<SearchParams> {
   @override
@@ -71,7 +71,7 @@ class SearchParamsNotifier extends Notifier<SearchParams> {
     _save();
   }
 
-  void updateTargetPrice(int v) {
+  void updateTargetPrice(int? v) {
     state = state.copyWith(targetPrice: v);
     _save();
   }
@@ -94,7 +94,10 @@ class SearchParamsNotifier extends Notifier<SearchParams> {
     s.setNumPeople(p.numPeople);
     s.setNumRooms(p.numRooms);
     s.setSmokingType(p.smokingType);
-    s.setTargetPrice(p.targetPrice);
+    final targetPrice = p.targetPrice;
+    if (targetPrice != null) {
+      s.setTargetPrice(targetPrice);
+    }
     s.setIntervalSec(p.intervalSec);
     s.setStopMode(p.stopMode);
     s.setStopValue(p.stopValue);

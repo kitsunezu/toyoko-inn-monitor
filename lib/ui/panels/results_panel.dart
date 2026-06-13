@@ -24,18 +24,17 @@ class ResultsPanel extends ConsumerWidget {
         children: [
           TabBar(
             tabs: [
-              Tab(icon: const Icon(Icons.table_chart_outlined), text: l.tabLivePrices),
+              Tab(
+                icon: const Icon(Icons.table_chart_outlined),
+                text: l.tabLivePrices,
+              ),
               Tab(icon: const Icon(Icons.article_outlined), text: l.tabLog),
               Tab(icon: const Icon(Icons.show_chart), text: l.tabPriceHistory),
             ],
           ),
           const Expanded(
             child: TabBarView(
-              children: [
-                _PriceTableTab(),
-                _LogTab(),
-                _ChartTab(),
-              ],
+              children: [_PriceTableTab(), _LogTab(), _ChartTab()],
             ),
           ),
         ],
@@ -54,19 +53,21 @@ class _PriceTableTab extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final hotels = ref.watch(pollerProvider.select((s) => s.latestHotels));
     final ps = ref.watch(searchParamsProvider);
+    final targetPrice = ps.targetPrice;
     final lastResult = ref.watch(
       pollerProvider.select(
         (s) => s.results.isNotEmpty ? s.results.last : null,
       ),
     );
 
-    final sorted = [...hotels]..sort((a, b) {
-      if (a.available && !b.available) return -1;
-      if (!a.available && b.available) return 1;
-      if (a.price <= 0) return 1;
-      if (b.price <= 0) return -1;
-      return a.price.compareTo(b.price);
-    });
+    final sorted = [...hotels]
+      ..sort((a, b) {
+        if (a.available && !b.available) return -1;
+        if (!a.available && b.available) return 1;
+        if (a.price <= 0) return 1;
+        if (b.price <= 0) return -1;
+        return a.price.compareTo(b.price);
+      });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,24 +133,22 @@ class _PriceTableTab extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 13,
                                     color: h.available
-                                        ? Theme.of(
-                                            context,
-                                          ).colorScheme.primary
-                                        : Theme.of(
-                                            context,
-                                          ).colorScheme.outline,
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.outline,
                                   ),
                                 ),
                               ),
                               Text(
                                 h.priceStr,
                                 style: TextStyle(
-                                  color: h.available &&
-                                          h.price <= ps.targetPrice
+                                  color:
+                                      h.available &&
+                                          targetPrice != null &&
+                                          h.price <= targetPrice
                                       ? AppColors.match
                                       : h.available
-                                          ? AppColors.available
-                                          : AppColors.noRoom,
+                                      ? AppColors.available
+                                      : AppColors.noRoom,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -187,7 +186,6 @@ class _PriceTableTab extends ConsumerWidget {
       }
     }
   }
-
 }
 
 // ?�?� Log Tab ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
@@ -254,10 +252,7 @@ class _ChartTab extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: PriceChart(
-        results: results,
-        targetPrice: ps.targetPrice,
-      ),
+      child: PriceChart(results: results, targetPrice: ps.targetPrice),
     );
   }
 }

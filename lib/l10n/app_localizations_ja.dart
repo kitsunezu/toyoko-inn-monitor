@@ -60,7 +60,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get labelTargetPrice => '目標最高価格 (¥)';
 
   @override
-  String get hintTargetPrice => '例: 5000';
+  String get hintTargetPrice => '例: 5000、空欄可';
 
   @override
   String sectionHotels(int sel, int total) {
@@ -223,6 +223,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addTaskTooltip => '監視タスクを追加';
 
   @override
+  String get editTaskTooltip => '監視タスクを編集';
+
+  @override
   String get noTasksMsg => '監視タスクなし';
 
   @override
@@ -258,10 +261,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get btnDelete => '削除';
 
   @override
+  String get btnSave => '保存';
+
+  @override
   String get btnAdd => '追加';
 
   @override
   String get dialogNewTask => '監視タスクを追加';
+
+  @override
+  String get dialogEditTask => '監視タスクを編集';
 
   @override
   String get labelTaskName => 'タスク名';
@@ -308,5 +317,273 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String scanDaysCount(int count) {
     return '$count日間スキャン済み';
+  }
+
+  @override
+  String get dashboardNavActiveMonitors => '稼働中モニター';
+
+  @override
+  String dashboardPollingEvery(int sec) {
+    return '$sec秒ごとにポーリング';
+  }
+
+  @override
+  String get dashboardGlobalAlerts => '全体アラート';
+
+  @override
+  String get dashboardToggleTheme => 'テーマ切替';
+
+  @override
+  String get dashboardThemeLightShort => 'ライト';
+
+  @override
+  String get dashboardThemeDarkShort => 'ダーク';
+
+  @override
+  String get dashboardAddMonitor => 'モニター追加';
+
+  @override
+  String get dashboardStatusOverview => 'ステータス概要';
+
+  @override
+  String get dashboardRunning => '実行中';
+
+  @override
+  String get dashboardPaused => '一時停止';
+
+  @override
+  String get dashboardAlert => 'アラート';
+
+  @override
+  String get dashboardAlertsToday => '本日のアラート';
+
+  @override
+  String get dashboardTotal => '合計';
+
+  @override
+  String get dashboardLastUpdated => '最終更新';
+
+  @override
+  String get dashboardTotalTasks => 'タスク合計';
+
+  @override
+  String get dashboardDatabase => 'データベース';
+
+  @override
+  String get dashboardConnected => '接続済み';
+
+  @override
+  String get dashboardPolling => 'ポーリング';
+
+  @override
+  String get dashboardIdle => '待機中';
+
+  @override
+  String get dashboardMetricLowestPrice => '最安値';
+
+  @override
+  String get dashboardMetricLowestPriceHelper => '有効な全モニター対象';
+
+  @override
+  String get dashboardMetricTargetHitRate => '目標達成率';
+
+  @override
+  String dashboardMetricHitRateHelper(int alerts, int tasks) {
+    return '$alerts件のアラート / $tasks件のタスク';
+  }
+
+  @override
+  String get dashboardMetricActiveMonitors => '稼働中モニター';
+
+  @override
+  String dashboardMetricActiveHelper(int running, int paused) {
+    return '$running件実行中 / $paused件停止中';
+  }
+
+  @override
+  String get dashboardMetricAlertsToday => '本日のアラート';
+
+  @override
+  String dashboardMetricAlertsHelper(int count) {
+    return '$count件をフィードに表示';
+  }
+
+  @override
+  String dashboardTasksCount(int count) {
+    return '$count件のタスク';
+  }
+
+  @override
+  String get dashboardNoMonitorTasks => '監視タスクなし';
+
+  @override
+  String get dashboardNoMonitorTasksMessage => 'モニターを追加するとホテル価格の追跡を開始できます。';
+
+  @override
+  String get dashboardRefreshView => '表示を更新';
+
+  @override
+  String get dashboardDeleteMonitorTitle => 'モニターを削除';
+
+  @override
+  String dashboardDeleteMonitorConfirm(String name) {
+    return '「$name」を削除しますか？';
+  }
+
+  @override
+  String get dashboardColumnHotelPlan => 'ホテル / プラン';
+
+  @override
+  String get dashboardColumnStatus => 'ステータス';
+
+  @override
+  String get dashboardColumnVsTarget => '目標差';
+
+  @override
+  String get dashboardColumnLastUpdate => '最終更新';
+
+  @override
+  String get dashboardColumnActions => '操作';
+
+  @override
+  String dashboardRoomGuestSummary(int rooms, int guests) {
+    return '$rooms室 / $guests名';
+  }
+
+  @override
+  String get dashboardRun => '実行';
+
+  @override
+  String get dashboardPause => '一時停止';
+
+  @override
+  String get dashboardOpenBooking => '予約を開く';
+
+  @override
+  String get dashboardNotAvailable => 'なし';
+
+  @override
+  String dashboardNights(int count) {
+    return '$count泊';
+  }
+
+  @override
+  String get dashboardTaskDetails => 'タスク詳細';
+
+  @override
+  String get dashboardCheckOut => 'チェックアウト日';
+
+  @override
+  String get dashboardSelectedHotels => '選択ホテル';
+
+  @override
+  String get dashboardMatchedRooms => '一致した客室';
+
+  @override
+  String get dashboardError => 'エラー';
+
+  @override
+  String get dashboardPriceTrend => '価格トレンド';
+
+  @override
+  String get dashboardLiveMonitor => 'ライブ監視';
+
+  @override
+  String dashboardTargetPrice(String price) {
+    return '目標 $price';
+  }
+
+  @override
+  String get dashboardNoTrendData => 'トレンドデータなし';
+
+  @override
+  String get dashboardNoTrendDataMessage => 'ポーリングを開始すると価格推移が表示されます。';
+
+  @override
+  String get dashboardDateRangePrices => '日付別価格';
+
+  @override
+  String get dashboardCheapestCheckinDays => '最安のチェックイン日';
+
+  @override
+  String get dashboardNoScanData => 'スキャンデータなし';
+
+  @override
+  String get dashboardNoScanDataMessage => '日付範囲スキャンを実行して日付を比較します。';
+
+  @override
+  String get dashboardLowestLegend => '最安値';
+
+  @override
+  String get dashboardNearTarget => '目標付近';
+
+  @override
+  String get dashboardHigh => '高値';
+
+  @override
+  String get dashboardLocationDistribution => '地域分布';
+
+  @override
+  String get dashboardAllMonitors => '全モニター';
+
+  @override
+  String get dashboardNoDistribution => '分布データなし';
+
+  @override
+  String get dashboardNoDistributionMessage => '監視タスクを作成すると地域構成を確認できます。';
+
+  @override
+  String get dashboardAlertFeed => 'アラートフィード';
+
+  @override
+  String get dashboardRealTime => 'リアルタイム';
+
+  @override
+  String get dashboardNoAlerts => 'アラートなし';
+
+  @override
+  String get dashboardNoAlertsMessage => '一致結果と価格警告がここに表示されます。';
+
+  @override
+  String dashboardTargetSuffix(String price) {
+    return ' / 目標 $price';
+  }
+
+  @override
+  String get dashboardPriceAboveTarget => '目標価格超過';
+
+  @override
+  String get dashboardPriceNearTarget => '目標価格付近';
+
+  @override
+  String get dashboardTargetHit => '目標達成';
+
+  @override
+  String get dashboardPriceHistory => '価格履歴';
+
+  @override
+  String get dashboardStoredPollingResults => '保存済みポーリング結果';
+
+  @override
+  String get dashboardMonitorTask => '監視タスク';
+
+  @override
+  String get dashboardNoTaskSelected => 'タスク未選択';
+
+  @override
+  String get dashboardNoTaskSelectedMessage => '監視タスクを作成すると履歴を収集できます。';
+
+  @override
+  String get dashboardCouldNotLoadHistory => '履歴を読み込めません';
+
+  @override
+  String get dashboardNoStoredPrices => '保存済み価格なし';
+
+  @override
+  String get dashboardNoStoredPricesMessage => 'モニターがポーリング結果を記録すると履歴が表示されます。';
+
+  @override
+  String dashboardHistoryPoints(String code, int count) {
+    return '$code  $count件';
   }
 }

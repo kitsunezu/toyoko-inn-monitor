@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:toyoko_inn_monitor/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'providers/settings_provider.dart';
 import 'utils/app_theme.dart';
 import 'ui/app_shell.dart';
-import 'ui/home_page.dart';
+import 'ui/dashboard/dashboard_page.dart';
 import 'ui/panels/date_scan_panel.dart';
 import 'ui/panels/settings_panel.dart';
 import 'ui/panels/tasks_panel.dart';
@@ -40,7 +40,7 @@ final _router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          pageBuilder: (_, s) => _fadeSlidePage(s, const HomePage()),
+          pageBuilder: (_, s) => _fadeSlidePage(s, const DashboardPage()),
         ),
         GoRoute(
           path: '/tasks',
@@ -90,8 +90,7 @@ class ToyokoApp extends ConsumerWidget {
         if (locale == null) return supported.first;
         for (final s in supported) {
           if (s.languageCode == locale.languageCode &&
-              (s.countryCode == null ||
-               s.countryCode == locale.countryCode)) {
+              (s.countryCode == null || s.countryCode == locale.countryCode)) {
             return s;
           }
         }

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 import 'dart:io';
@@ -18,11 +18,11 @@ Future<void> main() async {
   if (Platform.isWindows) {
     await windowManager.ensureInitialized();
     const options = WindowOptions(
-      size: Size(1200, 760),
+      size: Size(1360, 820),
       minimumSize: Size(1060, 680),
       title: '東橫 INN 監控器',
       center: true,
-      backgroundColor: Color(0xFF1E1E2E),
+      backgroundColor: Color(0xFF0F141B),
     );
     await windowManager.waitUntilReadyToShow(options, () async {
       await windowManager.show();

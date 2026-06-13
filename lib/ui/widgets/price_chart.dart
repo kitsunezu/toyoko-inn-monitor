@@ -8,7 +8,7 @@ import '../../utils/date_utils.dart';
 
 class PriceChart extends StatelessWidget {
   final List<PollResult> results;
-  final int targetPrice;
+  final int? targetPrice;
 
   const PriceChart({
     super.key,
@@ -19,8 +19,9 @@ class PriceChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 只取最近 40 筆，由左至右累積
-    final displayResults =
-        results.length > 40 ? results.sublist(results.length - 40) : results;
+    final displayResults = results.length > 40
+        ? results.sublist(results.length - 40)
+        : results;
     final n = displayResults.length;
 
     // 收集所有飯店代碼
@@ -77,24 +78,26 @@ class PriceChart extends StatelessWidget {
       LineChartData(
         minX: 0,
         maxX: 39, // 固定 40 格，資料從左累積
-        extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            HorizontalLine(
-              y: targetPrice.toDouble(),
-              color: AppColors.match.withValues(alpha: 0.7),
-              strokeWidth: 1.5,
-              dashArray: [6, 4],
-              label: HorizontalLineLabel(
-                show: true,
-                labelResolver: (_) => '目標 ¥$targetPrice',
-                style: const TextStyle(
-                  color: AppColors.match,
-                  fontSize: 11,
-                ),
+        extraLinesData: targetPrice == null
+            ? const ExtraLinesData()
+            : ExtraLinesData(
+                horizontalLines: [
+                  HorizontalLine(
+                    y: targetPrice!.toDouble(),
+                    color: AppColors.match.withValues(alpha: 0.7),
+                    strokeWidth: 1.5,
+                    dashArray: [6, 4],
+                    label: HorizontalLineLabel(
+                      show: true,
+                      labelResolver: (_) => '目標 ¥$targetPrice',
+                      style: const TextStyle(
+                        color: AppColors.match,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
         gridData: FlGridData(
           drawHorizontalLine: true,
           drawVerticalLine: false,

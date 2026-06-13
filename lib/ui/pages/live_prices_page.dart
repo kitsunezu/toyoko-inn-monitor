@@ -17,19 +17,21 @@ class LivePricesPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final hotels = ref.watch(pollerProvider.select((s) => s.latestHotels));
     final ps = ref.watch(searchParamsProvider);
+    final targetPrice = ps.targetPrice;
     final lastResult = ref.watch(
       pollerProvider.select(
         (s) => s.results.isNotEmpty ? s.results.last : null,
       ),
     );
 
-    final sorted = [...hotels]..sort((a, b) {
-      if (a.available && !b.available) return -1;
-      if (!a.available && b.available) return 1;
-      if (a.price <= 0) return 1;
-      if (b.price <= 0) return -1;
-      return a.price.compareTo(b.price);
-    });
+    final sorted = [...hotels]
+      ..sort((a, b) {
+        if (a.available && !b.available) return -1;
+        if (!a.available && b.available) return 1;
+        if (a.price <= 0) return 1;
+        if (b.price <= 0) return -1;
+        return a.price.compareTo(b.price);
+      });
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,9 +46,7 @@ class LivePricesPage extends ConsumerWidget {
             ),
           ),
         if (hotels.isEmpty)
-          const Expanded(
-            child: Center(child: Text('尚無資料，請先開始監控')),
-          )
+          const Expanded(child: Center(child: Text('尚無資料，請先開始監控')))
         else
           Expanded(
             child: SingleChildScrollView(
@@ -63,11 +63,7 @@ class LivePricesPage extends ConsumerWidget {
                         onSelectChanged: (_) => _openUrl(context, h, ps),
                         cells: [
                           DataCell(
-                            Icon(
-                              _iconFor(h),
-                              color: h.statusColor,
-                              size: 16,
-                            ),
+                            Icon(_iconFor(h), color: h.statusColor, size: 16),
                           ),
                           DataCell(
                             Text(h.name, style: const TextStyle(fontSize: 13)),
@@ -76,11 +72,14 @@ class LivePricesPage extends ConsumerWidget {
                             Text(
                               h.priceStr,
                               style: TextStyle(
-                                color: h.available && h.price <= ps.targetPrice
+                                color:
+                                    h.available &&
+                                        targetPrice != null &&
+                                        h.price <= targetPrice
                                     ? AppColors.match
                                     : h.available
-                                        ? AppColors.available
-                                        : AppColors.noRoom,
+                                    ? AppColors.available
+                                    : AppColors.noRoom,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -108,9 +107,9 @@ class LivePricesPage extends ConsumerWidget {
     final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('無法開啟瀏覽器')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('無法開啟瀏覽器')));
       }
     }
   }

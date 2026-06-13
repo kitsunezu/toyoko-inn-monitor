@@ -22,7 +22,7 @@ class _SearchPanelState extends ConsumerState<SearchPanel> {
   void initState() {
     super.initState();
     final p = ref.read(searchParamsProvider);
-    _targetCtrl = TextEditingController(text: p.targetPrice.toString());
+    _targetCtrl = TextEditingController(text: p.targetPrice?.toString() ?? '');
     // 計�? nights from checkin/checkout
     try {
       final cin = DateTime.parse(p.checkin);
@@ -154,9 +154,19 @@ class _SearchPanelState extends ConsumerState<SearchPanel> {
                       decoration: _dec(),
                       items: [
                         DropdownMenuItem(
-                            value: 'noSmoking', child: Text(l.optionNoSmoking, overflow: TextOverflow.ellipsis)),
+                          value: 'noSmoking',
+                          child: Text(
+                            l.optionNoSmoking,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                         DropdownMenuItem(
-                            value: 'smoking', child: Text(l.optionSmoking, overflow: TextOverflow.ellipsis)),
+                          value: 'smoking',
+                          child: Text(
+                            l.optionSmoking,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                       onChanged: (v) {
                         if (v != null) notifier.updateSmokingType(v);
@@ -176,7 +186,12 @@ class _SearchPanelState extends ConsumerState<SearchPanel> {
             decoration: _dec(hint: l.hintTargetPrice),
             keyboardType: TextInputType.number,
             onChanged: (v) {
-              final n = int.tryParse(v);
+              final text = v.trim();
+              if (text.isEmpty) {
+                notifier.updateTargetPrice(null);
+                return;
+              }
+              final n = int.tryParse(text);
               if (n != null && n > 0) notifier.updateTargetPrice(n);
             },
           ),
@@ -209,10 +224,7 @@ class _SearchPanelState extends ConsumerState<SearchPanel> {
 
   Widget _label(String text) => Padding(
     padding: const EdgeInsets.only(bottom: 4),
-    child: Text(
-      text,
-      style: Theme.of(context).textTheme.labelMedium,
-    ),
+    child: Text(text, style: Theme.of(context).textTheme.labelMedium),
   );
 
   InputDecoration _dec({String? hint}) => InputDecoration(

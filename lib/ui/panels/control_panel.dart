@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:toyoko_inn_monitor/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,13 +55,19 @@ class _ControlPanelState extends ConsumerState<ControlPanel> {
                           ? ps.intervalSec
                           : _intervalOptions[1],
                       decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                       ),
                       isExpanded: true,
                       items: _intervalOptions
-                          .map((s) =>
-                              DropdownMenuItem(value: s, child: Text(l.unitSeconds(s))))
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(l.unitSeconds(s)),
+                            ),
+                          )
                           .toList(),
                       onChanged: isRunning
                           ? null
@@ -82,15 +88,41 @@ class _ControlPanelState extends ConsumerState<ControlPanel> {
                     DropdownButtonFormField<String>(
                       value: ps.stopMode,
                       decoration: const InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
                       ),
                       isExpanded: true,
                       items: [
-                        DropdownMenuItem(value: 'never', child: Text(l.stopModeNever, overflow: TextOverflow.ellipsis)),
-                        DropdownMenuItem(value: 'attempts', child: Text(l.stopModeAttempts, overflow: TextOverflow.ellipsis)),
-                        DropdownMenuItem(value: 'minutes', child: Text(l.stopModeMinutes, overflow: TextOverflow.ellipsis)),
-                        DropdownMenuItem(value: 'matches', child: Text(l.stopModeMatches, overflow: TextOverflow.ellipsis)),
+                        DropdownMenuItem(
+                          value: 'never',
+                          child: Text(
+                            l.stopModeNever,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'attempts',
+                          child: Text(
+                            l.stopModeAttempts,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'minutes',
+                          child: Text(
+                            l.stopModeMinutes,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'matches',
+                          child: Text(
+                            l.stopModeMatches,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                       onChanged: isRunning
                           ? null
@@ -110,8 +142,10 @@ class _ControlPanelState extends ConsumerState<ControlPanel> {
                     enabled: !isRunning,
                     initialValue: ps.stopValue.toString(),
                     decoration: const InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
                     ),
                     keyboardType: TextInputType.number,
                     onChanged: (v) {
@@ -158,10 +192,7 @@ class _ControlPanelState extends ConsumerState<ControlPanel> {
                         label: Text(l.btnStartMonitor),
                         onPressed: ps.hotelCodes.isEmpty
                             ? null
-                            : () => pollerNotifier.start(
-                                  ps,
-                                  kHotelNames,
-                                ),
+                            : () => pollerNotifier.start(ps, kHotelNames),
                       ),
               ),
               const SizedBox(width: 8),
@@ -193,17 +224,14 @@ class _StatusBadge extends StatelessWidget {
     final color = running
         ? Colors.green
         : msg.contains('?�到')
-            ? Colors.amber
-            : Theme.of(context).colorScheme.outline;
+        ? Colors.amber
+        : Theme.of(context).colorScheme.outline;
     return Row(
       children: [
         Container(
           width: 10,
           height: 10,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 8),
         Expanded(

@@ -58,7 +58,9 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
                       isExpanded: true,
                       decoration: _inputDec(),
                       items: kLocations.keys
-                          .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                          .map(
+                            (c) => DropdownMenuItem(value: c, child: Text(c)),
+                          )
                           .toList(),
                       onChanged: scanState.scanning
                           ? null
@@ -142,7 +144,8 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
                         FilledButton.icon(
                           icon: const Icon(Icons.search),
                           label: Text(
-                              scanState.scanning ? l.btnScanning : l.btnStartScan),
+                            scanState.scanning ? l.btnScanning : l.btnStartScan,
+                          ),
                           onPressed: scanState.scanning ? null : _startScan,
                         ),
                         if (scanState.results.isNotEmpty &&
@@ -181,10 +184,7 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
             // ?�?� Results ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
             if (scanState.results.isNotEmpty)
               Expanded(
-                child: _ScanResults(
-                  results: scanState.results,
-                  city: _city,
-                ),
+                child: _ScanResults(results: scanState.results, city: _city),
               )
             else if (!scanState.scanning)
               Expanded(
@@ -279,12 +279,14 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
     final names = Map.fromEntries(
       cityHotels.map((c) => MapEntry(c, kHotelNames[c] ?? c)),
     );
-    ref.read(dateScanProvider.notifier).scan(
-      startDate: _startDate,
-      endDate: _endDate,
-      hotelCodes: cityHotels,
-      hotelNames: names,
-    );
+    ref
+        .read(dateScanProvider.notifier)
+        .scan(
+          startDate: _startDate,
+          endDate: _endDate,
+          hotelCodes: cityHotels,
+          hotelNames: names,
+        );
   }
 }
 
@@ -305,10 +307,12 @@ class _ScanResults extends StatelessWidget {
       return Center(child: Text(l.noValidPrices));
     }
 
-    final maxPrice =
-        valid.map((r) => r.lowestPrice).reduce((a, b) => a > b ? a : b);
-    final minPrice =
-        valid.map((r) => r.lowestPrice).reduce((a, b) => a < b ? a : b);
+    final maxPrice = valid
+        .map((r) => r.lowestPrice)
+        .reduce((a, b) => a > b ? a : b);
+    final minPrice = valid
+        .map((r) => r.lowestPrice)
+        .reduce((a, b) => a < b ? a : b);
     final cheapest = valid.firstWhere((r) => r.lowestPrice == minPrice);
 
     return Column(
@@ -397,10 +401,9 @@ class _StatsRow extends StatelessWidget {
                     ),
                   Text(
                     l.scanDaysCount(count),
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: cs.outline),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: cs.outline),
                   ),
                 ],
               ),
@@ -435,19 +438,18 @@ class _StatChip extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(color: color),
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall?.copyWith(color: color),
             ),
           ],
         ),
         Text(
           value,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: color,
-                fontWeight: FontWeight.bold,
-              ),
+            color: color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -479,8 +481,8 @@ class _ScanChart extends StatelessWidget {
                 color: r.lowestPrice <= 0
                     ? AppColors.noRoom
                     : isMin
-                        ? AppColors.match
-                        : AppColors.primary,
+                    ? AppColors.match
+                    : AppColors.primary,
                 width: results.length > 20 ? 8 : 14,
                 borderRadius: BorderRadius.circular(3),
               ),
@@ -496,8 +498,9 @@ class _ScanChart extends StatelessWidget {
                 if (idx < 0 || idx >= results.length) {
                   return const SizedBox();
                 }
-                final step =
-                    results.length > 14 ? (results.length ~/ 7 + 1) : 1;
+                final step = results.length > 14
+                    ? (results.length ~/ 7 + 1)
+                    : 1;
                 if (idx % step != 0) return const SizedBox();
                 final parts = results[idx].date.split('-');
                 return Padding(
@@ -520,10 +523,12 @@ class _ScanChart extends StatelessWidget {
               ),
             ),
           ),
-          topTitles:
-              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles:
-              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: const AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
         ),
         borderData: FlBorderData(show: false),
         gridData: const FlGridData(
@@ -565,20 +570,19 @@ class _PriceList extends StatelessWidget {
         final color = r.lowestPrice <= 0
             ? AppColors.noRoom
             : isMin
-                ? AppColors.match
-                : AppColors.available;
-        final bgColor =
-            isMin ? cs.primaryContainer.withValues(alpha: 0.15) : null;
+            ? AppColors.match
+            : AppColors.available;
+        final bgColor = isMin
+            ? cs.primaryContainer.withValues(alpha: 0.15)
+            : null;
         final canOpen = r.hotelCode != null && r.lowestPrice > 0;
         return Material(
           color: bgColor ?? Colors.transparent,
           child: InkWell(
-            mouseCursor:
-                canOpen ? SystemMouseCursors.click : MouseCursor.defer,
+            mouseCursor: canOpen ? SystemMouseCursors.click : MouseCursor.defer,
             onTap: canOpen ? () => _openUrl(r) : null,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
               child: Row(
                 children: [
                   Container(
@@ -599,8 +603,9 @@ class _PriceList extends StatelessWidget {
                           r.date,
                           style: TextStyle(
                             fontSize: 13,
-                            fontWeight:
-                                isMin ? FontWeight.bold : FontWeight.normal,
+                            fontWeight: isMin
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
                         if (r.hotelName != null)
@@ -649,14 +654,11 @@ class _FieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(bottom: 6),
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      );
+    padding: const EdgeInsets.only(bottom: 6),
+    child: Text(text, style: Theme.of(context).textTheme.labelMedium),
+  );
 }
 
 InputDecoration _inputDec() => const InputDecoration(
-      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-    );
+  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+);

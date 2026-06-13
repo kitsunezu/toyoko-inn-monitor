@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+tool/hotel_catalog_audit.json
 
 # Symbolication related
 app.*.symbols

@@ -60,7 +60,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelTargetPrice => 'Target Max Price (¥)';
 
   @override
-  String get hintTargetPrice => 'e.g. 5000';
+  String get hintTargetPrice => 'e.g. 5000, or leave blank';
 
   @override
   String sectionHotels(int sel, int total) {
@@ -225,6 +225,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addTaskTooltip => 'Add monitor task';
 
   @override
+  String get editTaskTooltip => 'Edit monitor task';
+
+  @override
   String get noTasksMsg => 'No monitor tasks';
 
   @override
@@ -260,10 +263,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btnDelete => 'Delete';
 
   @override
+  String get btnSave => 'Save';
+
+  @override
   String get btnAdd => 'Add';
 
   @override
   String get dialogNewTask => 'Add Monitor Task';
+
+  @override
+  String get dialogEditTask => 'Edit Monitor Task';
 
   @override
   String get labelTaskName => 'Task Name';
@@ -311,5 +320,280 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String scanDaysCount(int count) {
     return '$count days scanned';
+  }
+
+  @override
+  String get dashboardNavActiveMonitors => 'Active Monitors';
+
+  @override
+  String dashboardPollingEvery(int sec) {
+    return 'Polling every ${sec}s';
+  }
+
+  @override
+  String get dashboardGlobalAlerts => 'Global Alerts';
+
+  @override
+  String get dashboardToggleTheme => 'Toggle theme';
+
+  @override
+  String get dashboardThemeLightShort => 'Light';
+
+  @override
+  String get dashboardThemeDarkShort => 'Dark';
+
+  @override
+  String get dashboardAddMonitor => 'Add Monitor';
+
+  @override
+  String get dashboardStatusOverview => 'Status Overview';
+
+  @override
+  String get dashboardRunning => 'Running';
+
+  @override
+  String get dashboardPaused => 'Paused';
+
+  @override
+  String get dashboardAlert => 'Alert';
+
+  @override
+  String get dashboardAlertsToday => 'Alerts Today';
+
+  @override
+  String get dashboardTotal => 'Total';
+
+  @override
+  String get dashboardLastUpdated => 'Last updated';
+
+  @override
+  String get dashboardTotalTasks => 'Total tasks';
+
+  @override
+  String get dashboardDatabase => 'Database';
+
+  @override
+  String get dashboardConnected => 'Connected';
+
+  @override
+  String get dashboardPolling => 'Polling';
+
+  @override
+  String get dashboardIdle => 'Idle';
+
+  @override
+  String get dashboardMetricLowestPrice => 'LOWEST PRICE';
+
+  @override
+  String get dashboardMetricLowestPriceHelper => 'Across all active monitors';
+
+  @override
+  String get dashboardMetricTargetHitRate => 'TARGET HIT RATE';
+
+  @override
+  String dashboardMetricHitRateHelper(int alerts, int tasks) {
+    return '$alerts alert / $tasks tasks';
+  }
+
+  @override
+  String get dashboardMetricActiveMonitors => 'ACTIVE MONITORS';
+
+  @override
+  String dashboardMetricActiveHelper(int running, int paused) {
+    return '$running running / $paused paused';
+  }
+
+  @override
+  String get dashboardMetricAlertsToday => 'ALERTS TODAY';
+
+  @override
+  String dashboardMetricAlertsHelper(int count) {
+    return '$count events in feed';
+  }
+
+  @override
+  String dashboardTasksCount(int count) {
+    return '$count tasks';
+  }
+
+  @override
+  String get dashboardNoMonitorTasks => 'No monitor tasks';
+
+  @override
+  String get dashboardNoMonitorTasksMessage =>
+      'Add a monitor to start tracking hotel prices.';
+
+  @override
+  String get dashboardRefreshView => 'Refresh view';
+
+  @override
+  String get dashboardDeleteMonitorTitle => 'Delete monitor';
+
+  @override
+  String dashboardDeleteMonitorConfirm(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String get dashboardColumnHotelPlan => 'Hotel / Plan';
+
+  @override
+  String get dashboardColumnStatus => 'Status';
+
+  @override
+  String get dashboardColumnVsTarget => 'vs Target';
+
+  @override
+  String get dashboardColumnLastUpdate => 'Last Update';
+
+  @override
+  String get dashboardColumnActions => 'Actions';
+
+  @override
+  String dashboardRoomGuestSummary(int rooms, int guests) {
+    return '$rooms room / $guests guests';
+  }
+
+  @override
+  String get dashboardRun => 'Run';
+
+  @override
+  String get dashboardPause => 'Pause';
+
+  @override
+  String get dashboardOpenBooking => 'Open booking';
+
+  @override
+  String get dashboardNotAvailable => 'n/a';
+
+  @override
+  String dashboardNights(int count) {
+    return '$count nights';
+  }
+
+  @override
+  String get dashboardTaskDetails => 'Task Details';
+
+  @override
+  String get dashboardCheckOut => 'Check-out';
+
+  @override
+  String get dashboardSelectedHotels => 'Selected Hotels';
+
+  @override
+  String get dashboardMatchedRooms => 'Matched Rooms';
+
+  @override
+  String get dashboardError => 'Error';
+
+  @override
+  String get dashboardPriceTrend => 'Price Trend';
+
+  @override
+  String get dashboardLiveMonitor => 'Live monitor';
+
+  @override
+  String dashboardTargetPrice(String price) {
+    return 'Target $price';
+  }
+
+  @override
+  String get dashboardNoTrendData => 'No trend data';
+
+  @override
+  String get dashboardNoTrendDataMessage =>
+      'Start polling to draw live price movement.';
+
+  @override
+  String get dashboardDateRangePrices => 'Date Range Prices';
+
+  @override
+  String get dashboardCheapestCheckinDays => 'Cheapest check-in days';
+
+  @override
+  String get dashboardNoScanData => 'No scan data';
+
+  @override
+  String get dashboardNoScanDataMessage =>
+      'Run Date Range Scan to compare dates.';
+
+  @override
+  String get dashboardLowestLegend => 'Lowest';
+
+  @override
+  String get dashboardNearTarget => 'Near target';
+
+  @override
+  String get dashboardHigh => 'High';
+
+  @override
+  String get dashboardLocationDistribution => 'Location Distribution';
+
+  @override
+  String get dashboardAllMonitors => 'All monitors';
+
+  @override
+  String get dashboardNoDistribution => 'No distribution';
+
+  @override
+  String get dashboardNoDistributionMessage =>
+      'Create monitor tasks to see location mix.';
+
+  @override
+  String get dashboardAlertFeed => 'Alert Feed';
+
+  @override
+  String get dashboardRealTime => 'Real-time';
+
+  @override
+  String get dashboardNoAlerts => 'No alerts';
+
+  @override
+  String get dashboardNoAlertsMessage =>
+      'Matches and price warnings appear here.';
+
+  @override
+  String dashboardTargetSuffix(String price) {
+    return ' / target $price';
+  }
+
+  @override
+  String get dashboardPriceAboveTarget => 'Price above target';
+
+  @override
+  String get dashboardPriceNearTarget => 'Price near target';
+
+  @override
+  String get dashboardTargetHit => 'Target hit';
+
+  @override
+  String get dashboardPriceHistory => 'Price History';
+
+  @override
+  String get dashboardStoredPollingResults => 'Stored polling results';
+
+  @override
+  String get dashboardMonitorTask => 'Monitor task';
+
+  @override
+  String get dashboardNoTaskSelected => 'No task selected';
+
+  @override
+  String get dashboardNoTaskSelectedMessage =>
+      'Create a monitor task to collect history.';
+
+  @override
+  String get dashboardCouldNotLoadHistory => 'Could not load history';
+
+  @override
+  String get dashboardNoStoredPrices => 'No stored prices';
+
+  @override
+  String get dashboardNoStoredPricesMessage =>
+      'History appears after a monitor records poll results.';
+
+  @override
+  String dashboardHistoryPoints(String code, int count) {
+    return '$code  $count points';
   }
 }

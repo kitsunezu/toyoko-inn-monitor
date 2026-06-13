@@ -68,9 +68,7 @@ class PollerService {
 
     while (_running) {
       _attempt++;
-      final nowStr = DateTime.now()
-          .toString()
-          .substring(11, 19); // HH:mm:ss
+      final nowStr = DateTime.now().toString().substring(11, 19); // HH:mm:ss
 
       // 停止條件檢查
       if (params.stopMode == 'attempts' && _attempt > params.stopValue) {
@@ -82,10 +80,7 @@ class PollerService {
         final elapsedMin =
             DateTime.now().difference(startTime).inSeconds / 60.0;
         if (elapsedMin >= params.stopValue) {
-          _emit(
-            PollerEventType.stopped,
-            '已達最大監控時間 (${params.stopValue} 分鐘)',
-          );
+          _emit(PollerEventType.stopped, '已達最大監控時間 (${params.stopValue} 分鐘)');
           _running = false;
           return;
         }
@@ -116,8 +111,9 @@ class PollerService {
       }
 
       final matches = <HotelPrice>[];
+      final targetPrice = params.targetPrice;
       for (final h in hotels) {
-        if (h.available && h.price <= params.targetPrice) {
+        if (h.available && targetPrice != null && h.price <= targetPrice) {
           _emit(PollerEventType.log, '  ⭐ ${h.name}: ${h.priceStr}  ← 符合目標!');
           matches.add(h);
         } else if (h.available) {
@@ -143,11 +139,9 @@ class PollerService {
         _emit(PollerEventType.match, matches);
 
         // stopMode='matches' 選項：找到 N 筆後停止
-        if (params.stopMode == 'matches' && matches.length >= params.stopValue) {
-          _emit(
-            PollerEventType.stopped,
-            '找到 ${matches.length} 筆符合條件，自動停止',
-          );
+        if (params.stopMode == 'matches' &&
+            matches.length >= params.stopValue) {
+          _emit(PollerEventType.stopped, '找到 ${matches.length} 筆符合條件，自動停止');
           _running = false;
           return;
         }
@@ -160,10 +154,7 @@ class PollerService {
         }
       }
 
-      _emit(
-        PollerEventType.log,
-        '  ⏳ 未找到符合條件，${params.intervalSec} 秒後重試...',
-      );
+      _emit(PollerEventType.log, '  ⏳ 未找到符合條件，${params.intervalSec} 秒後重試...');
       await _waitWithTick(params.intervalSec);
     }
 

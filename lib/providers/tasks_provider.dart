@@ -10,9 +10,22 @@ import '../core/services/poller_service.dart';
 import '../db/app_database.dart';
 import '../utils/url_utils.dart';
 import 'poller_provider.dart';
+import 'settings_provider.dart';
+import 'url_launcher_provider.dart';
 
 final dbProvider = Provider<AppDatabase>((ref) {
   throw UnimplementedError('Must be overridden in ProviderScope');
+});
+
+typedef PollerServiceFactory =
+    PollerService Function({
+      required SearchParams params,
+      required Map<String, String> hotelNames,
+    });
+
+final pollerServiceFactoryProvider = Provider<PollerServiceFactory>((ref) {
+  return ({required params, required hotelNames}) =>
+      PollerService(params: params, hotelNames: hotelNames);
 });
 
 class TasksNotifier extends Notifier<List<MonitorTask>> {
@@ -28,7 +41,10 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
   Future<void> _loadFromDb() async {
     final db = ref.read(dbProvider);
     final rows = await db.allTasks();
-    final tasks = rows.map((row) {
+    for (final row in rows.skip(1)) {
+      await db.deleteTask(row.id);
+    }
+    final tasks = rows.take(1).map((row) {
       final params = SearchParams.fromJson(
         jsonDecode(row.paramsJson) as Map<String, dynamic>,
       );
@@ -42,6 +58,12 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
     state = tasks;
   }
 
+  String _taskName(SearchParams params, String? customName) {
+    final trimmed = customName?.trim();
+    if (trimmed != null && trimmed.isNotEmpty) return trimmed;
+    return '${params.location} ${params.checkin}-${params.checkout}';
+  }
+
   /// 建立新任務並儲存到 DB
   Future<MonitorTask> createTask(
     SearchParams params,
@@ -49,9 +71,7 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
   ) async {
     const uuid = Uuid();
     final id = uuid.v4();
-    final name =
-        customName ??
-        '${params.location} ${params.checkin}→${params.checkout}';
+    final name = _taskName(params, customName);
     final task = MonitorTask(
       id: id,
       name: name,
@@ -69,8 +89,61 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
       ),
     );
 
-    state = [...state, task];
+    for (final oldTask in state) {
+      _stopPoller(oldTask.id);
+      if (oldTask.id != id) await db.deleteTask(oldTask.id);
+    }
+
+    state = [task];
     return task;
+  }
+
+  Future<MonitorTask?> updateTask(
+    String taskId,
+    SearchParams params,
+    String? customName, {
+    Map<String, String>? hotelNames,
+  }) async {
+    final idx = state.indexWhere((t) => t.id == taskId);
+    if (idx < 0) return null;
+
+    final current = state[idx];
+    final wasRunning =
+        current.status == TaskStatus.running ||
+        current.status == TaskStatus.matched;
+    _stopPoller(taskId);
+
+    final updated = MonitorTask(
+      id: current.id,
+      name: _taskName(params, customName),
+      params: params,
+      createdAt: current.createdAt,
+      status: wasRunning && hotelNames == null
+          ? TaskStatus.stopped
+          : TaskStatus.idle,
+    );
+
+    final db = ref.read(dbProvider);
+    await db.upsertTask(
+      MonitorTaskTableCompanion.insert(
+        id: updated.id,
+        name: updated.name,
+        paramsJson: jsonEncode(params.toJson()),
+        createdAt: updated.createdAt,
+      ),
+    );
+
+    state = [
+      for (final task in state)
+        if (task.id == taskId) updated else task,
+    ];
+
+    if (wasRunning && hotelNames != null) {
+      startTask(taskId, hotelNames);
+      return state.firstWhere((task) => task.id == taskId);
+    }
+
+    return updated;
   }
 
   void startTask(String taskId, Map<String, String> hotelNames) {
@@ -80,7 +153,7 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
 
     _stopPoller(taskId);
 
-    final service = PollerService(
+    final service = ref.read(pollerServiceFactoryProvider)(
       params: task.params,
       hotelNames: hotelNames,
     );
@@ -88,12 +161,17 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
     _subs[taskId] = service.events.listen((evt) => _onEvent(taskId, evt));
     service.start();
 
-    _updateStatus(taskId, TaskStatus.running);
+    _updateStatus(
+      taskId,
+      TaskStatus.running,
+      tickElapsed: 0,
+      tickTotal: task.params.intervalSec.toDouble(),
+    );
   }
 
   void stopTask(String taskId) {
     _stopPoller(taskId);
-    _updateStatus(taskId, TaskStatus.stopped);
+    _updateStatus(taskId, TaskStatus.stopped, tickElapsed: 0, tickTotal: 1);
   }
 
   Future<void> deleteTask(String taskId) async {
@@ -108,32 +186,7 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
       case PollerEventType.result:
         final result = event.data as PollResult;
         if (result.success && result.hotels.isNotEmpty) {
-          final available = result.hotels.where((h) => h.available).toList();
-          if (available.isNotEmpty) {
-            final lowestHotel =
-                available.reduce((a, b) => a.price < b.price ? a : b);
-            _updateLatestPrice(
-              taskId,
-              lowestHotel.price,
-              DateTime.now(),
-              lowestHotel,
-            );
-          }
-
-          final hist = ref.read(historyServiceProvider);
-          final task = state.firstWhere(
-            (t) => t.id == taskId,
-            orElse: () => state.first,
-          );
-          hist
-              .saveResults(
-                taskId: taskId,
-                hotels: result.hotels,
-                checkin: task.params.checkin,
-                checkout: task.params.checkout,
-                polledAt: result.timestamp,
-              )
-              .ignore();
+          _handleSuccessfulResult(taskId, result).ignore();
         }
 
       case PollerEventType.match:
@@ -168,41 +221,105 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
               ),
             )
             .toList();
+        if (ref.read(autoOpenUrlProvider)) {
+          final openExternalUrl = ref.read(externalUrlLauncherProvider);
+          for (final match in matchData) {
+            openExternalUrl(Uri.parse(match.url)).ignore();
+          }
+        }
         notif.notifyMatches(matches: matchData);
 
       case PollerEventType.stopped:
-        _updateStatus(taskId, TaskStatus.stopped);
+        _updateStatus(taskId, TaskStatus.stopped, tickElapsed: 0, tickTotal: 1);
         _stopPoller(taskId);
+
+      case PollerEventType.tick:
+        final tick = event.data as TickData;
+        _updateTick(taskId, tick.elapsed, tick.total);
 
       default:
         break;
     }
   }
 
-  void _updateStatus(String taskId, TaskStatus status) {
+  void _updateStatus(
+    String taskId,
+    TaskStatus status, {
+    double? tickElapsed,
+    double? tickTotal,
+  }) {
     state = [
       for (final t in state)
-        if (t.id == taskId) t.copyWith(status: status) else t,
+        if (t.id == taskId)
+          t.copyWith(
+            status: status,
+            tickElapsed: tickElapsed,
+            tickTotal: tickTotal,
+          )
+        else
+          t,
     ];
   }
 
-  void _updateLatestPrice(
+  void _updateTick(String taskId, double elapsed, double total) {
+    state = [
+      for (final t in state)
+        if (t.id == taskId)
+          t.copyWith(tickElapsed: elapsed, tickTotal: total)
+        else
+          t,
+    ];
+  }
+
+  void _updateLatestPrices(
     String taskId,
-    int price,
+    List<HotelPrice> hotels,
     DateTime polledAt,
-    HotelPrice lowestHotel,
+    HotelPrice? lowestHotel,
   ) {
     state = [
       for (final t in state)
         if (t.id == taskId)
           t.copyWith(
-            latestLowestPrice: price,
+            latestLowestPrice: lowestHotel?.price,
             lowestPriceHotel: lowestHotel,
             lastPolledAt: polledAt,
+            latestHotelPrices: hotels,
           )
         else
           t,
     ];
+  }
+
+  Future<void> _handleSuccessfulResult(String taskId, PollResult result) async {
+    final task = _taskById(taskId);
+    if (task == null) return;
+
+    final available = result.hotels.where((h) => h.available).toList();
+    final lowestHotel = available.isEmpty
+        ? null
+        : available.reduce((a, b) => a.price < b.price ? a : b);
+
+    try {
+      await ref
+          .read(historyServiceProvider)
+          .saveResults(
+            taskId: taskId,
+            hotels: result.hotels,
+            checkin: task.params.checkin,
+            checkout: task.params.checkout,
+            polledAt: result.timestamp,
+          );
+    } finally {
+      _updateLatestPrices(taskId, result.hotels, result.timestamp, lowestHotel);
+    }
+  }
+
+  MonitorTask? _taskById(String taskId) {
+    for (final task in state) {
+      if (task.id == taskId) return task;
+    }
+    return null;
   }
 
   void _stopPoller(String taskId) {

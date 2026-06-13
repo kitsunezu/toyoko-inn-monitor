@@ -55,17 +55,16 @@ class NotificationService {
   }) async {
     if (!_initialized || matches.isEmpty) return;
 
-    String fmtPrice(int p) => '¥${p.toString().replaceAllMapped(
-      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-      (m) => '${m[1]},',
-    )}';
+    String fmtPrice(int p) =>
+        '¥${p.toString().replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}';
 
     final count = matches.length;
     final title = count == 1
         ? '找到了！${matches.first.name}'
         : '找到了！$count 間飯店符合目標';
-    final body =
-        matches.map((m) => '${m.name}  ${fmtPrice(m.price)}').join('\n');
+    final body = matches
+        .map((m) => '${m.name}  ${fmtPrice(m.price)}')
+        .join('\n');
     final firstUrl = matches.first.url;
 
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -74,10 +73,8 @@ class NotificationService {
         title: title,
         body: body,
       );
-      notification.onClick = () => launchUrl(
-        Uri.parse(firstUrl),
-        mode: LaunchMode.externalApplication,
-      );
+      notification.onClick = () =>
+          launchUrl(Uri.parse(firstUrl), mode: LaunchMode.externalApplication);
       await notification.show();
       return;
     }

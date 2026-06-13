@@ -61,7 +61,11 @@ class DateScanNotifier extends Notifier<DateScanState> {
       }
       state = state.copyWith(scanning: false);
     } catch (e) {
-      state = DateScanState(scanning: false, results: results, error: e.toString());
+      state = DateScanState(
+        scanning: false,
+        results: results,
+        error: e.toString(),
+      );
     }
   }
 

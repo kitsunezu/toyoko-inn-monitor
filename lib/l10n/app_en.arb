@@ -21,7 +21,7 @@
   "optionNoSmoking": "Non-smoking",
   "optionSmoking": "Smoking",
   "labelTargetPrice": "Target Max Price (¥)",
-  "hintTargetPrice": "e.g. 5000",
+  "hintTargetPrice": "e.g. 5000, or leave blank",
 
   "sectionHotels": "Hotels ({sel}/{total})",
   "@sectionHotels": {
@@ -104,6 +104,7 @@
 
   "pageTasksTitle": "Multi-task Monitor",
   "addTaskTooltip": "Add monitor task",
+  "editTaskTooltip": "Edit monitor task",
   "noTasksMsg": "No monitor tasks",
   "btnAddTask": "Add Task",
   "stopTaskTooltip": "Stop monitoring",
@@ -120,8 +121,10 @@
   },
   "btnCancel": "Cancel",
   "btnDelete": "Delete",
+  "btnSave": "Save",
   "btnAdd": "Add",
   "dialogNewTask": "Add Monitor Task",
+  "dialogEditTask": "Edit Monitor Task",
   "labelTaskName": "Task Name",
   "hintTaskName": "Auto-generated or custom",
   "noHotelSelected": "Please select at least one hotel",
@@ -140,6 +143,148 @@
   "scanDaysCount": "{count} days scanned",
   "@scanDaysCount": {
     "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "dashboardNavActiveMonitors": "Active Monitors",
+  "dashboardPollingEvery": "Polling every {sec}s",
+  "@dashboardPollingEvery": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "dashboardGlobalAlerts": "Global Alerts",
+  "dashboardToggleTheme": "Toggle theme",
+  "dashboardThemeLightShort": "Light",
+  "dashboardThemeDarkShort": "Dark",
+  "dashboardAddMonitor": "Add Monitor",
+  "dashboardStatusOverview": "Status Overview",
+  "dashboardRunning": "Running",
+  "dashboardPaused": "Paused",
+  "dashboardAlert": "Alert",
+  "dashboardAlertsToday": "Alerts Today",
+  "dashboardTotal": "Total",
+  "dashboardLastUpdated": "Last updated",
+  "dashboardTotalTasks": "Total tasks",
+  "dashboardDatabase": "Database",
+  "dashboardConnected": "Connected",
+  "dashboardPolling": "Polling",
+  "dashboardIdle": "Idle",
+  "dashboardMetricLowestPrice": "LOWEST PRICE",
+  "dashboardMetricLowestPriceHelper": "Across all active monitors",
+  "dashboardMetricTargetHitRate": "TARGET HIT RATE",
+  "dashboardMetricHitRateHelper": "{alerts} alert / {tasks} tasks",
+  "@dashboardMetricHitRateHelper": {
+    "placeholders": {
+      "alerts": { "type": "int" },
+      "tasks": { "type": "int" }
+    }
+  },
+  "dashboardMetricActiveMonitors": "ACTIVE MONITORS",
+  "dashboardMetricActiveHelper": "{running} running / {paused} paused",
+  "@dashboardMetricActiveHelper": {
+    "placeholders": {
+      "running": { "type": "int" },
+      "paused": { "type": "int" }
+    }
+  },
+  "dashboardMetricAlertsToday": "ALERTS TODAY",
+  "dashboardMetricAlertsHelper": "{count} events in feed",
+  "@dashboardMetricAlertsHelper": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTasksCount": "{count} tasks",
+  "@dashboardTasksCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardNoMonitorTasks": "No monitor tasks",
+  "dashboardNoMonitorTasksMessage": "Add a monitor to start tracking hotel prices.",
+  "dashboardRefreshView": "Refresh view",
+  "dashboardDeleteMonitorTitle": "Delete monitor",
+  "dashboardDeleteMonitorConfirm": "Delete \"{name}\"?",
+  "@dashboardDeleteMonitorConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "dashboardColumnHotelPlan": "Hotel / Plan",
+  "dashboardColumnStatus": "Status",
+  "dashboardColumnVsTarget": "vs Target",
+  "dashboardColumnLastUpdate": "Last Update",
+  "dashboardColumnActions": "Actions",
+  "dashboardRoomGuestSummary": "{rooms} room / {guests} guests",
+  "@dashboardRoomGuestSummary": {
+    "placeholders": {
+      "rooms": { "type": "int" },
+      "guests": { "type": "int" }
+    }
+  },
+  "dashboardRun": "Run",
+  "dashboardPause": "Pause",
+  "dashboardOpenBooking": "Open booking",
+  "dashboardNotAvailable": "n/a",
+  "dashboardNights": "{count} nights",
+  "@dashboardNights": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTaskDetails": "Task Details",
+  "dashboardCheckOut": "Check-out",
+  "dashboardSelectedHotels": "Selected Hotels",
+  "dashboardMatchedRooms": "Matched Rooms",
+  "dashboardError": "Error",
+  "dashboardPriceTrend": "Price Trend",
+  "dashboardLiveMonitor": "Live monitor",
+  "dashboardTargetPrice": "Target {price}",
+  "@dashboardTargetPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardNoTrendData": "No trend data",
+  "dashboardNoTrendDataMessage": "Start polling to draw live price movement.",
+  "dashboardDateRangePrices": "Date Range Prices",
+  "dashboardCheapestCheckinDays": "Cheapest check-in days",
+  "dashboardNoScanData": "No scan data",
+  "dashboardNoScanDataMessage": "Run Date Range Scan to compare dates.",
+  "dashboardLowestLegend": "Lowest",
+  "dashboardNearTarget": "Near target",
+  "dashboardHigh": "High",
+  "dashboardLocationDistribution": "Location Distribution",
+  "dashboardAllMonitors": "All monitors",
+  "dashboardNoDistribution": "No distribution",
+  "dashboardNoDistributionMessage": "Create monitor tasks to see location mix.",
+  "dashboardAlertFeed": "Alert Feed",
+  "dashboardRealTime": "Real-time",
+  "dashboardNoAlerts": "No alerts",
+  "dashboardNoAlertsMessage": "Matches and price warnings appear here.",
+  "dashboardTargetSuffix": " / target {price}",
+  "@dashboardTargetSuffix": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardPriceAboveTarget": "Price above target",
+  "dashboardPriceNearTarget": "Price near target",
+  "dashboardTargetHit": "Target hit",
+  "dashboardPriceHistory": "Price History",
+  "dashboardStoredPollingResults": "Stored polling results",
+  "dashboardMonitorTask": "Monitor task",
+  "dashboardNoTaskSelected": "No task selected",
+  "dashboardNoTaskSelectedMessage": "Create a monitor task to collect history.",
+  "dashboardCouldNotLoadHistory": "Could not load history",
+  "dashboardNoStoredPrices": "No stored prices",
+  "dashboardNoStoredPricesMessage": "History appears after a monitor records poll results.",
+  "dashboardHistoryPoints": "{code}  {count} points",
+  "@dashboardHistoryPoints": {
+    "placeholders": {
+      "code": { "type": "String" },
       "count": { "type": "int" }
     }
   }

@@ -24,8 +24,7 @@ class MonitorTaskTable extends Table {
   TextColumn get name => text()();
   TextColumn get paramsJson => text()();
   DateTimeColumn get createdAt => dateTime()();
-  BoolColumn get isActive =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(false))();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -36,6 +35,9 @@ class MonitorTaskTable extends Table {
 @DriftDatabase(tables: [PriceHistoryTable, MonitorTaskTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
+
+  // ignore: use_super_parameters
+  AppDatabase.forTesting(QueryExecutor executor) : super(executor);
 
   @override
   int get schemaVersion => 1;
@@ -57,23 +59,19 @@ class AppDatabase extends _$AppDatabase {
   ) =>
       (select(priceHistoryTable)
             ..where(
-              (t) =>
-                  t.taskId.equals(taskId) & t.hotelCode.equals(hotelCode),
+              (t) => t.taskId.equals(taskId) & t.hotelCode.equals(hotelCode),
             )
             ..orderBy([(t) => OrderingTerm.asc(t.polledAt)]))
           .get();
 
   Future<int> deleteTaskHistory(String taskId) =>
-      (delete(priceHistoryTable)
-            ..where((t) => t.taskId.equals(taskId)))
-          .go();
+      (delete(priceHistoryTable)..where((t) => t.taskId.equals(taskId))).go();
 
   // ── MonitorTask queries ──
 
-  Future<List<MonitorTaskTableData>> allTasks() =>
-      (select(monitorTaskTable)
-            ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
-          .get();
+  Future<List<MonitorTaskTableData>> allTasks() => (select(
+    monitorTaskTable,
+  )..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
 
   Future<void> upsertTask(MonitorTaskTableCompanion entry) =>
       into(monitorTaskTable).insertOnConflictUpdate(entry);

@@ -18,10 +18,7 @@ class PollResult {
 
   bool get success => error == null;
 
-  factory PollResult.error({
-    required int attempt,
-    required String message,
-  }) {
+  factory PollResult.error({required int attempt, required String message}) {
     return PollResult(
       timestamp: DateTime.now(),
       attempt: attempt,

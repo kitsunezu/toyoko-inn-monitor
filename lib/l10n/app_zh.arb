@@ -21,7 +21,7 @@
   "optionNoSmoking": "禁煙",
   "optionSmoking": "吸煙",
   "labelTargetPrice": "目標最高價 (¥)",
-  "hintTargetPrice": "例: 5000",
+  "hintTargetPrice": "例: 5000，可留空",
 
   "sectionHotels": "飯店選擇 ({sel}/{total})",
   "@sectionHotels": {
@@ -104,6 +104,7 @@
 
   "pageTasksTitle": "多任務監控",
   "addTaskTooltip": "新增監控任務",
+  "editTaskTooltip": "修改監控任務",
   "noTasksMsg": "尚無監控任務",
   "btnAddTask": "新增任務",
   "stopTaskTooltip": "停止監控",
@@ -120,8 +121,10 @@
   },
   "btnCancel": "取消",
   "btnDelete": "刪除",
+  "btnSave": "儲存",
   "btnAdd": "新增",
   "dialogNewTask": "新增監控任務",
+  "dialogEditTask": "修改監控任務",
   "labelTaskName": "任務名稱",
   "hintTaskName": "自動產生或自訂",
   "noHotelSelected": "請至少選擇一間飯店",
@@ -140,6 +143,148 @@
   "scanDaysCount": "共掃描 {count} 天",
   "@scanDaysCount": {
     "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "dashboardNavActiveMonitors": "即時監控",
+  "dashboardPollingEvery": "每 {sec} 秒輪詢",
+  "@dashboardPollingEvery": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "dashboardGlobalAlerts": "全域警報",
+  "dashboardToggleTheme": "切換主題",
+  "dashboardThemeLightShort": "淺色",
+  "dashboardThemeDarkShort": "深色",
+  "dashboardAddMonitor": "新增監控",
+  "dashboardStatusOverview": "狀態總覽",
+  "dashboardRunning": "執行中",
+  "dashboardPaused": "已暫停",
+  "dashboardAlert": "警報",
+  "dashboardAlertsToday": "今日警報",
+  "dashboardTotal": "總計",
+  "dashboardLastUpdated": "最後更新",
+  "dashboardTotalTasks": "總任務",
+  "dashboardDatabase": "資料庫",
+  "dashboardConnected": "已連線",
+  "dashboardPolling": "輪詢",
+  "dashboardIdle": "待命",
+  "dashboardMetricLowestPrice": "目前最低價",
+  "dashboardMetricLowestPriceHelper": "所有啟用監控",
+  "dashboardMetricTargetHitRate": "目標達成率",
+  "dashboardMetricHitRateHelper": "{alerts} 個警報 / {tasks} 個任務",
+  "@dashboardMetricHitRateHelper": {
+    "placeholders": {
+      "alerts": { "type": "int" },
+      "tasks": { "type": "int" }
+    }
+  },
+  "dashboardMetricActiveMonitors": "啟用監控",
+  "dashboardMetricActiveHelper": "{running} 執行中 / {paused} 已暫停",
+  "@dashboardMetricActiveHelper": {
+    "placeholders": {
+      "running": { "type": "int" },
+      "paused": { "type": "int" }
+    }
+  },
+  "dashboardMetricAlertsToday": "今日警報",
+  "dashboardMetricAlertsHelper": "警報流中 {count} 筆事件",
+  "@dashboardMetricAlertsHelper": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTasksCount": "{count} 個任務",
+  "@dashboardTasksCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardNoMonitorTasks": "尚無監控任務",
+  "dashboardNoMonitorTasksMessage": "新增監控後即可開始追蹤飯店價格。",
+  "dashboardRefreshView": "重新整理",
+  "dashboardDeleteMonitorTitle": "刪除監控",
+  "dashboardDeleteMonitorConfirm": "確定刪除「{name}」？",
+  "@dashboardDeleteMonitorConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "dashboardColumnHotelPlan": "飯店 / 方案",
+  "dashboardColumnStatus": "狀態",
+  "dashboardColumnVsTarget": "相差目標",
+  "dashboardColumnLastUpdate": "最後更新",
+  "dashboardColumnActions": "操作",
+  "dashboardRoomGuestSummary": "{rooms} 間房 / {guests} 人",
+  "@dashboardRoomGuestSummary": {
+    "placeholders": {
+      "rooms": { "type": "int" },
+      "guests": { "type": "int" }
+    }
+  },
+  "dashboardRun": "啟動",
+  "dashboardPause": "暫停",
+  "dashboardOpenBooking": "開啟訂房",
+  "dashboardNotAvailable": "無",
+  "dashboardNights": "{count} 晚",
+  "@dashboardNights": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTaskDetails": "任務詳細",
+  "dashboardCheckOut": "退房日",
+  "dashboardSelectedHotels": "已選飯店",
+  "dashboardMatchedRooms": "符合房型",
+  "dashboardError": "錯誤",
+  "dashboardPriceTrend": "價格趨勢",
+  "dashboardLiveMonitor": "即時監控",
+  "dashboardTargetPrice": "目標 {price}",
+  "@dashboardTargetPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardNoTrendData": "尚無趨勢資料",
+  "dashboardNoTrendDataMessage": "開始輪詢後會繪製即時價格走勢。",
+  "dashboardDateRangePrices": "日期價格",
+  "dashboardCheapestCheckinDays": "最便宜入住日",
+  "dashboardNoScanData": "尚無掃描資料",
+  "dashboardNoScanDataMessage": "執行日期範圍掃描以比較各日期。",
+  "dashboardLowestLegend": "最低",
+  "dashboardNearTarget": "接近目標",
+  "dashboardHigh": "偏高",
+  "dashboardLocationDistribution": "地點分布",
+  "dashboardAllMonitors": "全部監控",
+  "dashboardNoDistribution": "尚無分布資料",
+  "dashboardNoDistributionMessage": "建立監控任務後即可查看地點分布。",
+  "dashboardAlertFeed": "即時警報",
+  "dashboardRealTime": "即時",
+  "dashboardNoAlerts": "尚無警報",
+  "dashboardNoAlertsMessage": "符合目標價與價格警告會顯示在這裡。",
+  "dashboardTargetSuffix": " / 目標 {price}",
+  "@dashboardTargetSuffix": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardPriceAboveTarget": "高於目標價",
+  "dashboardPriceNearTarget": "接近目標價",
+  "dashboardTargetHit": "達成目標價",
+  "dashboardPriceHistory": "價格歷史",
+  "dashboardStoredPollingResults": "已儲存輪詢結果",
+  "dashboardMonitorTask": "監控任務",
+  "dashboardNoTaskSelected": "尚未選擇任務",
+  "dashboardNoTaskSelectedMessage": "建立監控任務後即可累積歷史資料。",
+  "dashboardCouldNotLoadHistory": "無法載入歷史資料",
+  "dashboardNoStoredPrices": "尚無儲存價格",
+  "dashboardNoStoredPricesMessage": "監控記錄輪詢結果後會顯示歷史資料。",
+  "dashboardHistoryPoints": "{code}  {count} 筆",
+  "@dashboardHistoryPoints": {
+    "placeholders": {
+      "code": { "type": "String" },
       "count": { "type": "int" }
     }
   }

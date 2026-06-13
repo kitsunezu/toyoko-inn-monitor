@@ -58,10 +58,7 @@ class ToyokoApi {
 
     final response = await _dio.get(
       _apiUrl,
-      queryParameters: {
-        'batch': '1',
-        'input': jsonEncode(inputData),
-      },
+      queryParameters: {'batch': '1', 'input': jsonEncode(inputData)},
     );
 
     final rawList = response.data as List;

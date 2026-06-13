@@ -205,7 +205,7 @@ abstract class AppLocalizations {
   /// No description provided for @hintTargetPrice.
   ///
   /// In zh, this message translates to:
-  /// **'例: 5000'**
+  /// **'例: 5000，可留空'**
   String get hintTargetPrice;
 
   /// No description provided for @sectionHotels.
@@ -508,6 +508,12 @@ abstract class AppLocalizations {
   /// **'新增監控任務'**
   String get addTaskTooltip;
 
+  /// No description provided for @editTaskTooltip.
+  ///
+  /// In zh, this message translates to:
+  /// **'修改監控任務'**
+  String get editTaskTooltip;
+
   /// No description provided for @noTasksMsg.
   ///
   /// In zh, this message translates to:
@@ -574,6 +580,12 @@ abstract class AppLocalizations {
   /// **'刪除'**
   String get btnDelete;
 
+  /// No description provided for @btnSave.
+  ///
+  /// In zh, this message translates to:
+  /// **'儲存'**
+  String get btnSave;
+
   /// No description provided for @btnAdd.
   ///
   /// In zh, this message translates to:
@@ -585,6 +597,12 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'新增監控任務'**
   String get dialogNewTask;
+
+  /// No description provided for @dialogEditTask.
+  ///
+  /// In zh, this message translates to:
+  /// **'修改監控任務'**
+  String get dialogEditTask;
 
   /// No description provided for @labelTaskName.
   ///
@@ -675,6 +693,498 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'共掃描 {count} 天'**
   String scanDaysCount(int count);
+
+  /// No description provided for @dashboardNavActiveMonitors.
+  ///
+  /// In zh, this message translates to:
+  /// **'即時監控'**
+  String get dashboardNavActiveMonitors;
+
+  /// No description provided for @dashboardPollingEvery.
+  ///
+  /// In zh, this message translates to:
+  /// **'每 {sec} 秒輪詢'**
+  String dashboardPollingEvery(int sec);
+
+  /// No description provided for @dashboardGlobalAlerts.
+  ///
+  /// In zh, this message translates to:
+  /// **'全域警報'**
+  String get dashboardGlobalAlerts;
+
+  /// No description provided for @dashboardToggleTheme.
+  ///
+  /// In zh, this message translates to:
+  /// **'切換主題'**
+  String get dashboardToggleTheme;
+
+  /// No description provided for @dashboardThemeLightShort.
+  ///
+  /// In zh, this message translates to:
+  /// **'淺色'**
+  String get dashboardThemeLightShort;
+
+  /// No description provided for @dashboardThemeDarkShort.
+  ///
+  /// In zh, this message translates to:
+  /// **'深色'**
+  String get dashboardThemeDarkShort;
+
+  /// No description provided for @dashboardAddMonitor.
+  ///
+  /// In zh, this message translates to:
+  /// **'新增監控'**
+  String get dashboardAddMonitor;
+
+  /// No description provided for @dashboardStatusOverview.
+  ///
+  /// In zh, this message translates to:
+  /// **'狀態總覽'**
+  String get dashboardStatusOverview;
+
+  /// No description provided for @dashboardRunning.
+  ///
+  /// In zh, this message translates to:
+  /// **'執行中'**
+  String get dashboardRunning;
+
+  /// No description provided for @dashboardPaused.
+  ///
+  /// In zh, this message translates to:
+  /// **'已暫停'**
+  String get dashboardPaused;
+
+  /// No description provided for @dashboardAlert.
+  ///
+  /// In zh, this message translates to:
+  /// **'警報'**
+  String get dashboardAlert;
+
+  /// No description provided for @dashboardAlertsToday.
+  ///
+  /// In zh, this message translates to:
+  /// **'今日警報'**
+  String get dashboardAlertsToday;
+
+  /// No description provided for @dashboardTotal.
+  ///
+  /// In zh, this message translates to:
+  /// **'總計'**
+  String get dashboardTotal;
+
+  /// No description provided for @dashboardLastUpdated.
+  ///
+  /// In zh, this message translates to:
+  /// **'最後更新'**
+  String get dashboardLastUpdated;
+
+  /// No description provided for @dashboardTotalTasks.
+  ///
+  /// In zh, this message translates to:
+  /// **'總任務'**
+  String get dashboardTotalTasks;
+
+  /// No description provided for @dashboardDatabase.
+  ///
+  /// In zh, this message translates to:
+  /// **'資料庫'**
+  String get dashboardDatabase;
+
+  /// No description provided for @dashboardConnected.
+  ///
+  /// In zh, this message translates to:
+  /// **'已連線'**
+  String get dashboardConnected;
+
+  /// No description provided for @dashboardPolling.
+  ///
+  /// In zh, this message translates to:
+  /// **'輪詢'**
+  String get dashboardPolling;
+
+  /// No description provided for @dashboardIdle.
+  ///
+  /// In zh, this message translates to:
+  /// **'待命'**
+  String get dashboardIdle;
+
+  /// No description provided for @dashboardMetricLowestPrice.
+  ///
+  /// In zh, this message translates to:
+  /// **'目前最低價'**
+  String get dashboardMetricLowestPrice;
+
+  /// No description provided for @dashboardMetricLowestPriceHelper.
+  ///
+  /// In zh, this message translates to:
+  /// **'所有啟用監控'**
+  String get dashboardMetricLowestPriceHelper;
+
+  /// No description provided for @dashboardMetricTargetHitRate.
+  ///
+  /// In zh, this message translates to:
+  /// **'目標達成率'**
+  String get dashboardMetricTargetHitRate;
+
+  /// No description provided for @dashboardMetricHitRateHelper.
+  ///
+  /// In zh, this message translates to:
+  /// **'{alerts} 個警報 / {tasks} 個任務'**
+  String dashboardMetricHitRateHelper(int alerts, int tasks);
+
+  /// No description provided for @dashboardMetricActiveMonitors.
+  ///
+  /// In zh, this message translates to:
+  /// **'啟用監控'**
+  String get dashboardMetricActiveMonitors;
+
+  /// No description provided for @dashboardMetricActiveHelper.
+  ///
+  /// In zh, this message translates to:
+  /// **'{running} 執行中 / {paused} 已暫停'**
+  String dashboardMetricActiveHelper(int running, int paused);
+
+  /// No description provided for @dashboardMetricAlertsToday.
+  ///
+  /// In zh, this message translates to:
+  /// **'今日警報'**
+  String get dashboardMetricAlertsToday;
+
+  /// No description provided for @dashboardMetricAlertsHelper.
+  ///
+  /// In zh, this message translates to:
+  /// **'警報流中 {count} 筆事件'**
+  String dashboardMetricAlertsHelper(int count);
+
+  /// No description provided for @dashboardTasksCount.
+  ///
+  /// In zh, this message translates to:
+  /// **'{count} 個任務'**
+  String dashboardTasksCount(int count);
+
+  /// No description provided for @dashboardNoMonitorTasks.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無監控任務'**
+  String get dashboardNoMonitorTasks;
+
+  /// No description provided for @dashboardNoMonitorTasksMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'新增監控後即可開始追蹤飯店價格。'**
+  String get dashboardNoMonitorTasksMessage;
+
+  /// No description provided for @dashboardRefreshView.
+  ///
+  /// In zh, this message translates to:
+  /// **'重新整理'**
+  String get dashboardRefreshView;
+
+  /// No description provided for @dashboardDeleteMonitorTitle.
+  ///
+  /// In zh, this message translates to:
+  /// **'刪除監控'**
+  String get dashboardDeleteMonitorTitle;
+
+  /// No description provided for @dashboardDeleteMonitorConfirm.
+  ///
+  /// In zh, this message translates to:
+  /// **'確定刪除「{name}」？'**
+  String dashboardDeleteMonitorConfirm(String name);
+
+  /// No description provided for @dashboardColumnHotelPlan.
+  ///
+  /// In zh, this message translates to:
+  /// **'飯店 / 方案'**
+  String get dashboardColumnHotelPlan;
+
+  /// No description provided for @dashboardColumnStatus.
+  ///
+  /// In zh, this message translates to:
+  /// **'狀態'**
+  String get dashboardColumnStatus;
+
+  /// No description provided for @dashboardColumnVsTarget.
+  ///
+  /// In zh, this message translates to:
+  /// **'相差目標'**
+  String get dashboardColumnVsTarget;
+
+  /// No description provided for @dashboardColumnLastUpdate.
+  ///
+  /// In zh, this message translates to:
+  /// **'最後更新'**
+  String get dashboardColumnLastUpdate;
+
+  /// No description provided for @dashboardColumnActions.
+  ///
+  /// In zh, this message translates to:
+  /// **'操作'**
+  String get dashboardColumnActions;
+
+  /// No description provided for @dashboardRoomGuestSummary.
+  ///
+  /// In zh, this message translates to:
+  /// **'{rooms} 間房 / {guests} 人'**
+  String dashboardRoomGuestSummary(int rooms, int guests);
+
+  /// No description provided for @dashboardRun.
+  ///
+  /// In zh, this message translates to:
+  /// **'啟動'**
+  String get dashboardRun;
+
+  /// No description provided for @dashboardPause.
+  ///
+  /// In zh, this message translates to:
+  /// **'暫停'**
+  String get dashboardPause;
+
+  /// No description provided for @dashboardOpenBooking.
+  ///
+  /// In zh, this message translates to:
+  /// **'開啟訂房'**
+  String get dashboardOpenBooking;
+
+  /// No description provided for @dashboardNotAvailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'無'**
+  String get dashboardNotAvailable;
+
+  /// No description provided for @dashboardNights.
+  ///
+  /// In zh, this message translates to:
+  /// **'{count} 晚'**
+  String dashboardNights(int count);
+
+  /// No description provided for @dashboardTaskDetails.
+  ///
+  /// In zh, this message translates to:
+  /// **'任務詳細'**
+  String get dashboardTaskDetails;
+
+  /// No description provided for @dashboardCheckOut.
+  ///
+  /// In zh, this message translates to:
+  /// **'退房日'**
+  String get dashboardCheckOut;
+
+  /// No description provided for @dashboardSelectedHotels.
+  ///
+  /// In zh, this message translates to:
+  /// **'已選飯店'**
+  String get dashboardSelectedHotels;
+
+  /// No description provided for @dashboardMatchedRooms.
+  ///
+  /// In zh, this message translates to:
+  /// **'符合房型'**
+  String get dashboardMatchedRooms;
+
+  /// No description provided for @dashboardError.
+  ///
+  /// In zh, this message translates to:
+  /// **'錯誤'**
+  String get dashboardError;
+
+  /// No description provided for @dashboardPriceTrend.
+  ///
+  /// In zh, this message translates to:
+  /// **'價格趨勢'**
+  String get dashboardPriceTrend;
+
+  /// No description provided for @dashboardLiveMonitor.
+  ///
+  /// In zh, this message translates to:
+  /// **'即時監控'**
+  String get dashboardLiveMonitor;
+
+  /// No description provided for @dashboardTargetPrice.
+  ///
+  /// In zh, this message translates to:
+  /// **'目標 {price}'**
+  String dashboardTargetPrice(String price);
+
+  /// No description provided for @dashboardNoTrendData.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無趨勢資料'**
+  String get dashboardNoTrendData;
+
+  /// No description provided for @dashboardNoTrendDataMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'開始輪詢後會繪製即時價格走勢。'**
+  String get dashboardNoTrendDataMessage;
+
+  /// No description provided for @dashboardDateRangePrices.
+  ///
+  /// In zh, this message translates to:
+  /// **'日期價格'**
+  String get dashboardDateRangePrices;
+
+  /// No description provided for @dashboardCheapestCheckinDays.
+  ///
+  /// In zh, this message translates to:
+  /// **'最便宜入住日'**
+  String get dashboardCheapestCheckinDays;
+
+  /// No description provided for @dashboardNoScanData.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無掃描資料'**
+  String get dashboardNoScanData;
+
+  /// No description provided for @dashboardNoScanDataMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'執行日期範圍掃描以比較各日期。'**
+  String get dashboardNoScanDataMessage;
+
+  /// No description provided for @dashboardLowestLegend.
+  ///
+  /// In zh, this message translates to:
+  /// **'最低'**
+  String get dashboardLowestLegend;
+
+  /// No description provided for @dashboardNearTarget.
+  ///
+  /// In zh, this message translates to:
+  /// **'接近目標'**
+  String get dashboardNearTarget;
+
+  /// No description provided for @dashboardHigh.
+  ///
+  /// In zh, this message translates to:
+  /// **'偏高'**
+  String get dashboardHigh;
+
+  /// No description provided for @dashboardLocationDistribution.
+  ///
+  /// In zh, this message translates to:
+  /// **'地點分布'**
+  String get dashboardLocationDistribution;
+
+  /// No description provided for @dashboardAllMonitors.
+  ///
+  /// In zh, this message translates to:
+  /// **'全部監控'**
+  String get dashboardAllMonitors;
+
+  /// No description provided for @dashboardNoDistribution.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無分布資料'**
+  String get dashboardNoDistribution;
+
+  /// No description provided for @dashboardNoDistributionMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'建立監控任務後即可查看地點分布。'**
+  String get dashboardNoDistributionMessage;
+
+  /// No description provided for @dashboardAlertFeed.
+  ///
+  /// In zh, this message translates to:
+  /// **'即時警報'**
+  String get dashboardAlertFeed;
+
+  /// No description provided for @dashboardRealTime.
+  ///
+  /// In zh, this message translates to:
+  /// **'即時'**
+  String get dashboardRealTime;
+
+  /// No description provided for @dashboardNoAlerts.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無警報'**
+  String get dashboardNoAlerts;
+
+  /// No description provided for @dashboardNoAlertsMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'符合目標價與價格警告會顯示在這裡。'**
+  String get dashboardNoAlertsMessage;
+
+  /// No description provided for @dashboardTargetSuffix.
+  ///
+  /// In zh, this message translates to:
+  /// **' / 目標 {price}'**
+  String dashboardTargetSuffix(String price);
+
+  /// No description provided for @dashboardPriceAboveTarget.
+  ///
+  /// In zh, this message translates to:
+  /// **'高於目標價'**
+  String get dashboardPriceAboveTarget;
+
+  /// No description provided for @dashboardPriceNearTarget.
+  ///
+  /// In zh, this message translates to:
+  /// **'接近目標價'**
+  String get dashboardPriceNearTarget;
+
+  /// No description provided for @dashboardTargetHit.
+  ///
+  /// In zh, this message translates to:
+  /// **'達成目標價'**
+  String get dashboardTargetHit;
+
+  /// No description provided for @dashboardPriceHistory.
+  ///
+  /// In zh, this message translates to:
+  /// **'價格歷史'**
+  String get dashboardPriceHistory;
+
+  /// No description provided for @dashboardStoredPollingResults.
+  ///
+  /// In zh, this message translates to:
+  /// **'已儲存輪詢結果'**
+  String get dashboardStoredPollingResults;
+
+  /// No description provided for @dashboardMonitorTask.
+  ///
+  /// In zh, this message translates to:
+  /// **'監控任務'**
+  String get dashboardMonitorTask;
+
+  /// No description provided for @dashboardNoTaskSelected.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚未選擇任務'**
+  String get dashboardNoTaskSelected;
+
+  /// No description provided for @dashboardNoTaskSelectedMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'建立監控任務後即可累積歷史資料。'**
+  String get dashboardNoTaskSelectedMessage;
+
+  /// No description provided for @dashboardCouldNotLoadHistory.
+  ///
+  /// In zh, this message translates to:
+  /// **'無法載入歷史資料'**
+  String get dashboardCouldNotLoadHistory;
+
+  /// No description provided for @dashboardNoStoredPrices.
+  ///
+  /// In zh, this message translates to:
+  /// **'尚無儲存價格'**
+  String get dashboardNoStoredPrices;
+
+  /// No description provided for @dashboardNoStoredPricesMessage.
+  ///
+  /// In zh, this message translates to:
+  /// **'監控記錄輪詢結果後會顯示歷史資料。'**
+  String get dashboardNoStoredPricesMessage;
+
+  /// No description provided for @dashboardHistoryPoints.
+  ///
+  /// In zh, this message translates to:
+  /// **'{code}  {count} 筆'**
+  String dashboardHistoryPoints(String code, int count);
 }
 
 class _AppLocalizationsDelegate

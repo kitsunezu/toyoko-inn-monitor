@@ -46,7 +46,10 @@ class HomePage extends ConsumerWidget {
         child: Column(
           children: [
             TabBar(
-              tabs: [Tab(text: l.tabSearch), Tab(text: l.tabResults)],
+              tabs: [
+                Tab(text: l.tabSearch),
+                Tab(text: l.tabResults),
+              ],
             ),
             Expanded(
               child: TabBarView(

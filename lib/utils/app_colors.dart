@@ -21,8 +21,22 @@ class AppColors {
   static const Color darkSurface = Color(0xFF313244);
   static const Color darkCard = Color(0xFF45475A);
 
+  // Dashboard redesign palette.
+  static const Color dashBg = Color(0xFF0F141B);
+  static const Color dashSidebar = Color(0xFF121923);
+  static const Color dashPanel = Color(0xFF18212D);
+  static const Color dashPanelRaised = Color(0xFF202B38);
+  static const Color dashBorder = Color(0xFF2C3948);
+  static const Color dashPrimary = Color(0xFF4DA3FF);
+  static const Color dashSuccess = Color(0xFF35D07F);
+  static const Color dashWarning = Color(0xFFF2C94C);
+  static const Color dashDanger = Color(0xFFFF5C68);
+
   // 文字色
   static const Color textPrimary = Color(0xFFCDD6F4);
   static const Color textSecondary = Color(0xFFBAC2DE);
   static const Color textMuted = Color(0xFF585B70);
+  static const Color dashTextPrimary = Color(0xFFE6EDF3);
+  static const Color dashTextSecondary = Color(0xFF9AA8B6);
+  static const Color dashTextMuted = Color(0xFF647282);
 }

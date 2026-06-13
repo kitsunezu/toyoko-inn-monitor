@@ -21,7 +21,7 @@
   "optionNoSmoking": "禁煙",
   "optionSmoking": "喫煙",
   "labelTargetPrice": "目標最高価格 (¥)",
-  "hintTargetPrice": "例: 5000",
+  "hintTargetPrice": "例: 5000、空欄可",
 
   "sectionHotels": "ホテル選択 ({sel}/{total})",
   "@sectionHotels": {
@@ -104,6 +104,7 @@
 
   "pageTasksTitle": "マルチタスク監視",
   "addTaskTooltip": "監視タスクを追加",
+  "editTaskTooltip": "監視タスクを編集",
   "noTasksMsg": "監視タスクなし",
   "btnAddTask": "タスクを追加",
   "stopTaskTooltip": "監視停止",
@@ -120,8 +121,10 @@
   },
   "btnCancel": "キャンセル",
   "btnDelete": "削除",
+  "btnSave": "保存",
   "btnAdd": "追加",
   "dialogNewTask": "監視タスクを追加",
+  "dialogEditTask": "監視タスクを編集",
   "labelTaskName": "タスク名",
   "hintTaskName": "自動生成または手動入力",
   "noHotelSelected": "ホテルを少なくとも1つ選択してください",
@@ -140,6 +143,148 @@
   "scanDaysCount": "{count}日間スキャン済み",
   "@scanDaysCount": {
     "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "dashboardNavActiveMonitors": "稼働中モニター",
+  "dashboardPollingEvery": "{sec}秒ごとにポーリング",
+  "@dashboardPollingEvery": {
+    "placeholders": {
+      "sec": { "type": "int" }
+    }
+  },
+  "dashboardGlobalAlerts": "全体アラート",
+  "dashboardToggleTheme": "テーマ切替",
+  "dashboardThemeLightShort": "ライト",
+  "dashboardThemeDarkShort": "ダーク",
+  "dashboardAddMonitor": "モニター追加",
+  "dashboardStatusOverview": "ステータス概要",
+  "dashboardRunning": "実行中",
+  "dashboardPaused": "一時停止",
+  "dashboardAlert": "アラート",
+  "dashboardAlertsToday": "本日のアラート",
+  "dashboardTotal": "合計",
+  "dashboardLastUpdated": "最終更新",
+  "dashboardTotalTasks": "タスク合計",
+  "dashboardDatabase": "データベース",
+  "dashboardConnected": "接続済み",
+  "dashboardPolling": "ポーリング",
+  "dashboardIdle": "待機中",
+  "dashboardMetricLowestPrice": "最安値",
+  "dashboardMetricLowestPriceHelper": "有効な全モニター対象",
+  "dashboardMetricTargetHitRate": "目標達成率",
+  "dashboardMetricHitRateHelper": "{alerts}件のアラート / {tasks}件のタスク",
+  "@dashboardMetricHitRateHelper": {
+    "placeholders": {
+      "alerts": { "type": "int" },
+      "tasks": { "type": "int" }
+    }
+  },
+  "dashboardMetricActiveMonitors": "稼働中モニター",
+  "dashboardMetricActiveHelper": "{running}件実行中 / {paused}件停止中",
+  "@dashboardMetricActiveHelper": {
+    "placeholders": {
+      "running": { "type": "int" },
+      "paused": { "type": "int" }
+    }
+  },
+  "dashboardMetricAlertsToday": "本日のアラート",
+  "dashboardMetricAlertsHelper": "{count}件をフィードに表示",
+  "@dashboardMetricAlertsHelper": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTasksCount": "{count}件のタスク",
+  "@dashboardTasksCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardNoMonitorTasks": "監視タスクなし",
+  "dashboardNoMonitorTasksMessage": "モニターを追加するとホテル価格の追跡を開始できます。",
+  "dashboardRefreshView": "表示を更新",
+  "dashboardDeleteMonitorTitle": "モニターを削除",
+  "dashboardDeleteMonitorConfirm": "「{name}」を削除しますか？",
+  "@dashboardDeleteMonitorConfirm": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "dashboardColumnHotelPlan": "ホテル / プラン",
+  "dashboardColumnStatus": "ステータス",
+  "dashboardColumnVsTarget": "目標差",
+  "dashboardColumnLastUpdate": "最終更新",
+  "dashboardColumnActions": "操作",
+  "dashboardRoomGuestSummary": "{rooms}室 / {guests}名",
+  "@dashboardRoomGuestSummary": {
+    "placeholders": {
+      "rooms": { "type": "int" },
+      "guests": { "type": "int" }
+    }
+  },
+  "dashboardRun": "実行",
+  "dashboardPause": "一時停止",
+  "dashboardOpenBooking": "予約を開く",
+  "dashboardNotAvailable": "なし",
+  "dashboardNights": "{count}泊",
+  "@dashboardNights": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardTaskDetails": "タスク詳細",
+  "dashboardCheckOut": "チェックアウト日",
+  "dashboardSelectedHotels": "選択ホテル",
+  "dashboardMatchedRooms": "一致した客室",
+  "dashboardError": "エラー",
+  "dashboardPriceTrend": "価格トレンド",
+  "dashboardLiveMonitor": "ライブ監視",
+  "dashboardTargetPrice": "目標 {price}",
+  "@dashboardTargetPrice": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardNoTrendData": "トレンドデータなし",
+  "dashboardNoTrendDataMessage": "ポーリングを開始すると価格推移が表示されます。",
+  "dashboardDateRangePrices": "日付別価格",
+  "dashboardCheapestCheckinDays": "最安のチェックイン日",
+  "dashboardNoScanData": "スキャンデータなし",
+  "dashboardNoScanDataMessage": "日付範囲スキャンを実行して日付を比較します。",
+  "dashboardLowestLegend": "最安値",
+  "dashboardNearTarget": "目標付近",
+  "dashboardHigh": "高値",
+  "dashboardLocationDistribution": "地域分布",
+  "dashboardAllMonitors": "全モニター",
+  "dashboardNoDistribution": "分布データなし",
+  "dashboardNoDistributionMessage": "監視タスクを作成すると地域構成を確認できます。",
+  "dashboardAlertFeed": "アラートフィード",
+  "dashboardRealTime": "リアルタイム",
+  "dashboardNoAlerts": "アラートなし",
+  "dashboardNoAlertsMessage": "一致結果と価格警告がここに表示されます。",
+  "dashboardTargetSuffix": " / 目標 {price}",
+  "@dashboardTargetSuffix": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "dashboardPriceAboveTarget": "目標価格超過",
+  "dashboardPriceNearTarget": "目標価格付近",
+  "dashboardTargetHit": "目標達成",
+  "dashboardPriceHistory": "価格履歴",
+  "dashboardStoredPollingResults": "保存済みポーリング結果",
+  "dashboardMonitorTask": "監視タスク",
+  "dashboardNoTaskSelected": "タスク未選択",
+  "dashboardNoTaskSelectedMessage": "監視タスクを作成すると履歴を収集できます。",
+  "dashboardCouldNotLoadHistory": "履歴を読み込めません",
+  "dashboardNoStoredPrices": "保存済み価格なし",
+  "dashboardNoStoredPricesMessage": "モニターがポーリング結果を記録すると履歴が表示されます。",
+  "dashboardHistoryPoints": "{code}  {count}件",
+  "@dashboardHistoryPoints": {
+    "placeholders": {
+      "code": { "type": "String" },
       "count": { "type": "int" }
     }
   }

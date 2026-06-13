@@ -60,7 +60,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get labelTargetPrice => '目標最高價 (¥)';
 
   @override
-  String get hintTargetPrice => '例: 5000';
+  String get hintTargetPrice => '例: 5000，可留空';
 
   @override
   String sectionHotels(int sel, int total) {
@@ -223,6 +223,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addTaskTooltip => '新增監控任務';
 
   @override
+  String get editTaskTooltip => '修改監控任務';
+
+  @override
   String get noTasksMsg => '尚無監控任務';
 
   @override
@@ -258,10 +261,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get btnDelete => '刪除';
 
   @override
+  String get btnSave => '儲存';
+
+  @override
   String get btnAdd => '新增';
 
   @override
   String get dialogNewTask => '新增監控任務';
+
+  @override
+  String get dialogEditTask => '修改監控任務';
 
   @override
   String get labelTaskName => '任務名稱';
@@ -308,5 +317,273 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String scanDaysCount(int count) {
     return '共掃描 $count 天';
+  }
+
+  @override
+  String get dashboardNavActiveMonitors => '即時監控';
+
+  @override
+  String dashboardPollingEvery(int sec) {
+    return '每 $sec 秒輪詢';
+  }
+
+  @override
+  String get dashboardGlobalAlerts => '全域警報';
+
+  @override
+  String get dashboardToggleTheme => '切換主題';
+
+  @override
+  String get dashboardThemeLightShort => '淺色';
+
+  @override
+  String get dashboardThemeDarkShort => '深色';
+
+  @override
+  String get dashboardAddMonitor => '新增監控';
+
+  @override
+  String get dashboardStatusOverview => '狀態總覽';
+
+  @override
+  String get dashboardRunning => '執行中';
+
+  @override
+  String get dashboardPaused => '已暫停';
+
+  @override
+  String get dashboardAlert => '警報';
+
+  @override
+  String get dashboardAlertsToday => '今日警報';
+
+  @override
+  String get dashboardTotal => '總計';
+
+  @override
+  String get dashboardLastUpdated => '最後更新';
+
+  @override
+  String get dashboardTotalTasks => '總任務';
+
+  @override
+  String get dashboardDatabase => '資料庫';
+
+  @override
+  String get dashboardConnected => '已連線';
+
+  @override
+  String get dashboardPolling => '輪詢';
+
+  @override
+  String get dashboardIdle => '待命';
+
+  @override
+  String get dashboardMetricLowestPrice => '目前最低價';
+
+  @override
+  String get dashboardMetricLowestPriceHelper => '所有啟用監控';
+
+  @override
+  String get dashboardMetricTargetHitRate => '目標達成率';
+
+  @override
+  String dashboardMetricHitRateHelper(int alerts, int tasks) {
+    return '$alerts 個警報 / $tasks 個任務';
+  }
+
+  @override
+  String get dashboardMetricActiveMonitors => '啟用監控';
+
+  @override
+  String dashboardMetricActiveHelper(int running, int paused) {
+    return '$running 執行中 / $paused 已暫停';
+  }
+
+  @override
+  String get dashboardMetricAlertsToday => '今日警報';
+
+  @override
+  String dashboardMetricAlertsHelper(int count) {
+    return '警報流中 $count 筆事件';
+  }
+
+  @override
+  String dashboardTasksCount(int count) {
+    return '$count 個任務';
+  }
+
+  @override
+  String get dashboardNoMonitorTasks => '尚無監控任務';
+
+  @override
+  String get dashboardNoMonitorTasksMessage => '新增監控後即可開始追蹤飯店價格。';
+
+  @override
+  String get dashboardRefreshView => '重新整理';
+
+  @override
+  String get dashboardDeleteMonitorTitle => '刪除監控';
+
+  @override
+  String dashboardDeleteMonitorConfirm(String name) {
+    return '確定刪除「$name」？';
+  }
+
+  @override
+  String get dashboardColumnHotelPlan => '飯店 / 方案';
+
+  @override
+  String get dashboardColumnStatus => '狀態';
+
+  @override
+  String get dashboardColumnVsTarget => '相差目標';
+
+  @override
+  String get dashboardColumnLastUpdate => '最後更新';
+
+  @override
+  String get dashboardColumnActions => '操作';
+
+  @override
+  String dashboardRoomGuestSummary(int rooms, int guests) {
+    return '$rooms 間房 / $guests 人';
+  }
+
+  @override
+  String get dashboardRun => '啟動';
+
+  @override
+  String get dashboardPause => '暫停';
+
+  @override
+  String get dashboardOpenBooking => '開啟訂房';
+
+  @override
+  String get dashboardNotAvailable => '無';
+
+  @override
+  String dashboardNights(int count) {
+    return '$count 晚';
+  }
+
+  @override
+  String get dashboardTaskDetails => '任務詳細';
+
+  @override
+  String get dashboardCheckOut => '退房日';
+
+  @override
+  String get dashboardSelectedHotels => '已選飯店';
+
+  @override
+  String get dashboardMatchedRooms => '符合房型';
+
+  @override
+  String get dashboardError => '錯誤';
+
+  @override
+  String get dashboardPriceTrend => '價格趨勢';
+
+  @override
+  String get dashboardLiveMonitor => '即時監控';
+
+  @override
+  String dashboardTargetPrice(String price) {
+    return '目標 $price';
+  }
+
+  @override
+  String get dashboardNoTrendData => '尚無趨勢資料';
+
+  @override
+  String get dashboardNoTrendDataMessage => '開始輪詢後會繪製即時價格走勢。';
+
+  @override
+  String get dashboardDateRangePrices => '日期價格';
+
+  @override
+  String get dashboardCheapestCheckinDays => '最便宜入住日';
+
+  @override
+  String get dashboardNoScanData => '尚無掃描資料';
+
+  @override
+  String get dashboardNoScanDataMessage => '執行日期範圍掃描以比較各日期。';
+
+  @override
+  String get dashboardLowestLegend => '最低';
+
+  @override
+  String get dashboardNearTarget => '接近目標';
+
+  @override
+  String get dashboardHigh => '偏高';
+
+  @override
+  String get dashboardLocationDistribution => '地點分布';
+
+  @override
+  String get dashboardAllMonitors => '全部監控';
+
+  @override
+  String get dashboardNoDistribution => '尚無分布資料';
+
+  @override
+  String get dashboardNoDistributionMessage => '建立監控任務後即可查看地點分布。';
+
+  @override
+  String get dashboardAlertFeed => '即時警報';
+
+  @override
+  String get dashboardRealTime => '即時';
+
+  @override
+  String get dashboardNoAlerts => '尚無警報';
+
+  @override
+  String get dashboardNoAlertsMessage => '符合目標價與價格警告會顯示在這裡。';
+
+  @override
+  String dashboardTargetSuffix(String price) {
+    return ' / 目標 $price';
+  }
+
+  @override
+  String get dashboardPriceAboveTarget => '高於目標價';
+
+  @override
+  String get dashboardPriceNearTarget => '接近目標價';
+
+  @override
+  String get dashboardTargetHit => '達成目標價';
+
+  @override
+  String get dashboardPriceHistory => '價格歷史';
+
+  @override
+  String get dashboardStoredPollingResults => '已儲存輪詢結果';
+
+  @override
+  String get dashboardMonitorTask => '監控任務';
+
+  @override
+  String get dashboardNoTaskSelected => '尚未選擇任務';
+
+  @override
+  String get dashboardNoTaskSelectedMessage => '建立監控任務後即可累積歷史資料。';
+
+  @override
+  String get dashboardCouldNotLoadHistory => '無法載入歷史資料';
+
+  @override
+  String get dashboardNoStoredPrices => '尚無儲存價格';
+
+  @override
+  String get dashboardNoStoredPricesMessage => '監控記錄輪詢結果後會顯示歷史資料。';
+
+  @override
+  String dashboardHistoryPoints(String code, int count) {
+    return '$code  $count 筆';
   }
 }

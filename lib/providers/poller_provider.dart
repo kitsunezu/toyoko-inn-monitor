@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../core/models/hotel_price.dart';
 import '../core/models/poll_result.dart';
 import '../core/models/search_params.dart';
@@ -9,6 +8,7 @@ import '../core/services/notification_service.dart';
 import '../core/services/history_service.dart';
 import '../utils/url_utils.dart';
 import 'settings_provider.dart';
+import 'url_launcher_provider.dart';
 
 final notificationServiceProvider = Provider<NotificationService>((ref) {
   throw UnimplementedError('Must be overridden in ProviderScope');
@@ -100,8 +100,9 @@ class PollerNotifier extends Notifier<PollerState> {
       case PollerEventType.log:
         final newLogs = [...state.logs, event.data as String];
         // 最多保留 2000 行
-        final trimmed =
-            newLogs.length > 2000 ? newLogs.sublist(newLogs.length - 2000) : newLogs;
+        final trimmed = newLogs.length > 2000
+            ? newLogs.sublist(newLogs.length - 2000)
+            : newLogs;
         state = state.copyWith(logs: trimmed);
 
       case PollerEventType.result:
@@ -119,10 +120,7 @@ class PollerNotifier extends Notifier<PollerState> {
       case PollerEventType.match:
         final matches = event.data as List<HotelPrice>;
         final allMatches = [...state.allMatches, ...matches];
-        state = state.copyWith(
-          allMatches: allMatches,
-          statusMsg: '找到了！',
-        );
+        state = state.copyWith(allMatches: allMatches, statusMsg: '找到了！');
         _notifyMatches(matches);
 
       case PollerEventType.stopped:
@@ -166,6 +164,7 @@ class PollerNotifier extends Notifier<PollerState> {
 
     final doNotification = ref.read(desktopNotificationProvider);
     final doOpenUrl = ref.read(autoOpenUrlProvider);
+    final openExternalUrl = ref.read(externalUrlLauncherProvider);
 
     final matchData = <({String name, int price, String url})>[];
     for (final h in matches) {
@@ -179,7 +178,7 @@ class PollerNotifier extends Notifier<PollerState> {
       );
       matchData.add((name: h.name, price: h.price, url: url));
       if (doOpenUrl) {
-        launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication).ignore();
+        openExternalUrl(Uri.parse(url)).ignore();
       }
     }
     if (doNotification && matchData.isNotEmpty) {

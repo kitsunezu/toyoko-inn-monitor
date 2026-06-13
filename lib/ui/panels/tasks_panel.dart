@@ -12,6 +12,44 @@ import '../../utils/date_utils.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/url_utils.dart';
 
+Future<MonitorTask?> showAddTaskDialog(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final spec = await showDialog<_TaskSpec>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => const _TaskDialog(),
+  );
+  if (spec == null || !context.mounted) return null;
+
+  return ref
+      .read(tasksProvider.notifier)
+      .createTask(spec.params, spec.name.isEmpty ? null : spec.name);
+}
+
+Future<MonitorTask?> showEditTaskDialog(
+  BuildContext context,
+  WidgetRef ref,
+  MonitorTask task,
+) async {
+  final spec = await showDialog<_TaskSpec>(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) => _TaskDialog(initialTask: task),
+  );
+  if (spec == null || !context.mounted) return null;
+
+  return ref
+      .read(tasksProvider.notifier)
+      .updateTask(
+        task.id,
+        spec.params,
+        spec.name.isEmpty ? null : spec.name,
+        hotelNames: kHotelNames,
+      );
+}
+
 class TasksPanel extends ConsumerWidget {
   const TasksPanel({super.key});
 
@@ -19,15 +57,18 @@ class TasksPanel extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(tasksProvider);
     final l = AppLocalizations.of(context)!;
+    final task = tasks.isEmpty ? null : tasks.first;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l.pageTasksTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: l.addTaskTooltip,
-            onPressed: () => _showAddDialog(context, ref),
+            icon: Icon(task == null ? Icons.add : Icons.edit_outlined),
+            tooltip: task == null ? l.addTaskTooltip : l.editTaskTooltip,
+            onPressed: () => task == null
+                ? showAddTaskDialog(context, ref)
+                : showEditTaskDialog(context, ref, task),
           ),
         ],
       ),
@@ -47,7 +88,7 @@ class TasksPanel extends ConsumerWidget {
                   FilledButton.icon(
                     icon: const Icon(Icons.add),
                     label: Text(l.btnAddTask),
-                    onPressed: () => _showAddDialog(context, ref),
+                    onPressed: () => showAddTaskDialog(context, ref),
                   ),
                 ],
               ),
@@ -65,19 +106,6 @@ class TasksPanel extends ConsumerWidget {
             ),
     );
   }
-
-  Future<void> _showAddDialog(BuildContext context, WidgetRef ref) async {
-    final spec = await showDialog<_TaskSpec>(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const _NewTaskDialog(),
-    );
-    if (spec != null && context.mounted) {
-      await ref
-          .read(tasksProvider.notifier)
-          .createTask(spec.params, spec.name.isEmpty ? null : spec.name);
-    }
-  }
 }
 
 class _TaskCard extends ConsumerWidget {
@@ -87,14 +115,15 @@ class _TaskCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context)!;
     final isRunning = task.status == TaskStatus.running;
     final isMatched = task.status == TaskStatus.matched;
 
     Color statusColor = isRunning
         ? AppColors.available
         : isMatched
-            ? AppColors.match
-            : cs.outline;
+        ? AppColors.match
+        : cs.outline;
 
     return Card(
       child: Padding(
@@ -148,6 +177,16 @@ class _TaskCard extends ConsumerWidget {
                         .startTask(task.id, kHotelNames),
                   ),
                 IconButton(
+                  icon: const Icon(Icons.edit_outlined, size: 18),
+                  tooltip: AppLocalizations.of(context)!.editTaskTooltip,
+                  padding: const EdgeInsets.all(4),
+                  constraints: const BoxConstraints(
+                    minWidth: 30,
+                    minHeight: 30,
+                  ),
+                  onPressed: () => showEditTaskDialog(context, ref, task),
+                ),
+                IconButton(
                   icon: const Icon(Icons.delete_outline, size: 18),
                   tooltip: AppLocalizations.of(context)!.deleteTaskTooltip,
                   padding: const EdgeInsets.all(4),
@@ -162,10 +201,7 @@ class _TaskCard extends ConsumerWidget {
             const Divider(height: 16),
 
             // Details
-            _infoRow(
-              Icons.location_on_outlined,
-              task.params.location,
-            ),
+            _infoRow(Icons.location_on_outlined, task.params.location),
             const SizedBox(height: 4),
             _infoRow(
               Icons.calendar_today_outlined,
@@ -174,13 +210,13 @@ class _TaskCard extends ConsumerWidget {
             const SizedBox(height: 4),
             _infoRow(
               Icons.flag_outlined,
-              '${AppLocalizations.of(context)!.labelTargetShort}: ¥${task.params.targetPrice}',
+              '${l.labelTargetShort}: ${task.params.targetPrice == null ? l.dashboardNotAvailable : formatPrice(task.params.targetPrice!)}',
             ),
 
             const SizedBox(height: 8),
 
             // Matched hotels
-            if (isMatched && task.matchedHotels.isNotEmpty) ...[              
+            if (isMatched && task.matchedHotels.isNotEmpty) ...[
               const Divider(height: 12),
               for (final h in task.matchedHotels)
                 Padding(
@@ -230,10 +266,9 @@ class _TaskCard extends ConsumerWidget {
                           fontSize: 12,
                           color: Theme.of(context).colorScheme.primary,
                           decoration: TextDecoration.underline,
-                          decorationColor: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.5),
+                          decorationColor: Theme.of(
+                            context,
+                          ).colorScheme.primary.withValues(alpha: 0.5),
                         ),
                       ),
                     ),
@@ -241,10 +276,11 @@ class _TaskCard extends ConsumerWidget {
                       task.lowestPriceHotel!.priceStr,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color:
-                            task.lowestPriceHotel!.price <=
-                                    task.params.targetPrice
-                                ? AppColors.match
-                                : AppColors.available,
+                            task.params.targetPrice != null &&
+                                task.lowestPriceHotel!.price <=
+                                    task.params.targetPrice!
+                            ? AppColors.match
+                            : AppColors.available,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -279,18 +315,12 @@ class _TaskCard extends ConsumerWidget {
       children: [
         Icon(icon, size: 14),
         const SizedBox(width: 4),
-        Expanded(
-          child: Text(text, style: const TextStyle(fontSize: 12)),
-        ),
+        Expanded(child: Text(text, style: const TextStyle(fontSize: 12))),
       ],
     );
   }
 
-  void _handleAction(
-    BuildContext context,
-    WidgetRef ref,
-    String action,
-  ) {
+  void _handleAction(BuildContext context, WidgetRef ref, String action) {
     final notifier = ref.read(tasksProvider.notifier);
     switch (action) {
       case 'start':
@@ -337,16 +367,20 @@ class _TaskSpec {
 
 const _intervalOptions = [10, 15, 20, 30, 45, 60, 90, 120];
 
-class _NewTaskDialog extends StatefulWidget {
-  const _NewTaskDialog();
+class _TaskDialog extends StatefulWidget {
+  final MonitorTask? initialTask;
+
+  const _TaskDialog({this.initialTask});
+
+  bool get isEditing => initialTask != null;
 
   @override
-  State<_NewTaskDialog> createState() => _NewTaskDialogState();
+  State<_TaskDialog> createState() => _TaskDialogState();
 }
 
-class _NewTaskDialogState extends State<_NewTaskDialog> {
+class _TaskDialogState extends State<_TaskDialog> {
   final _nameCtrl = TextEditingController();
-  final _targetCtrl = TextEditingController(text: '5000');
+  final _targetCtrl = TextEditingController();
 
   late String _location;
   late List<String> _hotelCodes;
@@ -364,10 +398,33 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
   @override
   void initState() {
     super.initState();
+    final initialTask = widget.initialTask;
+    if (initialTask != null) {
+      final params = initialTask.params;
+      _location = kLocations.containsKey(params.location)
+          ? params.location
+          : kLocations.keys.first;
+      _hotelCodes = List.from(params.hotelCodes);
+      _checkin = params.checkin;
+      _nights = _nightsBetween(params.checkin, params.checkout);
+      _numPeople = params.numPeople;
+      _numRooms = params.numRooms;
+      _smokingType = params.smokingType == 'smoking' ? 'smoking' : 'noSmoking';
+      _intervalSec = params.intervalSec;
+      _stopMode = _stopModes.contains(params.stopMode)
+          ? params.stopMode
+          : 'never';
+      _stopValue = params.stopValue > 0 ? params.stopValue : 100;
+      _targetCtrl.text = params.targetPrice?.toString() ?? '';
+      _nameCtrl.text = initialTask.name;
+      return;
+    }
+
     _location = kLocations.keys.first;
     _hotelCodes = List.from(kLocations[_location] ?? []);
     final tomorrow = DateTime.now().add(const Duration(days: 1));
     _checkin = formatDate(tomorrow);
+    _targetCtrl.text = '';
     _nameCtrl.text = '$_location $_checkin';
   }
 
@@ -379,21 +436,40 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
   }
 
   SearchParams get _buildParams => SearchParams(
-        location: _location,
-        hotelCodes: _hotelCodes,
-        checkin: _checkin,
-        checkout: _checkout,
-        numPeople: _numPeople,
-        numRooms: _numRooms,
-        smokingType: _smokingType,
-        targetPrice: int.tryParse(_targetCtrl.text) ?? 5000,
-        intervalSec: _intervalSec,
-        stopMode: _stopMode,
-        stopValue: _stopValue,
-      );
+    location: _location,
+    hotelCodes: _hotelCodes,
+    checkin: _checkin,
+    checkout: _checkout,
+    numPeople: _numPeople,
+    numRooms: _numRooms,
+    smokingType: _smokingType,
+    targetPrice: _targetPrice,
+    intervalSec: _intervalSec,
+    stopMode: _stopMode,
+    stopValue: _stopValue,
+  );
+
+  int? get _targetPrice {
+    final text = _targetCtrl.text.trim();
+    if (text.isEmpty) return null;
+    final value = int.tryParse(text);
+    return value == null || value <= 0 ? null : value;
+  }
 
   void _autoName() {
-    _nameCtrl.text = '$_location $_checkin → $_checkout';
+    _nameCtrl.text = '$_location $_checkin-$_checkout';
+  }
+
+  static const _stopModes = ['never', 'attempts', 'minutes', 'matches'];
+
+  static int _nightsBetween(String checkin, String checkout) {
+    final start = DateTime.tryParse(checkin);
+    final end = DateTime.tryParse(checkout);
+    if (start == null || end == null) return 1;
+    final nights = end.difference(start).inDays;
+    if (nights < 1) return 1;
+    if (nights > 14) return 14;
+    return nights;
   }
 
   Future<void> _pickDate() async {
@@ -431,26 +507,25 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
   }
 
   Widget _label(String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Text(text,
-            style: Theme.of(context).textTheme.labelMedium),
-      );
+    padding: const EdgeInsets.only(bottom: 4),
+    child: Text(text, style: Theme.of(context).textTheme.labelMedium),
+  );
 
   InputDecoration _dec({String? hint}) => InputDecoration(
-        hintText: hint,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      );
+    hintText: hint,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+  );
 
   @override
   Widget build(BuildContext context) {
     final allCodes = kLocations[_location] ?? [];
     final selected = Set<String>.from(_hotelCodes);
+    final intervalOptions = {..._intervalOptions, _intervalSec}.toList()
+      ..sort();
     final l = AppLocalizations.of(context)!;
 
     return Dialog(
-      insetPadding:
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520, maxHeight: 680),
         child: Column(
@@ -458,15 +533,17 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
             // Header
             AppBar(
               automaticallyImplyLeading: false,
-              title: Text(AppLocalizations.of(context)!.dialogNewTask),
+              title: Text(
+                widget.isEditing ? l.dialogEditTask : l.dialogNewTask,
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, null),
-                  child: Text(AppLocalizations.of(context)!.btnCancel),
+                  child: Text(l.btnCancel),
                 ),
                 FilledButton(
                   onPressed: _submit,
-                  child: Text(AppLocalizations.of(context)!.btnAdd),
+                  child: Text(widget.isEditing ? l.btnSave : l.btnAdd),
                 ),
                 const SizedBox(width: 8),
               ],
@@ -480,7 +557,9 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                   _label(AppLocalizations.of(context)!.labelTaskName),
                   TextFormField(
                     controller: _nameCtrl,
-                    decoration: _dec(hint: AppLocalizations.of(context)!.hintTaskName),
+                    decoration: _dec(
+                      hint: AppLocalizations.of(context)!.hintTaskName,
+                    ),
                   ),
                   const SizedBox(height: 12),
 
@@ -491,8 +570,10 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                     decoration: _dec(),
                     isExpanded: true,
                     items: kLocations.keys
-                        .map((loc) =>
-                            DropdownMenuItem(value: loc, child: Text(loc)))
+                        .map(
+                          (loc) =>
+                              DropdownMenuItem(value: loc, child: Text(loc)),
+                        )
                         .toList(),
                     onChanged: (v) {
                       if (v != null) {
@@ -562,8 +643,7 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                               value: _numPeople,
                               min: 1,
                               max: 6,
-                              onChanged: (v) =>
-                                  setState(() => _numPeople = v),
+                              onChanged: (v) => setState(() => _numPeople = v),
                             ),
                           ],
                         ),
@@ -578,8 +658,7 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                               value: _numRooms,
                               min: 1,
                               max: 4,
-                              onChanged: (v) =>
-                                  setState(() => _numRooms = v),
+                              onChanged: (v) => setState(() => _numRooms = v),
                             ),
                           ],
                         ),
@@ -596,15 +675,24 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                               decoration: _dec(),
                               items: [
                                 DropdownMenuItem(
-                                    value: 'noSmoking',
-                                    child: Text(AppLocalizations.of(context)!.optionNoSmoking, overflow: TextOverflow.ellipsis)),
+                                  value: 'noSmoking',
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.optionNoSmoking,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'smoking',
-                                    child: Text(AppLocalizations.of(context)!.optionSmoking, overflow: TextOverflow.ellipsis)),
+                                  value: 'smoking',
+                                  child: Text(
+                                    AppLocalizations.of(context)!.optionSmoking,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                               ],
                               onChanged: (v) {
-                                if (v != null)
-                                  setState(() => _smokingType = v);
+                                if (v != null) setState(() => _smokingType = v);
                               },
                             ),
                           ],
@@ -618,7 +706,9 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                   _label(AppLocalizations.of(context)!.labelTargetPrice),
                   TextFormField(
                     controller: _targetCtrl,
-                    decoration: _dec(hint: AppLocalizations.of(context)!.hintTargetPrice),
+                    decoration: _dec(
+                      hint: AppLocalizations.of(context)!.hintTargetPrice,
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 12),
@@ -637,14 +727,20 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                               value: _intervalSec,
                               isExpanded: true,
                               decoration: _dec(),
-                              items: _intervalOptions
-                                  .map((s) => DropdownMenuItem(
+                              items: intervalOptions
+                                  .map(
+                                    (s) => DropdownMenuItem(
                                       value: s,
-                                      child: Text(AppLocalizations.of(context)!.unitSeconds(s))))
+                                      child: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.unitSeconds(s),
+                                      ),
+                                    ),
+                                  )
                                   .toList(),
                               onChanged: (v) {
-                                if (v != null)
-                                  setState(() => _intervalSec = v);
+                                if (v != null) setState(() => _intervalSec = v);
                               },
                             ),
                           ],
@@ -663,21 +759,42 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                               decoration: _dec(),
                               items: [
                                 DropdownMenuItem(
-                                    value: 'never',
-                                    child: Text(AppLocalizations.of(context)!.stopModeNever, overflow: TextOverflow.ellipsis)),
+                                  value: 'never',
+                                  child: Text(
+                                    AppLocalizations.of(context)!.stopModeNever,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'attempts',
-                                    child: Text(AppLocalizations.of(context)!.stopModeAttempts, overflow: TextOverflow.ellipsis)),
+                                  value: 'attempts',
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.stopModeAttempts,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'minutes',
-                                    child: Text(AppLocalizations.of(context)!.stopModeMinutes, overflow: TextOverflow.ellipsis)),
+                                  value: 'minutes',
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.stopModeMinutes,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 DropdownMenuItem(
-                                    value: 'matches',
-                                    child: Text(AppLocalizations.of(context)!.stopModeMatches, overflow: TextOverflow.ellipsis)),
+                                  value: 'matches',
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.stopModeMatches,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                               ],
                               onChanged: (v) {
-                                if (v != null)
-                                  setState(() => _stopMode = v);
+                                if (v != null) setState(() => _stopMode = v);
                               },
                             ),
                           ],
@@ -718,13 +835,12 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                       ),
                       const Spacer(),
                       TextButton(
-                        onPressed: () => setState(
-                            () => _hotelCodes = List.from(allCodes)),
+                        onPressed: () =>
+                            setState(() => _hotelCodes = List.from(allCodes)),
                         child: Text(l.btnSelectAll),
                       ),
                       TextButton(
-                        onPressed: () =>
-                            setState(() => _hotelCodes = []),
+                        onPressed: () => setState(() => _hotelCodes = []),
                         child: Text(l.btnSelectNone),
                       ),
                     ],
@@ -740,12 +856,15 @@ class _NewTaskDialogState extends State<_NewTaskDialog> {
                         final isSel = selected.contains(code);
                         return CheckboxListTile(
                           dense: true,
-                          controlAffinity:
-                              ListTileControlAffinity.leading,
-                          title: Text(name,
-                              style: const TextStyle(fontSize: 13)),
-                          subtitle: Text(code,
-                              style: const TextStyle(fontSize: 11)),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            name,
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          subtitle: Text(
+                            code,
+                            style: const TextStyle(fontSize: 11),
+                          ),
                           value: isSel,
                           onChanged: (v) {
                             final next = Set<String>.from(selected);
@@ -796,8 +915,10 @@ class _MiniStepper extends StatelessWidget {
         ),
         Expanded(
           child: Center(
-            child: Text('$value',
-                style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              '$value',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
         ),
         IconButton.filledTonal(

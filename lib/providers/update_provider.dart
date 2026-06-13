@@ -12,9 +12,7 @@ final appVersionProvider = FutureProvider<String>((ref) async {
 });
 
 /// Holds the update-check result; starts as [UpdateInfo.idle].
-final updateInfoProvider = StateProvider<UpdateInfo>(
-  (_) => UpdateInfo.idle,
-);
+final updateInfoProvider = StateProvider<UpdateInfo>((_) => UpdateInfo.idle);
 
 /// Triggers an update check and updates [updateInfoProvider].
 /// Returns the [UpdateInfo] after the check completes.

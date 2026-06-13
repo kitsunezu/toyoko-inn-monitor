@@ -59,6 +59,28 @@ The compiled app will be in `build\windows\x64\runner\Release\`.
 
 ---
 
+## Hotel Catalog Sync
+
+The selectable hotel list is generated from the official Traditional Chinese
+[Toyoko Inn hotel list](https://www.toyoko-inn.com/china/hotel_list/).
+
+```powershell
+dart run tool/sync_hotels.dart
+dart format lib\data\locations.dart tool\sync_hotels.dart test\hotel_catalog_test.dart
+dart run tool/sync_hotels.dart --check
+```
+
+For optional RAG-style review, write the sync diff as JSON and pass it to the
+LangChain helper. Without `OPENAI_API_KEY`, the helper prints a deterministic
+summary and exits without calling an LLM.
+
+```powershell
+dart run tool/sync_hotels.dart --check --audit-json tool\hotel_catalog_audit.json
+node tool\rag_hotel_audit.mjs --audit-json tool\hotel_catalog_audit.json
+```
+
+---
+
 ## Release / CI
 
 Pushing a tag like `v1.2.3` triggers the GitHub Actions workflow (`.github/workflows/release.yml`) which:

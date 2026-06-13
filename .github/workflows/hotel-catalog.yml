@@ -1,0 +1,38 @@
+name: Hotel Catalog Check
+
+on:
+  pull_request:
+    paths:
+      - 'lib/data/locations.dart'
+      - 'tool/sync_hotels.dart'
+      - 'test/hotel_catalog_test.dart'
+      - '.github/workflows/hotel-catalog.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 1'
+
+jobs:
+  check:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Check official hotel catalog
+        run: dart run tool/sync_hotels.dart --check --audit-json tool/hotel_catalog_audit.json
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        run: flutter test
