@@ -60,27 +60,7 @@ Document core architecture, project purpose, and important implementation contex
 ### Latest Project Context Signals
 
 - Last scan: `2026-06-13`.
-- Review `lib/app.dart` for architecture or project-context updates.
-- Review `lib/core/api/toyoko_api.dart` for architecture or project-context updates.
-- Review `lib/core/models/monitor_task.dart` for architecture or project-context updates.
-- Review `lib/core/models/poll_result.dart` for architecture or project-context updates.
-- Review `lib/core/models/search_params.dart` for architecture or project-context updates.
-- Review `lib/core/services/notification_service.dart` for architecture or project-context updates.
-- Review `lib/core/services/poller_service.dart` for architecture or project-context updates.
-- Review `lib/core/services/settings_service.dart` for architecture or project-context updates.
-- Review `lib/data/locations.dart` for architecture or project-context updates.
-- Review `lib/db/app_database.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_en.arb` for architecture or project-context updates.
-- Review `lib/l10n/app_ja.arb` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_en.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_ja.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_zh.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_zh.arb` for architecture or project-context updates.
-- Review `lib/main.dart` for architecture or project-context updates.
-- Review `lib/providers/date_scan_provider.dart` for architecture or project-context updates.
-- Review `lib/providers/poller_provider.dart` for architecture or project-context updates.
-- ... 22 more architecture-related file(s) omitted.
+- Review `lib/ui/app_shell.dart` for architecture or project-context updates.
 <!-- commit-and-push-with-agents:context:end -->
 ## Available Features
 
@@ -90,7 +70,7 @@ Document user-facing or agent-facing features here as they are added or changed.
 ### Latest Feature Signals
 
 - Last scan: `2026-06-13`.
-- Review `lib/ui/pages/live_prices_page.dart` for user-facing or agent-facing feature updates.
+- No feature path signal was detected; verify manually from `git diff`.
 <!-- commit-and-push-with-agents:features:end -->
 ## Common Commands
 
@@ -121,7 +101,7 @@ No active agents have been documented yet.
 ### Recently Touched Agent Definitions
 
 - Last scan: `2026-06-13`.
-- `AGENTS`: `AGENTS.md`.
+- No explicit agent definitions were inferred from the latest change set.
 <!-- commit-and-push-with-agents:active:end -->
 ## Agent Capabilities & Tools
 
@@ -131,15 +111,28 @@ Document agent capabilities, tools, prompts, skills, and workflows here.
 ### Latest Agent-Related Change Signals
 
 - Last scan: `2026-06-13`.
-- `lib/core/models/monitor_task.dart` (modified)
-- `lib/core/models/poll_result.dart` (modified)
-- `lib/core/models/search_params.dart` (modified)
-- `.github/workflows/hotel-catalog.yml` (untracked)
-- `AGENTS.md` (untracked)
-- `tool/rag_hotel_audit.mjs` (untracked)
-- `tool/sync_hotels.dart` (untracked)
+- No prompt, tool, skill, workflow, model, or agent files were detected by path heuristics.
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-06-13 - Recorded repository changes
+
+- Branch: `codex/sync-monitor-dashboard`
+- Affected files: 4 detected before updating `AGENTS.md`.
+- Change types: modified: 4.
+- Agent-related files: none detected by path heuristics.
+- Core impact assessment:
+  - Core Architecture: review/update required (`lib/ui/app_shell.dart`).
+  - Available Features: no direct path signal detected.
+  - Common Commands: no direct path signal detected.
+  - Dependencies: no direct path signal detected.
+  - Environment: no direct path signal detected.
+  - Agent System: no direct path signal detected.
+- Files:
+  - `installer/installer.iss` (modified)
+  - `lib/ui/app_shell.dart` (modified)
+  - `pubspec.yaml` (modified)
+  - `windows/runner/Runner.rc` (modified)
 
 ### 2026-06-13 - Updated agent-facing project context
 
@@ -214,5 +207,5 @@ Document architecture decisions and integration notes relevant to agents here.
 ### Latest Change Footprint
 
 - Last scan: `2026-06-13`.
-- Most affected areas: `lib` (42), `test` (4), `tool` (2), `gitignore` (1), `README.md` (1), `.github` (1), `AGENTS.md` (1).
+- Most affected areas: `installer` (1), `lib` (1), `pubspec.yaml` (1), `windows` (1).
 <!-- commit-and-push-with-agents:architecture:end -->

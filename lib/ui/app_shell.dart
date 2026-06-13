@@ -292,7 +292,7 @@ class _DashboardSidebar extends ConsumerWidget {
           const Spacer(),
           if (!collapsed)
             Text(
-              'v1.0.0',
+              'v1.0.1',
               style: TextStyle(color: palette.textMuted, fontSize: 12),
             ),
         ],
