@@ -109,7 +109,7 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.2`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
+If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.3`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
 
 <!-- commit-and-push-with-agents:commands:start -->
 ### Latest Command Signals
@@ -152,6 +152,25 @@ Agents should keep `AGENTS.md` synchronized with routing, release, and workflow 
 - `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-06-14 - Bumped app version for release `v1.0.3`
+
+- Branch: `main`
+- Affected files: 4 detected before updating `AGENTS.md`.
+- Change types: modified: 4.
+- Agent-related files: 1 detected.
+- Core impact assessment:
+  - Core Architecture: no direct path signal detected.
+  - Available Features: no direct path signal detected.
+  - Common Commands: review/update required (`AGENTS.md`).
+  - Dependencies: no direct path signal detected.
+  - Environment: no direct path signal detected.
+  - Agent System: no direct path signal detected.
+- Files:
+  - `AGENTS.md` (modified)
+  - `installer/installer.iss` (modified)
+  - `pubspec.yaml` (modified)
+  - `windows/runner/Runner.rc` (modified)
 
 ### 2026-06-14 - Updated agent-facing project context
 
