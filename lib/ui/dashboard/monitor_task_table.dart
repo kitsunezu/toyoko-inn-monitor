@@ -66,150 +66,158 @@ class ActiveMonitorPanel extends ConsumerWidget {
         currentTask.status == TaskStatus.matched;
     final primaryHotelCode = _primaryHotelCode(currentTask);
 
-    return DashboardPanel(
-      padding: EdgeInsets.zero,
-      child: LayoutBuilder(
-        builder: (context, panelConstraints) {
-          final fillHeight = panelConstraints.hasBoundedHeight;
-          final body = Padding(
-            padding: const EdgeInsets.all(16),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final compact = constraints.maxWidth < 760;
-                final stretchBody = constraints.hasBoundedHeight;
-                final overview = Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _PriceOverview(task: currentTask, status: status),
-                    const SizedBox(height: 12),
-                    _TaskDetails(task: currentTask),
-                  ],
-                );
-                final hotels = _HotelLinks(task: currentTask);
-
-                if (compact) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [overview, const SizedBox(height: 12), hotels],
-                    ),
+    return DashboardBeamFrame(
+      enabled: running,
+      child: DashboardPanel(
+        padding: EdgeInsets.zero,
+        child: LayoutBuilder(
+          builder: (context, panelConstraints) {
+            final fillHeight = panelConstraints.hasBoundedHeight;
+            final body = Padding(
+              padding: const EdgeInsets.all(16),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final compact = constraints.maxWidth < 760;
+                  final stretchBody = constraints.hasBoundedHeight;
+                  final overview = Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _PriceOverview(task: currentTask, status: status),
+                      const SizedBox(height: 12),
+                      _TaskDetails(task: currentTask),
+                    ],
                   );
-                }
+                  final hotels = _HotelLinks(task: currentTask);
 
-                return Row(
-                  crossAxisAlignment: stretchBody
-                      ? CrossAxisAlignment.stretch
-                      : CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: 6, child: overview),
-                    const SizedBox(width: 12),
-                    Expanded(flex: 5, child: hotels),
-                  ],
-                );
-              },
-            ),
-          );
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 16, 14, 12),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: status.color.withValues(alpha: 0.13),
-                        border: Border.all(
-                          color: status.color.withValues(alpha: 0.28),
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(
-                        Icons.monitor_heart_outlined,
-                        color: status.color,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
+                  if (compact) {
+                    return SingleChildScrollView(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
-                            l.dashboardNavActiveMonitors,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: palette.textMuted,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0,
-                            ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            currentTask.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: palette.textPrimary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0,
-                            ),
-                          ),
+                          overview,
+                          const SizedBox(height: 12),
+                          hotels,
                         ],
                       ),
-                    ),
-                    _ActionIconButton(
-                      tooltip: l.editTaskTooltip,
-                      icon: Icons.edit_outlined,
-                      color: palette.primary,
-                      onPressed: () =>
-                          showEditTaskDialog(context, ref, currentTask),
-                    ),
-                    _ActionIconButton(
-                      tooltip: running ? l.dashboardPause : l.dashboardRun,
-                      icon: running ? Icons.pause : Icons.play_arrow,
-                      color: running ? palette.warning : palette.success,
-                      onPressed: () {
-                        if (running) {
-                          ref
-                              .read(tasksProvider.notifier)
-                              .stopTask(currentTask.id);
-                        } else {
-                          ref
-                              .read(tasksProvider.notifier)
-                              .startTask(currentTask.id, kHotelNames);
-                        }
-                      },
-                    ),
-                    _ActionIconButton(
-                      tooltip: l.dashboardOpenBooking,
-                      icon: Icons.open_in_new,
-                      color: palette.primary,
-                      onPressed: primaryHotelCode == null
-                          ? null
-                          : () => _openHotelCode(currentTask, primaryHotelCode),
-                    ),
-                    _ActionIconButton(
-                      tooltip: l.btnDelete,
-                      icon: Icons.delete_outline,
-                      color: palette.danger,
-                      onPressed: () =>
-                          _confirmDelete(context, ref, currentTask),
-                    ),
-                  ],
-                ),
+                    );
+                  }
+
+                  return Row(
+                    crossAxisAlignment: stretchBody
+                        ? CrossAxisAlignment.stretch
+                        : CrossAxisAlignment.start,
+                    children: [
+                      Expanded(flex: 6, child: overview),
+                      const SizedBox(width: 12),
+                      Expanded(flex: 5, child: hotels),
+                    ],
+                  );
+                },
               ),
-              Divider(height: 1, color: palette.border),
-              if (fillHeight) Expanded(child: body) else body,
-            ],
-          );
-        },
+            );
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 16, 14, 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: status.color.withValues(alpha: 0.13),
+                          border: Border.all(
+                            color: status.color.withValues(alpha: 0.28),
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.monitor_heart_outlined,
+                          color: status.color,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l.dashboardNavActiveMonitors,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: palette.textMuted,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              currentTask.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: palette.textPrimary,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      _ActionIconButton(
+                        tooltip: l.editTaskTooltip,
+                        icon: Icons.edit_outlined,
+                        color: palette.primary,
+                        onPressed: () =>
+                            showEditTaskDialog(context, ref, currentTask),
+                      ),
+                      _ActionIconButton(
+                        tooltip: running ? l.dashboardPause : l.dashboardRun,
+                        icon: running ? Icons.pause : Icons.play_arrow,
+                        color: running ? palette.warning : palette.success,
+                        onPressed: () {
+                          if (running) {
+                            ref
+                                .read(tasksProvider.notifier)
+                                .stopTask(currentTask.id);
+                          } else {
+                            ref
+                                .read(tasksProvider.notifier)
+                                .startTask(currentTask.id, kHotelNames);
+                          }
+                        },
+                      ),
+                      _ActionIconButton(
+                        tooltip: l.dashboardOpenBooking,
+                        icon: Icons.open_in_new,
+                        color: palette.primary,
+                        onPressed: primaryHotelCode == null
+                            ? null
+                            : () =>
+                                  _openHotelCode(currentTask, primaryHotelCode),
+                      ),
+                      _ActionIconButton(
+                        tooltip: l.btnDelete,
+                        icon: Icons.delete_outline,
+                        color: palette.danger,
+                        onPressed: () =>
+                            _confirmDelete(context, ref, currentTask),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(height: 1, color: palette.border),
+                if (fillHeight) Expanded(child: body) else body,
+              ],
+            );
+          },
+        ),
       ),
     );
   }

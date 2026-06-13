@@ -159,14 +159,10 @@
   "dashboardThemeLightShort": "淺色",
   "dashboardThemeDarkShort": "深色",
   "dashboardAddMonitor": "新增監控",
-  "dashboardStatusOverview": "狀態總覽",
   "dashboardRunning": "執行中",
   "dashboardPaused": "已暫停",
   "dashboardAlert": "警報",
-  "dashboardAlertsToday": "今日警報",
-  "dashboardTotal": "總計",
   "dashboardLastUpdated": "最後更新",
-  "dashboardTotalTasks": "總任務",
   "dashboardDatabase": "資料庫",
   "dashboardConnected": "已連線",
   "dashboardPolling": "輪詢",
@@ -187,13 +183,6 @@
     "placeholders": {
       "running": { "type": "int" },
       "paused": { "type": "int" }
-    }
-  },
-  "dashboardMetricAlertsToday": "今日警報",
-  "dashboardMetricAlertsHelper": "警報流中 {count} 筆事件",
-  "@dashboardMetricAlertsHelper": {
-    "placeholders": {
-      "count": { "type": "int" }
     }
   },
   "dashboardTasksCount": "{count} 個任務",

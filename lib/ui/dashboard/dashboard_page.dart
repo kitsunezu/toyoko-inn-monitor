@@ -353,12 +353,12 @@ class _FocusedHistoryContent extends StatelessWidget {
 
   static List<Color> _colors(DashboardPalette palette) => [
     palette.primary,
+    palette.danger,
     palette.success,
     palette.warning,
-    const Color(0xFF7C5CFF),
-    const Color(0xFF18C3B7),
-    const Color(0xFFFF8B4A),
-    palette.danger,
+    const Color(0xFF2F80A8),
+    const Color(0xFFA85A24),
+    const Color(0xFF7A8C42),
   ];
 }
 

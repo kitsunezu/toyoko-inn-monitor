@@ -25,7 +25,11 @@ Future<MonitorTask?> showAddTaskDialog(
 
   return ref
       .read(tasksProvider.notifier)
-      .createTask(spec.params, spec.name.isEmpty ? null : spec.name);
+      .createTask(
+        spec.params,
+        spec.name.isEmpty ? null : spec.name,
+        hotelNames: kHotelNames,
+      );
 }
 
 Future<MonitorTask?> showEditTaskDialog(

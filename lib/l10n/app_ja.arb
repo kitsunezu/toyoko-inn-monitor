@@ -159,14 +159,10 @@
   "dashboardThemeLightShort": "ライト",
   "dashboardThemeDarkShort": "ダーク",
   "dashboardAddMonitor": "モニター追加",
-  "dashboardStatusOverview": "ステータス概要",
   "dashboardRunning": "実行中",
   "dashboardPaused": "一時停止",
   "dashboardAlert": "アラート",
-  "dashboardAlertsToday": "本日のアラート",
-  "dashboardTotal": "合計",
   "dashboardLastUpdated": "最終更新",
-  "dashboardTotalTasks": "タスク合計",
   "dashboardDatabase": "データベース",
   "dashboardConnected": "接続済み",
   "dashboardPolling": "ポーリング",
@@ -187,13 +183,6 @@
     "placeholders": {
       "running": { "type": "int" },
       "paused": { "type": "int" }
-    }
-  },
-  "dashboardMetricAlertsToday": "本日のアラート",
-  "dashboardMetricAlertsHelper": "{count}件をフィードに表示",
-  "@dashboardMetricAlertsHelper": {
-    "placeholders": {
-      "count": { "type": "int" }
     }
   },
   "dashboardTasksCount": "{count}件のタスク",

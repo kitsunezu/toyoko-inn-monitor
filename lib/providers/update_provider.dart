@@ -20,9 +20,8 @@ Future<UpdateInfo> checkForUpdate(WidgetRef ref) async {
   ref.read(updateInfoProvider.notifier).state = UpdateInfo.checking;
 
   final service = ref.read(updateServiceProvider);
-  final versionAsync = ref.read(appVersionProvider);
 
-  final current = versionAsync.valueOrNull;
+  final current = await _currentAppVersion(ref);
   if (current == null) {
     final info = UpdateInfo.failed;
     ref.read(updateInfoProvider.notifier).state = info;
@@ -46,3 +45,11 @@ Future<UpdateInfo> checkForUpdate(WidgetRef ref) async {
 
 /// Convenience: URL to open for downloading the update.
 String get updateDownloadUrl => AppConstants.githubReleasesPageUrl;
+
+Future<String?> _currentAppVersion(WidgetRef ref) async {
+  try {
+    return await ref.read(appVersionProvider.future);
+  } catch (_) {
+    return null;
+  }
+}

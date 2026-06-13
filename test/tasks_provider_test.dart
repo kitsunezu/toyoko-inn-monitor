@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toyoko_inn_monitor/core/models/hotel_price.dart';
@@ -7,6 +8,7 @@ import 'package:toyoko_inn_monitor/core/models/monitor_task.dart';
 import 'package:toyoko_inn_monitor/core/models/search_params.dart';
 import 'package:toyoko_inn_monitor/core/services/notification_service.dart';
 import 'package:toyoko_inn_monitor/core/services/poller_service.dart';
+import 'package:toyoko_inn_monitor/db/app_database.dart';
 import 'package:toyoko_inn_monitor/providers/poller_provider.dart';
 import 'package:toyoko_inn_monitor/providers/settings_provider.dart';
 import 'package:toyoko_inn_monitor/providers/tasks_provider.dart';
@@ -14,6 +16,46 @@ import 'package:toyoko_inn_monitor/providers/url_launcher_provider.dart';
 import 'package:toyoko_inn_monitor/utils/url_utils.dart';
 
 void main() {
+  group('TasksNotifier creation', () {
+    test('starts a new task when hotel names are supplied', () async {
+      final db = AppDatabase.forTesting(NativeDatabase.memory());
+      addTearDown(db.close);
+
+      final services = <_FakePollerService>[];
+      final container = ProviderContainer(
+        overrides: [
+          dbProvider.overrideWithValue(db),
+          pollerServiceFactoryProvider.overrideWithValue(({
+            required params,
+            required hotelNames,
+          }) {
+            final service = _FakePollerService(
+              params: params,
+              hotelNames: hotelNames,
+            );
+            services.add(service);
+            return service;
+          }),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      container.read(tasksProvider);
+      await Future<void>.delayed(Duration.zero);
+
+      final created = await container
+          .read(tasksProvider.notifier)
+          .createTask(_params, 'Tokyo watch', hotelNames: _hotelNames);
+
+      expect(created.status, TaskStatus.running);
+      expect(container.read(tasksProvider).single.status, TaskStatus.running);
+      expect(services, hasLength(1));
+      expect(services.single.started, isTrue);
+      expect(services.single.params, _params);
+      expect(services.single.hotelNames, _hotelNames);
+    });
+  });
+
   group('TasksNotifier match handling', () {
     test('opens booking URL when auto-open is enabled', () async {
       final harness = _TaskHarness(autoOpen: true);
@@ -52,19 +94,23 @@ void main() {
   });
 }
 
+const _params = SearchParams(
+  location: 'Tokyo',
+  hotelCodes: ['00100'],
+  checkin: '2026-07-01',
+  checkout: '2026-07-02',
+  numPeople: 2,
+  targetPrice: 5000,
+  intervalSec: 15,
+);
+
+const _hotelNames = {'00100': 'Toyoko Inn 00100'};
+
 class _TaskHarness {
   static final _task = MonitorTask(
     id: 'task-1',
     name: 'Tokyo watch',
-    params: const SearchParams(
-      location: 'Tokyo',
-      hotelCodes: ['00100'],
-      checkin: '2026-07-01',
-      checkout: '2026-07-02',
-      numPeople: 2,
-      targetPrice: 5000,
-      intervalSec: 15,
-    ),
+    params: _params,
     createdAt: DateTime(2026, 6, 1),
   );
 
@@ -104,9 +150,7 @@ class _TaskHarness {
       _notificationService.notifications;
 
   void start() {
-    _container.read(tasksProvider.notifier).startTask(_task.id, const {
-      '00100': 'Toyoko Inn 00100',
-    });
+    _container.read(tasksProvider.notifier).startTask(_task.id, _hotelNames);
   }
 
   void emitMatch(HotelPrice hotel) {
@@ -131,6 +175,7 @@ class _FakeTasksNotifier extends TasksNotifier {
 class _FakePollerService extends PollerService {
   final _events = StreamController<PollerEvent>.broadcast();
   bool _closed = false;
+  bool started = false;
 
   _FakePollerService({required super.params, required super.hotelNames});
 
@@ -138,7 +183,9 @@ class _FakePollerService extends PollerService {
   Stream<PollerEvent> get events => _events.stream;
 
   @override
-  void start() {}
+  void start() {
+    started = true;
+  }
 
   @override
   void stop() {}

@@ -343,9 +343,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dashboardAddMonitor => 'モニター追加';
 
   @override
-  String get dashboardStatusOverview => 'ステータス概要';
-
-  @override
   String get dashboardRunning => '実行中';
 
   @override
@@ -355,16 +352,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dashboardAlert => 'アラート';
 
   @override
-  String get dashboardAlertsToday => '本日のアラート';
-
-  @override
-  String get dashboardTotal => '合計';
-
-  @override
   String get dashboardLastUpdated => '最終更新';
-
-  @override
-  String get dashboardTotalTasks => 'タスク合計';
 
   @override
   String get dashboardDatabase => 'データベース';
@@ -398,14 +386,6 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String dashboardMetricActiveHelper(int running, int paused) {
     return '$running件実行中 / $paused件停止中';
-  }
-
-  @override
-  String get dashboardMetricAlertsToday => '本日のアラート';
-
-  @override
-  String dashboardMetricAlertsHelper(int count) {
-    return '$count件をフィードに表示';
   }
 
   @override

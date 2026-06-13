@@ -177,15 +177,15 @@ class PriceChart extends StatelessWidget {
   }
 
   static List<Color> _chartColors() => [
-    const Color(0xFF89B4FA),
-    const Color(0xFF5DC89A),
-    const Color(0xFFE8C870),
-    const Color(0xFFE05C6E),
-    const Color(0xFF8FA8E0),
-    const Color(0xFFD8A27E),
-    const Color(0xFFA6E3A1),
-    const Color(0xFFF38BA8),
-    const Color(0xFF94E2D5),
-    const Color(0xFFCBA6F7),
+    AppColors.brand,
+    AppColors.brandRed,
+    AppColors.available,
+    AppColors.warning,
+    AppColors.maintenance,
+    const Color(0xFFA85A24),
+    const Color(0xFF7A8C42),
+    AppColors.error,
+    const Color(0xFF4F6F8F),
+    AppColors.noRoom,
   ];
 }

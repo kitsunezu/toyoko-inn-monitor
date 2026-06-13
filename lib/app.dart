@@ -68,9 +68,10 @@ class ToyokoApp extends ConsumerWidget {
     final localeStr = ref.watch(localeProvider);
 
     final themeMode = switch (themeModeStr) {
+      'dark' => ThemeMode.dark,
       'light' => ThemeMode.light,
       'system' => ThemeMode.system,
-      _ => ThemeMode.dark,
+      _ => ThemeMode.light,
     };
 
     final locale = Locale(

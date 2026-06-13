@@ -213,13 +213,13 @@ class DashboardPriceTrendChart extends StatelessWidget {
 
   static List<Color> _seriesColors(DashboardPalette palette) => [
     palette.primary,
+    palette.danger,
     palette.success,
     palette.warning,
-    const Color(0xFF7C5CFF),
-    const Color(0xFF18C3B7),
-    const Color(0xFFFF8B4A),
-    const Color(0xFF9BDB69),
-    palette.danger,
+    const Color(0xFF2F80A8),
+    const Color(0xFFA85A24),
+    const Color(0xFF7A8C42),
+    const Color(0xFF5D7FA7),
   ];
 }
 
@@ -404,11 +404,11 @@ class HotelDistributionDonut extends StatelessWidget {
       ..sort((a, b) => b.value.compareTo(a.value));
     final colors = [
       palette.primary,
+      palette.danger,
       palette.success,
       palette.warning,
-      const Color(0xFF7C5CFF),
-      palette.danger,
-      const Color(0xFF18C3B7),
+      const Color(0xFF5D7FA7),
+      const Color(0xFFA85A24),
     ];
 
     return DashboardPanel(

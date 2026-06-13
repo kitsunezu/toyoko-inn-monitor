@@ -2,10 +2,14 @@ import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:toyoko_inn_monitor/core/models/monitor_task.dart';
+import 'package:toyoko_inn_monitor/core/models/search_params.dart';
 import 'package:toyoko_inn_monitor/db/app_database.dart';
 import 'package:toyoko_inn_monitor/l10n/app_localizations.dart';
 import 'package:toyoko_inn_monitor/providers/tasks_provider.dart';
 import 'package:toyoko_inn_monitor/ui/dashboard/dashboard_page.dart';
+import 'package:toyoko_inn_monitor/ui/dashboard/dashboard_style.dart';
+import 'package:toyoko_inn_monitor/ui/dashboard/monitor_task_table.dart';
 import 'package:toyoko_inn_monitor/utils/app_theme.dart';
 
 void main() {
@@ -46,6 +50,40 @@ void main() {
     expect(find.text(ja.dashboardNoMonitorTasks), findsWidgets);
     expect(find.text(ja.dashboardPriceTrend), findsOneWidget);
   });
+
+  testWidgets('active monitor panel enables brand beam while running', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          width: 720,
+          height: 800,
+          child: ActiveMonitorPanel(task: _task(status: TaskStatus.running)),
+        ),
+      ),
+    );
+
+    final runningBeam = tester.widget<DashboardBeamFrame>(
+      find.byType(DashboardBeamFrame),
+    );
+    expect(runningBeam.enabled, isTrue);
+
+    await tester.pumpWidget(
+      _testApp(
+        child: SizedBox(
+          width: 720,
+          height: 800,
+          child: ActiveMonitorPanel(task: _task(status: TaskStatus.stopped)),
+        ),
+      ),
+    );
+
+    final stoppedBeam = tester.widget<DashboardBeamFrame>(
+      find.byType(DashboardBeamFrame),
+    );
+    expect(stoppedBeam.enabled, isFalse);
+  });
 }
 
 Future<void> _pumpDashboard(
@@ -54,18 +92,48 @@ Future<void> _pumpDashboard(
   Locale locale,
 ) async {
   await tester.pumpWidget(
-    ProviderScope(
+    _testApp(
+      locale: locale,
       overrides: [dbProvider.overrideWithValue(db)],
-      child: MaterialApp(
-        locale: locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: buildLightTheme(),
-        darkTheme: buildDarkTheme(),
-        themeMode: ThemeMode.dark,
-        home: const SizedBox(width: 1280, height: 800, child: DashboardPage()),
-      ),
+      child: const SizedBox(width: 1280, height: 800, child: DashboardPage()),
     ),
+  );
+}
+
+Widget _testApp({
+  required Widget child,
+  Locale locale = const Locale('en'),
+  List<Override> overrides = const [],
+}) {
+  return ProviderScope(
+    overrides: overrides,
+    child: MaterialApp(
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      theme: buildLightTheme(),
+      darkTheme: buildDarkTheme(),
+      themeMode: ThemeMode.dark,
+      home: Scaffold(body: child),
+    ),
+  );
+}
+
+MonitorTask _task({TaskStatus status = TaskStatus.idle}) {
+  return MonitorTask(
+    id: 'task-1',
+    name: 'Tokyo Weekend',
+    params: const SearchParams(
+      location: 'Tokyo',
+      hotelCodes: ['00100'],
+      checkin: '2026-07-01',
+      checkout: '2026-07-02',
+      numPeople: 2,
+      targetPrice: 5000,
+      intervalSec: 15,
+    ),
+    status: status,
+    createdAt: DateTime(2026, 6, 13),
   );
 }
 

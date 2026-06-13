@@ -159,14 +159,10 @@
   "dashboardThemeLightShort": "Light",
   "dashboardThemeDarkShort": "Dark",
   "dashboardAddMonitor": "Add Monitor",
-  "dashboardStatusOverview": "Status Overview",
   "dashboardRunning": "Running",
   "dashboardPaused": "Paused",
   "dashboardAlert": "Alert",
-  "dashboardAlertsToday": "Alerts Today",
-  "dashboardTotal": "Total",
   "dashboardLastUpdated": "Last updated",
-  "dashboardTotalTasks": "Total tasks",
   "dashboardDatabase": "Database",
   "dashboardConnected": "Connected",
   "dashboardPolling": "Polling",
@@ -187,13 +183,6 @@
     "placeholders": {
       "running": { "type": "int" },
       "paused": { "type": "int" }
-    }
-  },
-  "dashboardMetricAlertsToday": "ALERTS TODAY",
-  "dashboardMetricAlertsHelper": "{count} events in feed",
-  "@dashboardMetricAlertsHelper": {
-    "placeholders": {
-      "count": { "type": "int" }
     }
   },
   "dashboardTasksCount": "{count} tasks",

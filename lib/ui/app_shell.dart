@@ -8,6 +8,7 @@ import '../providers/dashboard_provider.dart';
 import '../providers/poller_provider.dart';
 import '../providers/settings_provider.dart';
 import '../providers/tasks_provider.dart';
+import '../providers/update_provider.dart';
 import 'dashboard/dashboard_style.dart';
 
 class AppShell extends ConsumerWidget {
@@ -233,7 +234,9 @@ class _DashboardSidebar extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final palette = DashboardPalette.of(context);
     final location = GoRouterState.of(context).matchedLocation;
-    final summary = ref.watch(dashboardSummaryProvider);
+    final versionLabel = ref
+        .watch(appVersionProvider)
+        .maybeWhen(data: (version) => 'v$version', orElse: () => null);
 
     return Container(
       width: collapsed ? 72 : 220,
@@ -250,49 +253,15 @@ class _DashboardSidebar extends ConsumerWidget {
                   destination.path == location ||
                   (destination.path == '/' && location == '/tasks'),
               collapsed: collapsed,
-              badge: _badgeFor(destination.path, summary),
+              badge: _badgeFor(destination.path),
               onTap: () => context.go(destination.path),
             ),
           const SizedBox(height: 18),
           Divider(color: palette.border),
-          if (!collapsed) ...[
-            const SizedBox(height: 14),
-            _SidebarSection(
-              title: l.dashboardStatusOverview,
-              rows: [
-                _SidebarStat(
-                  l.dashboardRunning,
-                  summary.runningTasks,
-                  palette.success,
-                ),
-                _SidebarStat(
-                  l.dashboardPaused,
-                  summary.pausedTasks,
-                  palette.warning,
-                ),
-                _SidebarStat(
-                  l.dashboardAlert,
-                  summary.alertTasks,
-                  palette.danger,
-                ),
-              ],
-            ),
-            const SizedBox(height: 18),
-            _SidebarSection(
-              title: l.dashboardAlertsToday,
-              rows: [
-                _SidebarStat(
-                  l.dashboardTotal,
-                  summary.alertsToday,
-                  palette.danger,
-                ),
-              ],
-            ),
-          ],
           const Spacer(),
-          if (!collapsed)
+          if (!collapsed && versionLabel != null)
             Text(
-              'v1.0.1',
+              versionLabel,
               style: TextStyle(color: palette.textMuted, fontSize: 12),
             ),
         ],
@@ -300,9 +269,9 @@ class _DashboardSidebar extends ConsumerWidget {
     );
   }
 
-  int? _badgeFor(String path, DashboardSummary summary) {
+  int? _badgeFor(String path) {
     return switch (path) {
-      '/' => summary.totalTasks,
+      '/' => null,
       '/scan' => null,
       '/settings' => null,
       _ => null,
@@ -335,11 +304,6 @@ class _DashboardStatusBar extends ConsumerWidget {
                 '${compactDate(summary.lastUpdated)} ${compactTime(summary.lastUpdated)}',
           ),
           const Spacer(),
-          _StatusText(
-            label: l.dashboardTotalTasks,
-            value: '${summary.totalTasks}',
-          ),
-          const SizedBox(width: 24),
           _StatusText(
             label: l.dashboardDatabase,
             value: l.dashboardConnected,
@@ -463,61 +427,6 @@ class _SidebarItem extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SidebarSection extends StatelessWidget {
-  final String title;
-  final List<_SidebarStat> rows;
-
-  const _SidebarSection({required this.title, required this.rows});
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = DashboardPalette.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: palette.textMuted,
-            fontSize: 11,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0,
-          ),
-        ),
-        const SizedBox(height: 10),
-        for (final row in rows)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              children: [
-                StatusDot(color: row.color, size: 7),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    row.label,
-                    style: TextStyle(
-                      color: palette.textSecondary,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                _CountBadge(value: row.value, color: row.color),
-              ],
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _SidebarStat {
-  final String label;
-  final int value;
-  final Color color;
-
-  const _SidebarStat(this.label, this.value, this.color);
 }
 
 class _CountdownBadge extends StatelessWidget {

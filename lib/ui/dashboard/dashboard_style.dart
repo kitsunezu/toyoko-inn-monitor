@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../utils/app_colors.dart';
@@ -35,34 +37,34 @@ class DashboardPalette {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     if (isDark) {
       return const DashboardPalette(
-        background: AppColors.dashBg,
-        sidebar: AppColors.dashSidebar,
-        panel: AppColors.dashPanel,
-        raised: AppColors.dashPanelRaised,
-        border: AppColors.dashBorder,
-        primary: AppColors.dashPrimary,
+        background: AppColors.dashDarkBg,
+        sidebar: AppColors.dashDarkSidebar,
+        panel: AppColors.dashDarkPanel,
+        raised: AppColors.dashDarkPanelRaised,
+        border: AppColors.dashDarkBorder,
+        primary: AppColors.dashDarkPrimary,
         success: AppColors.dashSuccess,
         warning: AppColors.dashWarning,
         danger: AppColors.dashDanger,
-        textPrimary: AppColors.dashTextPrimary,
-        textSecondary: AppColors.dashTextSecondary,
-        textMuted: AppColors.dashTextMuted,
+        textPrimary: AppColors.dashDarkTextPrimary,
+        textSecondary: AppColors.dashDarkTextSecondary,
+        textMuted: AppColors.dashDarkTextMuted,
       );
     }
 
     return const DashboardPalette(
-      background: Color(0xFFF5F7FA),
-      sidebar: Color(0xFFFFFFFF),
-      panel: Color(0xFFFFFFFF),
-      raised: Color(0xFFF0F4F8),
-      border: Color(0xFFDDE5EE),
-      primary: Color(0xFF2563EB),
-      success: Color(0xFF15803D),
-      warning: Color(0xFFB7791F),
-      danger: Color(0xFFDC2626),
-      textPrimary: Color(0xFF111827),
-      textSecondary: Color(0xFF4B5563),
-      textMuted: Color(0xFF7C8794),
+      background: AppColors.dashBg,
+      sidebar: AppColors.dashSidebar,
+      panel: AppColors.dashPanel,
+      raised: AppColors.dashPanelRaised,
+      border: AppColors.dashBorder,
+      primary: AppColors.dashPrimary,
+      success: AppColors.dashSuccess,
+      warning: AppColors.dashWarning,
+      danger: AppColors.dashDanger,
+      textPrimary: AppColors.dashTextPrimary,
+      textSecondary: AppColors.dashTextSecondary,
+      textMuted: AppColors.dashTextMuted,
     );
   }
 }
@@ -94,6 +96,129 @@ class DashboardPanel extends StatelessWidget {
 
     if (height == null) return panel;
     return SizedBox(height: height, child: panel);
+  }
+}
+
+class DashboardBeamFrame extends StatefulWidget {
+  final Widget child;
+  final bool enabled;
+  final double borderWidth;
+  final double borderRadius;
+  final Duration duration;
+
+  const DashboardBeamFrame({
+    super.key,
+    required this.child,
+    required this.enabled,
+    this.borderWidth = 2,
+    this.borderRadius = 10,
+    this.duration = const Duration(seconds: 8),
+  });
+
+  @override
+  State<DashboardBeamFrame> createState() => _DashboardBeamFrameState();
+}
+
+class _DashboardBeamFrameState extends State<DashboardBeamFrame>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: widget.duration,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _syncAnimation();
+  }
+
+  @override
+  void didUpdateWidget(covariant DashboardBeamFrame oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.duration != widget.duration) {
+      _controller.duration = widget.duration;
+    }
+    if (oldWidget.enabled != widget.enabled ||
+        oldWidget.duration != widget.duration) {
+      _syncAnimation();
+    }
+  }
+
+  void _syncAnimation() {
+    if (widget.enabled) {
+      _controller.repeat();
+    } else {
+      _controller
+        ..stop()
+        ..value = 0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final palette = DashboardPalette.of(context);
+    final radius = BorderRadius.circular(widget.borderRadius);
+
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        final pulse = 0.5 - 0.5 * math.cos(_controller.value * math.pi * 2);
+        final glowStrength = 0.36 + (pulse * 0.3);
+        final decoration = BoxDecoration(
+          borderRadius: radius,
+          color: widget.enabled ? null : palette.border.withValues(alpha: 0.08),
+          gradient: widget.enabled
+              ? SweepGradient(
+                  transform: GradientRotation(_controller.value * math.pi * 2),
+                  colors: [
+                    Colors.transparent,
+                    palette.primary.withValues(
+                      alpha: 0.46 + glowStrength * 0.32,
+                    ),
+                    palette.success.withValues(
+                      alpha: 0.34 + glowStrength * 0.28,
+                    ),
+                    palette.danger.withValues(alpha: 0.36 + glowStrength * 0.3),
+                    palette.warning.withValues(
+                      alpha: 0.32 + glowStrength * 0.28,
+                    ),
+                    palette.primary.withValues(
+                      alpha: 0.24 + glowStrength * 0.24,
+                    ),
+                    Colors.transparent,
+                  ],
+                  stops: const [0.0, 0.14, 0.31, 0.48, 0.65, 0.82, 1.0],
+                )
+              : null,
+          boxShadow: widget.enabled
+              ? [
+                  BoxShadow(
+                    color: palette.primary.withValues(
+                      alpha: 0.12 + pulse * 0.12,
+                    ),
+                    blurRadius: 12 + pulse * 10,
+                    spreadRadius: 0.3 + pulse * 0.8,
+                  ),
+                ]
+              : null,
+        );
+
+        return DecoratedBox(
+          decoration: decoration,
+          child: Padding(
+            padding: EdgeInsets.all(widget.borderWidth),
+            child: child,
+          ),
+        );
+      },
+      child: widget.child,
+    );
   }
 }
 

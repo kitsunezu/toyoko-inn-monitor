@@ -52,7 +52,7 @@ class SettingsService {
       _setBool('desktop_notification', v);
 
   /// 'dark' | 'light' | 'system'
-  String get themeMode => _get('theme_mode', 'dark');
+  String get themeMode => _get('theme_mode', 'light');
   Future<void> setThemeMode(String v) => _set('theme_mode', v);
 
   /// 'zh_TW' | 'ja' | 'en'

@@ -346,9 +346,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardAddMonitor => 'Add Monitor';
 
   @override
-  String get dashboardStatusOverview => 'Status Overview';
-
-  @override
   String get dashboardRunning => 'Running';
 
   @override
@@ -358,16 +355,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardAlert => 'Alert';
 
   @override
-  String get dashboardAlertsToday => 'Alerts Today';
-
-  @override
-  String get dashboardTotal => 'Total';
-
-  @override
   String get dashboardLastUpdated => 'Last updated';
-
-  @override
-  String get dashboardTotalTasks => 'Total tasks';
 
   @override
   String get dashboardDatabase => 'Database';
@@ -401,14 +389,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String dashboardMetricActiveHelper(int running, int paused) {
     return '$running running / $paused paused';
-  }
-
-  @override
-  String get dashboardMetricAlertsToday => 'ALERTS TODAY';
-
-  @override
-  String dashboardMetricAlertsHelper(int count) {
-    return '$count events in feed';
   }
 
   @override

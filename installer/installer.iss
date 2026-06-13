@@ -3,12 +3,12 @@
 ; Usage: ISCC /DAppVersion="1.2.3" installer.iss
 
 #ifndef AppVersion
-  #define AppVersion "1.0.1"
+  #define AppVersion "1.0.2"
 #endif
 
 #define AppName      "Toyoko Inn Monitor"
-#define AppPublisher "YOUR_GITHUB_USERNAME"
-#define AppURL       "https://github.com/YOUR_GITHUB_USERNAME/toyoko_inn_monitor"
+#define AppPublisher "kitsunezu"
+#define AppURL       "https://github.com/kitsunezu/toyoko-inn-monitor"
 #define AppExeName   "toyoko_inn_monitor.exe"
 #define BuildDir     "..\build\windows\x64\runner\Release"
 #define OutDir       "..\dist"

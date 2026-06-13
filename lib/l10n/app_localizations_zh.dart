@@ -343,9 +343,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dashboardAddMonitor => '新增監控';
 
   @override
-  String get dashboardStatusOverview => '狀態總覽';
-
-  @override
   String get dashboardRunning => '執行中';
 
   @override
@@ -355,16 +352,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dashboardAlert => '警報';
 
   @override
-  String get dashboardAlertsToday => '今日警報';
-
-  @override
-  String get dashboardTotal => '總計';
-
-  @override
   String get dashboardLastUpdated => '最後更新';
-
-  @override
-  String get dashboardTotalTasks => '總任務';
 
   @override
   String get dashboardDatabase => '資料庫';
@@ -398,14 +386,6 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String dashboardMetricActiveHelper(int running, int paused) {
     return '$running 執行中 / $paused 已暫停';
-  }
-
-  @override
-  String get dashboardMetricAlertsToday => '今日警報';
-
-  @override
-  String dashboardMetricAlertsHelper(int count) {
-    return '警報流中 $count 筆事件';
   }
 
   @override

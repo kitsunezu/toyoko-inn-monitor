@@ -27,20 +27,22 @@ Results are displayed as a bar chart so you can instantly spot the cheapest nigh
 - **Theme** — Dark / Light / Follow system.
 - **Language** — Traditional Chinese, Japanese, English.
 - **On match actions** — toggle auto browser launch and desktop notifications independently.
-- **Version & Updates** — shows the current app version and lets you check GitHub Releases for a newer installer with one click.
+- **Version & Updates** - shows the current app version and lets you check GitHub Releases for newer release packages with one click.
 
 ---
 
 ## Installation
 
-Download the latest `ToyokoInnMonitor-x.x.x-setup.exe` from the [Releases](../../releases/latest) page and run the installer.  
-No administrator rights are required by default.
+Download the latest Windows package from the [Releases](../../releases/latest) page:
+
+- `ToyokoInnMonitor-x.x.x-setup.exe` - installer version. No administrator rights are required by default.
+- `ToyokoInnMonitor-x.x.x-portable.zip` - portable ZIP version. Extract it and run `toyoko_inn_monitor.exe`.
 
 ### Updating
 
-Open **Settings → About** and click **Check for Updates**.  
-If a new version is available, click **Download Update** to open the release page and download the new installer.  
-Run the new installer over the existing installation — it will replace the old version automatically.
+Open **Settings > About** and click **Check for Updates**.
+If a new version is available, click **Download Update** to open the release page and download the installer or portable ZIP.
+When using the installer, run the new installer over the existing installation; it will replace the old version automatically.
 
 ---
 
@@ -87,7 +89,8 @@ Pushing a tag like `v1.2.3` triggers the GitHub Actions workflow (`.github/workf
 
 1. Builds the Flutter Windows release.
 2. Packages it into a Windows installer using [Inno Setup](https://jrsoftware.org/isinfo.php) (`installer/installer.iss`).
-3. Creates a GitHub Release and uploads `ToyokoInnMonitor-1.2.3-setup.exe` as a release asset.
+3. Packages the same Windows release folder as `ToyokoInnMonitor-1.2.3-portable.zip`.
+4. Creates a GitHub Release and uploads both release assets.
 
 ---
 

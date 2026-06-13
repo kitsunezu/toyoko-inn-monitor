@@ -50,46 +50,83 @@ Do not edit generated files directly: `lib/db/app_database.g.dart`, `lib/l10n/ap
 
 ## Overview
 
-Summarize the repository purpose and the agent-facing context future contributors should know.
+Toyoko Inn Monitor is a Flutter Windows desktop app for tracking Toyoko Inn room prices, surfacing match alerts, and publishing downloadable Windows release packages through GitHub Releases. Agents working here should keep Windows-first workflows in mind and make version changes consistently across app metadata, packaging files, release automation, and any UI that displays the current version.
 
 ## Project Context
 
-Document core architecture, project purpose, and important implementation context here.
+`lib/main.dart` initializes Flutter, SharedPreferences-backed settings, notifications, the Drift database, and Riverpod overrides. `lib/app.dart` owns the shell routes: the focused dashboard is now the `/` landing view, while `/scan` and `/settings` remain top-level destinations and task management is handled through dashboard/task panel flows instead of a dedicated sidebar route.
+
+Runtime monitoring behavior is split between `lib/core/services/` and Riverpod providers in `lib/providers/`. `PollerService`, `tasksProvider`, `pollerProvider`, and dashboard-specific providers keep the active task, recent polling state, alerts, and price history synchronized. Release/update behavior depends on `lib/core/constants.dart`, `lib/core/services/update_service.dart`, and `.github/workflows/release.yml`, so GitHub repository metadata and release asset names must stay aligned.
 
 <!-- commit-and-push-with-agents:context:start -->
 ### Latest Project Context Signals
 
-- Last scan: `2026-06-13`.
+- Last scan: `2026-06-14`.
+- Review `lib/app.dart` for architecture or project-context updates.
+- Review `lib/core/constants.dart` for architecture or project-context updates.
+- Review `lib/core/services/settings_service.dart` for architecture or project-context updates.
+- Review `lib/core/services/update_service.dart` for architecture or project-context updates.
+- Review `lib/l10n/app_en.arb` for architecture or project-context updates.
+- Review `lib/l10n/app_ja.arb` for architecture or project-context updates.
+- Review `lib/l10n/app_localizations.dart` for architecture or project-context updates.
+- Review `lib/l10n/app_localizations_en.dart` for architecture or project-context updates.
+- Review `lib/l10n/app_localizations_ja.dart` for architecture or project-context updates.
+- Review `lib/l10n/app_localizations_zh.dart` for architecture or project-context updates.
+- Review `lib/l10n/app_zh.arb` for architecture or project-context updates.
+- Review `lib/providers/tasks_provider.dart` for architecture or project-context updates.
+- Review `lib/providers/update_provider.dart` for architecture or project-context updates.
 - Review `lib/ui/app_shell.dart` for architecture or project-context updates.
+- Review `lib/ui/dashboard/dashboard_charts.dart` for architecture or project-context updates.
+- Review `lib/ui/dashboard/dashboard_page.dart` for architecture or project-context updates.
+- Review `lib/ui/dashboard/dashboard_style.dart` for architecture or project-context updates.
+- Review `lib/ui/dashboard/monitor_task_table.dart` for architecture or project-context updates.
+- Review `lib/ui/panels/tasks_panel.dart` for architecture or project-context updates.
+- Review `lib/ui/widgets/price_chart.dart` for architecture or project-context updates.
+- ... 2 more architecture-related file(s) omitted.
 <!-- commit-and-push-with-agents:context:end -->
 ## Available Features
 
-Document user-facing or agent-facing features here as they are added or changed.
+The app now emphasizes a focused monitoring dashboard with a single highest-priority task, alert feed, history charts, and richer task status presentation. Monitor tasks can run with or without a target price, keep the latest hotel price snapshots, and honor settings-driven browser open and desktop notification behavior.
+
+Release delivery is dual-format: GitHub Releases publish both an installer and a portable ZIP package. The in-app update flow opens the releases page for the user, so release asset naming and repository constants need to match what the workflow uploads.
 
 <!-- commit-and-push-with-agents:features:start -->
 ### Latest Feature Signals
 
-- Last scan: `2026-06-13`.
+- Last scan: `2026-06-14`.
 - No feature path signal was detected; verify manually from `git diff`.
 <!-- commit-and-push-with-agents:features:end -->
 ## Common Commands
 
-Document build, test, lint, run, and release commands here.
+Primary local commands are:
+
+```powershell
+flutter pub get
+flutter gen-l10n
+dart run build_runner build --delete-conflicting-outputs
+flutter test
+flutter analyze --no-fatal-infos
+flutter build windows --release
+```
+
+If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.2`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
 
 <!-- commit-and-push-with-agents:commands:start -->
 ### Latest Command Signals
 
-- Last scan: `2026-06-13`.
+- Last scan: `2026-06-14`.
 - No command path signal was detected; verify manually from `git diff`.
 <!-- commit-and-push-with-agents:commands:end -->
 ## Dependencies & Development Environment
 
-Document dependency managers, runtime versions, setup steps, and development environment assumptions here.
+This project targets Flutter/Dart on Windows and uses Riverpod, Drift, Dio, `package_info_plus`, and `shared_preferences` in the runtime. Windows packaging depends on the Flutter Windows release folder and Inno Setup via `installer/installer.iss`, while GitHub Actions handles CI packaging and release uploads.
+
+Do not hand-edit generated localization or Drift outputs. Regenerate from ARB/schema sources, and treat `lib/data/locations.dart` as generated catalog output refreshed by `tool/sync_hotels.dart`.
 
 <!-- commit-and-push-with-agents:environment:start -->
 ### Latest Dependency and Environment Signals
 
-- Last scan: `2026-06-13`.
+- Last scan: `2026-06-14`.
 - Dependency files: no direct path signal detected.
 - Development environment files: no direct path signal detected.
 <!-- commit-and-push-with-agents:environment:end -->
@@ -100,20 +137,67 @@ No active agents have been documented yet.
 <!-- commit-and-push-with-agents:active:start -->
 ### Recently Touched Agent Definitions
 
-- Last scan: `2026-06-13`.
-- No explicit agent definitions were inferred from the latest change set.
+- Last scan: `2026-06-14`.
+- `AGENTS`: `AGENTS.md`.
 <!-- commit-and-push-with-agents:active:end -->
 ## Agent Capabilities & Tools
 
-Document agent capabilities, tools, prompts, skills, and workflows here.
+Agents should keep `AGENTS.md` synchronized with routing, release, and workflow changes. The `commit-and-push-with-agents` skill is the preferred publish workflow when agent documentation should ship with code, but its current Python helper requires an explicit commit message because the default commit-message inference hits a `commands` key mismatch bug.
 
 <!-- commit-and-push-with-agents:capabilities:start -->
 ### Latest Agent-Related Change Signals
 
-- Last scan: `2026-06-13`.
-- No prompt, tool, skill, workflow, model, or agent files were detected by path heuristics.
+- Last scan: `2026-06-14`.
+- `github/workflows/release.yml` (modified)
+- `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-06-14 - Updated agent-facing project context
+
+- Branch: `main`
+- Affected files: 31 detected before updating `AGENTS.md`.
+- Change types: modified: 30, untracked: 1.
+- Agent-related files: 2 detected.
+- Core impact assessment:
+  - Core Architecture: review/update required (`lib/app.dart`, `lib/core/constants.dart`, `lib/core/services/settings_service.dart`, `lib/core/services/update_service.dart`, `lib/l10n/app_en.arb` and 17 more).
+  - Available Features: no direct path signal detected.
+  - Common Commands: no direct path signal detected.
+  - Dependencies: no direct path signal detected.
+  - Environment: no direct path signal detected.
+  - Agent System: review/update required (`github/workflows/release.yml`).
+- Files:
+  - `github/workflows/release.yml` (modified)
+  - `AGENTS.md` (modified)
+  - `README.md` (modified)
+  - `installer/installer.iss` (modified)
+  - `lib/app.dart` (modified)
+  - `lib/core/constants.dart` (modified)
+  - `lib/core/services/settings_service.dart` (modified)
+  - `lib/core/services/update_service.dart` (modified)
+  - `lib/l10n/app_en.arb` (modified)
+  - `lib/l10n/app_ja.arb` (modified)
+  - `lib/l10n/app_localizations.dart` (modified)
+  - `lib/l10n/app_localizations_en.dart` (modified)
+  - `lib/l10n/app_localizations_ja.dart` (modified)
+  - `lib/l10n/app_localizations_zh.dart` (modified)
+  - `lib/l10n/app_zh.arb` (modified)
+  - `lib/providers/tasks_provider.dart` (modified)
+  - `lib/providers/update_provider.dart` (modified)
+  - `lib/ui/app_shell.dart` (modified)
+  - `lib/ui/dashboard/dashboard_charts.dart` (modified)
+  - `lib/ui/dashboard/dashboard_page.dart` (modified)
+  - `lib/ui/dashboard/dashboard_style.dart` (modified)
+  - `lib/ui/dashboard/monitor_task_table.dart` (modified)
+  - `lib/ui/panels/tasks_panel.dart` (modified)
+  - `lib/ui/widgets/price_chart.dart` (modified)
+  - `lib/utils/app_colors.dart` (modified)
+  - `lib/utils/app_theme.dart` (modified)
+  - `pubspec.yaml` (modified)
+  - `test/tasks_provider_test.dart` (modified)
+  - `test/widget_test.dart` (modified)
+  - `windows/runner/Runner.rc` (modified)
+  - `test/update_service_test.dart` (untracked)
 
 ### 2026-06-13 - Recorded repository changes
 
@@ -201,11 +285,11 @@ Document agent capabilities, tools, prompts, skills, and workflows here.
   - ... 2 more file(s) omitted.
 ## Architecture Notes
 
-Document architecture decisions and integration notes relevant to agents here.
+Version changes are cross-cutting in this repo: `pubspec.yaml` drives the runtime version, `windows/runner/Runner.rc` provides the Windows fallback resource version, `installer/installer.iss` controls setup artifact naming, and the shell UI should read the live app version instead of hard-coding a label. Release automation is tag-driven from `.github/workflows/release.yml`, so asset naming or repository metadata changes should be verified against both the workflow and `UpdateService`.
 
 <!-- commit-and-push-with-agents:architecture:start -->
 ### Latest Change Footprint
 
-- Last scan: `2026-06-13`.
-- Most affected areas: `installer` (1), `lib` (1), `pubspec.yaml` (1), `windows` (1).
+- Last scan: `2026-06-14`.
+- Most affected areas: `lib` (22), `test` (3), `github` (1), `AGENTS.md` (1), `README.md` (1), `installer` (1), `pubspec.yaml` (1), `windows` (1).
 <!-- commit-and-push-with-agents:architecture:end -->

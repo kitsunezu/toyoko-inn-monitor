@@ -736,12 +736,6 @@ abstract class AppLocalizations {
   /// **'新增監控'**
   String get dashboardAddMonitor;
 
-  /// No description provided for @dashboardStatusOverview.
-  ///
-  /// In zh, this message translates to:
-  /// **'狀態總覽'**
-  String get dashboardStatusOverview;
-
   /// No description provided for @dashboardRunning.
   ///
   /// In zh, this message translates to:
@@ -760,29 +754,11 @@ abstract class AppLocalizations {
   /// **'警報'**
   String get dashboardAlert;
 
-  /// No description provided for @dashboardAlertsToday.
-  ///
-  /// In zh, this message translates to:
-  /// **'今日警報'**
-  String get dashboardAlertsToday;
-
-  /// No description provided for @dashboardTotal.
-  ///
-  /// In zh, this message translates to:
-  /// **'總計'**
-  String get dashboardTotal;
-
   /// No description provided for @dashboardLastUpdated.
   ///
   /// In zh, this message translates to:
   /// **'最後更新'**
   String get dashboardLastUpdated;
-
-  /// No description provided for @dashboardTotalTasks.
-  ///
-  /// In zh, this message translates to:
-  /// **'總任務'**
-  String get dashboardTotalTasks;
 
   /// No description provided for @dashboardDatabase.
   ///
@@ -843,18 +819,6 @@ abstract class AppLocalizations {
   /// In zh, this message translates to:
   /// **'{running} 執行中 / {paused} 已暫停'**
   String dashboardMetricActiveHelper(int running, int paused);
-
-  /// No description provided for @dashboardMetricAlertsToday.
-  ///
-  /// In zh, this message translates to:
-  /// **'今日警報'**
-  String get dashboardMetricAlertsToday;
-
-  /// No description provided for @dashboardMetricAlertsHelper.
-  ///
-  /// In zh, this message translates to:
-  /// **'警報流中 {count} 筆事件'**
-  String dashboardMetricAlertsHelper(int count);
 
   /// No description provided for @dashboardTasksCount.
   ///

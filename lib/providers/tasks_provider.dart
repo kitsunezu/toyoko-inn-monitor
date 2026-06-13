@@ -67,8 +67,9 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
   /// 建立新任務並儲存到 DB
   Future<MonitorTask> createTask(
     SearchParams params,
-    String? customName,
-  ) async {
+    String? customName, {
+    Map<String, String>? hotelNames,
+  }) async {
     const uuid = Uuid();
     final id = uuid.v4();
     final name = _taskName(params, customName);
@@ -95,6 +96,11 @@ class TasksNotifier extends Notifier<List<MonitorTask>> {
     }
 
     state = [task];
+    if (hotelNames != null) {
+      startTask(id, hotelNames);
+      return state.firstWhere((task) => task.id == id);
+    }
+
     return task;
   }
 

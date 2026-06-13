@@ -20,7 +20,11 @@ class UpdateService {
     BaseOptions(
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
-      headers: {'Accept': 'application/vnd.github+json'},
+      headers: {
+        'Accept': 'application/vnd.github+json',
+        'User-Agent': '${AppConstants.githubOwner}-${AppConstants.githubRepo}',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     ),
   );
 
@@ -41,12 +45,21 @@ class UpdateService {
   /// Compares [current] (e.g. "1.0.0") with GitHub release tag
   /// (e.g. "v1.1.0").  Returns true when a newer version is available.
   bool isNewer(String latestTag, String current) {
-    final latest = latestTag.replaceFirst(RegExp(r'^v'), '');
-    return _parseVersion(latest) > _parseVersion(current);
+    return _parseVersion(latestTag) > _parseVersion(current);
   }
 
   int _parseVersion(String v) {
-    final parts = v.split('.').map((e) => int.tryParse(e) ?? 0).toList();
+    final versionCore = v
+        .trim()
+        .replaceFirst(RegExp(r'^[vV]'), '')
+        .split('+')
+        .first
+        .split('-')
+        .first;
+    final parts = versionCore
+        .split('.')
+        .map((e) => int.tryParse(e) ?? 0)
+        .toList();
     while (parts.length < 3) {
       parts.add(0);
     }
