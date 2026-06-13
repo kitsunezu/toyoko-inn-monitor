@@ -213,7 +213,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get btnDownloadUpdate => 'Download Update';
+  String get btnDownloadUpdate => 'Update Now';
+
+  @override
+  String get updateDownloading => 'Downloading update...';
+
+  @override
+  String get updateLaunchingInstaller => 'Starting installer...';
+
+  @override
+  String get updateInstallerMissing =>
+      'The installer package was not found in this release.';
 
   @override
   String get updateCheckFailed => 'Could not check for updates.';

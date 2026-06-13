@@ -28,15 +28,19 @@ Future<UpdateInfo> checkForUpdate(WidgetRef ref) async {
     return info;
   }
 
-  final tag = await service.fetchLatestTag();
-  if (tag == null) {
+  final release = await service.fetchLatestRelease();
+  if (release == null) {
     final info = UpdateInfo.failed;
     ref.read(updateInfoProvider.notifier).state = info;
     return info;
   }
 
-  final info = service.isNewer(tag, current)
-      ? UpdateInfo(UpdateStatus.available, latestVersion: tag)
+  final info = service.isNewer(release.tagName, current)
+      ? UpdateInfo(
+          UpdateStatus.available,
+          latestVersion: release.tagName,
+          installerUrl: release.installerAsset?.downloadUrl,
+        )
       : UpdateInfo.latest;
 
   ref.read(updateInfoProvider.notifier).state = info;
@@ -45,6 +49,48 @@ Future<UpdateInfo> checkForUpdate(WidgetRef ref) async {
 
 /// Convenience: URL to open for downloading the update.
 String get updateDownloadUrl => AppConstants.githubReleasesPageUrl;
+
+/// Downloads the latest installer package and starts it.
+Future<UpdateInfo> downloadAndLaunchUpdate(WidgetRef ref) async {
+  final current = ref.read(updateInfoProvider);
+  final latestVersion = current.latestVersion;
+  final installerUrl = current.installerUrl;
+
+  if (latestVersion == null || installerUrl == null) {
+    final info = UpdateInfo.failed;
+    ref.read(updateInfoProvider.notifier).state = info;
+    return info;
+  }
+
+  final downloading = UpdateInfo(
+    UpdateStatus.downloading,
+    latestVersion: latestVersion,
+    installerUrl: installerUrl,
+  );
+  ref.read(updateInfoProvider.notifier).state = downloading;
+
+  final service = ref.read(updateServiceProvider);
+  try {
+    final installer = await service.downloadInstaller(
+      downloadUrl: installerUrl,
+      latestVersion: latestVersion,
+    );
+
+    final launching = UpdateInfo(
+      UpdateStatus.launchingInstaller,
+      latestVersion: latestVersion,
+      installerUrl: installerUrl,
+    );
+    ref.read(updateInfoProvider.notifier).state = launching;
+
+    await service.launchInstaller(installer);
+    return launching;
+  } catch (_) {
+    final info = UpdateInfo.failed;
+    ref.read(updateInfoProvider.notifier).state = info;
+    return info;
+  }
+}
 
 Future<String?> _currentAppVersion(WidgetRef ref) async {
   try {

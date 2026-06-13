@@ -211,7 +211,16 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get btnDownloadUpdate => '下載更新';
+  String get btnDownloadUpdate => '立即更新';
+
+  @override
+  String get updateDownloading => '正在下載更新...';
+
+  @override
+  String get updateLaunchingInstaller => '正在啟動安裝程式...';
+
+  @override
+  String get updateInstallerMissing => '找不到此版本的安裝檔。';
 
   @override
   String get updateCheckFailed => '無法檢查更新。';

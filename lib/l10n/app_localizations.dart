@@ -487,8 +487,26 @@ abstract class AppLocalizations {
   /// No description provided for @btnDownloadUpdate.
   ///
   /// In zh, this message translates to:
-  /// **'下載更新'**
+  /// **'立即更新'**
   String get btnDownloadUpdate;
+
+  /// No description provided for @updateDownloading.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在下載更新...'**
+  String get updateDownloading;
+
+  /// No description provided for @updateLaunchingInstaller.
+  ///
+  /// In zh, this message translates to:
+  /// **'正在啟動安裝程式...'**
+  String get updateLaunchingInstaller;
+
+  /// No description provided for @updateInstallerMissing.
+  ///
+  /// In zh, this message translates to:
+  /// **'找不到此版本的安裝檔。'**
+  String get updateInstallerMissing;
 
   /// No description provided for @updateCheckFailed.
   ///

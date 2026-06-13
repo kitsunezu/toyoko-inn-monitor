@@ -211,7 +211,16 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get btnDownloadUpdate => 'アップデートをダウンロード';
+  String get btnDownloadUpdate => '今すぐ更新';
+
+  @override
+  String get updateDownloading => 'アップデートをダウンロードしています...';
+
+  @override
+  String get updateLaunchingInstaller => 'インストーラーを起動しています...';
+
+  @override
+  String get updateInstallerMissing => 'このリリースにインストーラーが見つかりません。';
 
   @override
   String get updateCheckFailed => 'アップデートの確認に失敗しました。';

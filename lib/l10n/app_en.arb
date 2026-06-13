@@ -99,7 +99,10 @@
       "version": { "type": "String" }
     }
   },
-  "btnDownloadUpdate": "Download Update",
+  "btnDownloadUpdate": "Update Now",
+  "updateDownloading": "Downloading update...",
+  "updateLaunchingInstaller": "Starting installer...",
+  "updateInstallerMissing": "The installer package was not found in this release.",
   "updateCheckFailed": "Could not check for updates.",
 
   "pageTasksTitle": "Multi-task Monitor",

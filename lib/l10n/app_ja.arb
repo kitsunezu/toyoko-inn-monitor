@@ -99,7 +99,10 @@
       "version": { "type": "String" }
     }
   },
-  "btnDownloadUpdate": "アップデートをダウンロード",
+  "btnDownloadUpdate": "今すぐ更新",
+  "updateDownloading": "アップデートをダウンロードしています...",
+  "updateLaunchingInstaller": "インストーラーを起動しています...",
+  "updateInstallerMissing": "このリリースにインストーラーが見つかりません。",
   "updateCheckFailed": "アップデートの確認に失敗しました。",
 
   "pageTasksTitle": "マルチタスク監視",

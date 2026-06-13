@@ -3,7 +3,7 @@
 ; Usage: ISCC /DAppVersion="1.2.3" installer.iss
 
 #ifndef AppVersion
-  #define AppVersion "1.0.3"
+  #define AppVersion "1.0.4"
 #endif
 
 #define AppName      "Toyoko Inn Monitor"
@@ -12,6 +12,7 @@
 #define AppExeName   "toyoko_inn_monitor.exe"
 #define BuildDir     "..\build\windows\x64\runner\Release"
 #define OutDir       "..\dist"
+#define IconFile     "..\windows\runner\resources\app_icon.ico"
 
 [Setup]
 AppId={{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}
@@ -27,6 +28,7 @@ AllowNoIcons=yes
 LicenseFile=
 OutputDir={#OutDir}
 OutputBaseFilename=ToyokoInnMonitor-{#AppVersion}-setup
+SetupIconFile={#IconFile}
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern

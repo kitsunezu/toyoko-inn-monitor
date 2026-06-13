@@ -88,7 +88,7 @@ Runtime monitoring behavior is split between `lib/core/services/` and Riverpod p
 
 The app now emphasizes a focused monitoring dashboard with a single highest-priority task, alert feed, history charts, and richer task status presentation. Monitor tasks can run with or without a target price, keep the latest hotel price snapshots, and honor settings-driven browser open and desktop notification behavior.
 
-Release delivery is dual-format: GitHub Releases publish both an installer and a portable ZIP package. The in-app update flow opens the releases page for the user, so release asset naming and repository constants need to match what the workflow uploads.
+Release delivery is dual-format: GitHub Releases publish both an installer and a portable ZIP package. The in-app update flow reads the latest release assets, downloads the `ToyokoInnMonitor-x.y.z-setup.exe` installer directly, and launches it for the user; it falls back to the release page only when the installer asset is missing.
 
 <!-- commit-and-push-with-agents:features:start -->
 ### Latest Feature Signals
@@ -109,7 +109,7 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.3`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
+If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.4`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
 
 <!-- commit-and-push-with-agents:commands:start -->
 ### Latest Command Signals
@@ -142,7 +142,7 @@ No active agents have been documented yet.
 <!-- commit-and-push-with-agents:active:end -->
 ## Agent Capabilities & Tools
 
-Agents should keep `AGENTS.md` synchronized with routing, release, and workflow changes. The `commit-and-push-with-agents` skill is the preferred publish workflow when agent documentation should ship with code, but its current Python helper requires an explicit commit message because the default commit-message inference hits a `commands` key mismatch bug.
+Agents should keep `AGENTS.md` synchronized with routing, release, and workflow changes. The `commit-and-push-with-agents` skill is the preferred publish workflow when agent documentation should ship with code, but its current Python helper requires an explicit commit message because the default commit-message inference hits a `commands` key mismatch bug. Review dry-run output before writing because path previews can be misleading.
 
 <!-- commit-and-push-with-agents:capabilities:start -->
 ### Latest Agent-Related Change Signals
@@ -152,6 +152,38 @@ Agents should keep `AGENTS.md` synchronized with routing, release, and workflow 
 - `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-06-14 - Released direct installer update flow as `v1.0.4`
+
+- Branch: `main`
+- Affected files: 17 detected before updating `AGENTS.md`.
+- Change types: modified: 16, untracked: 1.
+- Agent-related files: none detected by path heuristics.
+- Core impact assessment:
+  - Core Architecture: review/update required (`lib/core/services/update_service.dart`, `lib/providers/update_provider.dart`, `lib/ui/panels/settings_panel.dart`, `lib/l10n/app_zh.arb`, `lib/l10n/app_en.arb`, `lib/l10n/app_ja.arb`, and generated localizations).
+  - Available Features: update flow now downloads and launches the Windows installer directly from GitHub release assets.
+  - Common Commands: release version bumped to `1.0.4+5` and tag target `v1.0.4`.
+  - Dependencies: no direct path signal detected.
+  - Environment: no direct path signal detected.
+  - Agent System: `AGENTS.md` manually synchronized after `commit-and-push-with-agents` dry-run review.
+- Files:
+  - `README.md` (modified)
+  - `installer/installer.iss` (modified)
+  - `lib/core/services/update_service.dart` (modified)
+  - `lib/providers/update_provider.dart` (modified)
+  - `lib/ui/panels/settings_panel.dart` (modified)
+  - `lib/l10n/app_zh.arb` (modified)
+  - `lib/l10n/app_en.arb` (modified)
+  - `lib/l10n/app_ja.arb` (modified)
+  - `lib/l10n/app_localizations.dart` (modified)
+  - `lib/l10n/app_localizations_zh.dart` (modified)
+  - `lib/l10n/app_localizations_en.dart` (modified)
+  - `lib/l10n/app_localizations_ja.dart` (modified)
+  - `pubspec.yaml` (modified)
+  - `test/update_service_test.dart` (modified)
+  - `windows/runner/Runner.rc` (modified)
+  - `windows/runner/resources/app_icon.ico` (modified)
+  - `windows/runner/resources/app_icon_source.png` (untracked)
 
 ### 2026-06-14 - Bumped app version for release `v1.0.3`
 

@@ -1,5 +1,9 @@
 # Toyoko Inn Monitor
 
+<p align="center">
+  <img src="windows/runner/resources/app_icon_source.png" alt="Toyoko Inn Monitor icon" width="120">
+</p>
+
 A Windows desktop application that continuously polls the [Toyoko Inn](https://www.toyoko-inn.com/) API and alerts you the moment a room drops to your target price.
 
 ---
@@ -27,7 +31,7 @@ Results are displayed as a bar chart so you can instantly spot the cheapest nigh
 - **Theme** — Dark / Light / Follow system.
 - **Language** — Traditional Chinese, Japanese, English.
 - **On match actions** — toggle auto browser launch and desktop notifications independently.
-- **Version & Updates** - shows the current app version and lets you check GitHub Releases for newer release packages with one click.
+- **Version & Updates** - shows the current app version, checks GitHub Releases, and downloads the installer update directly.
 
 ---
 
@@ -41,8 +45,8 @@ Download the latest Windows package from the [Releases](../../releases/latest) p
 ### Updating
 
 Open **Settings > About** and click **Check for Updates**.
-If a new version is available, click **Download Update** to open the release page and download the installer or portable ZIP.
-When using the installer, run the new installer over the existing installation; it will replace the old version automatically.
+If a new version is available, click **Update Now** to download the installer and launch it automatically.
+If the installer asset is missing from the release, the app falls back to opening the release page.
 
 ---
 

@@ -35,4 +35,57 @@ void main() {
       expect(service.isNewer('v1.0.1-beta.1', '1.0.0'), isTrue);
     });
   });
+
+  group('UpdateService.parseRelease', () {
+    test(
+      'extracts the Windows installer asset from latest release metadata',
+      () {
+        final service = UpdateService();
+
+        final release = service.parseRelease({
+          'tag_name': 'v1.0.4',
+          'assets': [
+            {
+              'name': 'ToyokoInnMonitor-1.0.4-portable.zip',
+              'browser_download_url':
+                  'https://example.com/ToyokoInnMonitor-1.0.4-portable.zip',
+            },
+            {
+              'name': 'ToyokoInnMonitor-1.0.4-setup.exe',
+              'browser_download_url':
+                  'https://example.com/ToyokoInnMonitor-1.0.4-setup.exe',
+            },
+          ],
+        });
+
+        expect(release?.tagName, 'v1.0.4');
+        expect(
+          release?.installerAsset?.name,
+          'ToyokoInnMonitor-1.0.4-setup.exe',
+        );
+        expect(
+          release?.installerAsset?.downloadUrl,
+          'https://example.com/ToyokoInnMonitor-1.0.4-setup.exe',
+        );
+      },
+    );
+
+    test('keeps release metadata when installer asset is missing', () {
+      final service = UpdateService();
+
+      final release = service.parseRelease({
+        'tag_name': 'v1.0.4',
+        'assets': [
+          {
+            'name': 'ToyokoInnMonitor-1.0.4-portable.zip',
+            'browser_download_url':
+                'https://example.com/ToyokoInnMonitor-1.0.4-portable.zip',
+          },
+        ],
+      });
+
+      expect(release?.tagName, 'v1.0.4');
+      expect(release?.installerAsset, isNull);
+    });
+  });
 }

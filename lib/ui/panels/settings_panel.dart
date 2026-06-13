@@ -191,7 +191,7 @@ class _UpdateTile extends ConsumerWidget {
     final versionLabel = versionAsync.when(
       data: (v) => 'v$v',
       loading: () => '...',
-      error: (_, __) => '',
+      error: (error, stackTrace) => '',
     );
 
     Widget? trailing;
@@ -213,13 +213,31 @@ class _UpdateTile extends ConsumerWidget {
       case UpdateStatus.latest:
         statusText = l.updateLatest;
       case UpdateStatus.available:
-        statusText = l.updateAvailable(updateInfo.latestVersion ?? '');
+        statusText = updateInfo.installerUrl == null
+            ? l.updateInstallerMissing
+            : l.updateAvailable(updateInfo.latestVersion ?? '');
         trailing = FilledButton(
-          onPressed: () => launchUrl(
-            Uri.parse(updateDownloadUrl),
-            mode: LaunchMode.externalApplication,
-          ),
+          onPressed: updateInfo.installerUrl == null
+              ? () => launchUrl(
+                  Uri.parse(updateDownloadUrl),
+                  mode: LaunchMode.externalApplication,
+                )
+              : () => downloadAndLaunchUpdate(ref),
           child: Text(l.btnDownloadUpdate),
+        );
+      case UpdateStatus.downloading:
+        statusText = l.updateDownloading;
+        trailing = const SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        );
+      case UpdateStatus.launchingInstaller:
+        statusText = l.updateLaunchingInstaller;
+        trailing = const SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(strokeWidth: 2),
         );
       case UpdateStatus.failed:
         statusText = l.updateCheckFailed;
