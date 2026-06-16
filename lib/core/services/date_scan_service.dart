@@ -32,7 +32,7 @@ class DateScanService {
     required int nights,
     required int numPeople,
     int numRooms = 1,
-    String smokingType = 'noSmoking',
+    String smokingType = 'all',
     Map<String, String> hotelNames = const {},
     Duration delayBetweenDays = const Duration(milliseconds: 500),
   }) async* {

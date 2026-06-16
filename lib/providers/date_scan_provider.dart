@@ -38,9 +38,9 @@ class DateScanNotifier extends Notifier<DateScanState> {
     required String endDate,
     required List<String> hotelCodes,
     required Map<String, String> hotelNames,
-    int numPeople = 2,
+    int numPeople = 1,
     int numRooms = 1,
-    String smokingType = 'noSmoking',
+    String smokingType = 'all',
   }) async {
     state = const DateScanState(scanning: true);
 

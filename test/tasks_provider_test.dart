@@ -72,7 +72,7 @@ void main() {
           checkout: '2026-07-02',
           rooms: 1,
           people: 2,
-          smokingType: 'noSmoking',
+          smokingType: 'all',
         ),
       ]);
       expect(harness.task.status, TaskStatus.matched);
@@ -100,6 +100,7 @@ const _params = SearchParams(
   checkin: '2026-07-01',
   checkout: '2026-07-02',
   numPeople: 2,
+  smokingType: 'all',
   targetPrice: 5000,
   intervalSec: 15,
 );

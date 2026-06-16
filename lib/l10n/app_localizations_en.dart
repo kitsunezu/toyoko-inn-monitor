@@ -51,6 +51,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelRoomType => 'Room Type';
 
   @override
+  String get optionNoPreference => 'No preference';
+
+  @override
   String get optionNoSmoking => 'Non-smoking';
 
   @override

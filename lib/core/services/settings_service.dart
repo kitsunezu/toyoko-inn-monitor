@@ -21,13 +21,20 @@ class SettingsService {
   int get nights => _getInt('nights', 1);
   Future<void> setNights(int v) => _setInt('nights', v);
 
-  int get numPeople => _getInt('num_people', 2);
+  int get numPeople => _getInt('num_people', 1);
   Future<void> setNumPeople(int v) => _setInt('num_people', v);
 
   int get numRooms => _getInt('num_rooms', 1);
   Future<void> setNumRooms(int v) => _setInt('num_rooms', v);
 
-  String get smokingType => _get('smoking_type', 'noSmoking');
+  String get smokingType {
+    final value = _get('smoking_type', 'all');
+    return switch (value) {
+      'all' || 'noSmoking' || 'smoking' => value,
+      _ => 'all',
+    };
+  }
+
   Future<void> setSmokingType(String v) => _set('smoking_type', v);
 
   int get targetPrice => _getInt('target_price', 5000);

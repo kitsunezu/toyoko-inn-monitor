@@ -390,9 +390,9 @@ class _TaskDialogState extends State<_TaskDialog> {
   late List<String> _hotelCodes;
   late String _checkin;
   int _nights = 1;
-  int _numPeople = 2;
+  int _numPeople = 1;
   int _numRooms = 1;
-  String _smokingType = 'noSmoking';
+  String _smokingType = 'all';
   int _intervalSec = 15;
   String _stopMode = 'never';
   int _stopValue = 100;
@@ -413,7 +413,10 @@ class _TaskDialogState extends State<_TaskDialog> {
       _nights = _nightsBetween(params.checkin, params.checkout);
       _numPeople = params.numPeople;
       _numRooms = params.numRooms;
-      _smokingType = params.smokingType == 'smoking' ? 'smoking' : 'noSmoking';
+      _smokingType = switch (params.smokingType) {
+        'noSmoking' || 'smoking' || 'all' => params.smokingType,
+        _ => 'all',
+      };
       _intervalSec = params.intervalSec;
       _stopMode = _stopModes.contains(params.stopMode)
           ? params.stopMode
@@ -678,6 +681,15 @@ class _TaskDialogState extends State<_TaskDialog> {
                               isExpanded: true,
                               decoration: _dec(),
                               items: [
+                                DropdownMenuItem(
+                                  value: 'all',
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.optionNoPreference,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                                 DropdownMenuItem(
                                   value: 'noSmoking',
                                   child: Text(

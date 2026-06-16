@@ -51,6 +51,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get labelRoomType => '房型';
 
   @override
+  String get optionNoPreference => '不選擇';
+
+  @override
   String get optionNoSmoking => '禁煙';
 
   @override

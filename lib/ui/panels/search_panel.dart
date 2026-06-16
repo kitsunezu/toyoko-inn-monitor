@@ -154,6 +154,13 @@ class _SearchPanelState extends ConsumerState<SearchPanel> {
                       decoration: _dec(),
                       items: [
                         DropdownMenuItem(
+                          value: 'all',
+                          child: Text(
+                            l.optionNoPreference,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        DropdownMenuItem(
                           value: 'noSmoking',
                           child: Text(
                             l.optionNoSmoking,

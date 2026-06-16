@@ -88,6 +88,8 @@ Runtime monitoring behavior is split between `lib/core/services/` and Riverpod p
 
 The app now emphasizes a focused monitoring dashboard with a single highest-priority task, alert feed, history charts, and richer task status presentation. Monitor tasks can run with or without a target price, keep the latest hotel price snapshots, and honor settings-driven browser open and desktop notification behavior.
 
+Search, task creation, and date-scan flows share booking filters for guest count, room count, and smoking preference, including an `all` / no-preference smoking option. The Toyoko API layer can also supplement the availability API response with member-plan pricing parsed from the booking page when member inventory is present.
+
 Release delivery is dual-format: GitHub Releases publish both an installer and a portable ZIP package. The in-app update flow reads the latest release assets, downloads the `ToyokoInnMonitor-x.y.z-setup.exe` installer directly, and launches it for the user; it falls back to the release page only when the installer asset is missing.
 
 <!-- commit-and-push-with-agents:features:start -->
@@ -109,7 +111,7 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.4`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
+If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.5`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
 
 <!-- commit-and-push-with-agents:commands:start -->
 ### Latest Command Signals
@@ -152,6 +154,44 @@ Agents should keep `AGENTS.md` synchronized with routing, release, and workflow 
 - `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-06-16 - Published booking-filter updates as `v1.0.5`
+
+- Branch: `main`
+- Affected files: 23 detected before updating `AGENTS.md`.
+- Change types: modified: 21, untracked: 2.
+- Agent-related files: 1 detected.
+- Core impact assessment:
+  - Core Architecture: review/update required (`lib/core/api/toyoko_api.dart`, `lib/core/models/search_params.dart`, `lib/core/services/date_scan_service.dart`, `lib/core/services/settings_service.dart`, `lib/providers/date_scan_provider.dart`, `lib/ui/panels/date_scan_panel.dart`, `lib/ui/panels/search_panel.dart`, and `lib/ui/panels/tasks_panel.dart`).
+  - Available Features: search/task/date-scan flows now share booking filters, smoking preference supports `all`, and hotel pricing can prefer member-plan prices when available.
+  - Common Commands: release version bumped to `1.0.5+6` and tag target `v1.0.5`.
+  - Dependencies: no direct path signal detected.
+  - Environment: no direct path signal detected.
+  - Agent System: `AGENTS.md` manually synchronized during release because the publish helper dry-run still needs explicit review.
+- Files:
+  - `installer/installer.iss` (modified)
+  - `lib/core/api/toyoko_api.dart` (modified)
+  - `lib/core/models/search_params.dart` (modified)
+  - `lib/core/services/date_scan_service.dart` (modified)
+  - `lib/core/services/settings_service.dart` (modified)
+  - `lib/l10n/app_en.arb` (modified)
+  - `lib/l10n/app_ja.arb` (modified)
+  - `lib/l10n/app_localizations.dart` (modified)
+  - `lib/l10n/app_localizations_en.dart` (modified)
+  - `lib/l10n/app_localizations_ja.dart` (modified)
+  - `lib/l10n/app_localizations_zh.dart` (modified)
+  - `lib/l10n/app_zh.arb` (modified)
+  - `lib/providers/date_scan_provider.dart` (modified)
+  - `lib/ui/dashboard/monitor_task_table.dart` (modified)
+  - `lib/ui/panels/date_scan_panel.dart` (modified)
+  - `lib/ui/panels/search_panel.dart` (modified)
+  - `lib/ui/panels/tasks_panel.dart` (modified)
+  - `lib/utils/url_utils.dart` (modified)
+  - `pubspec.yaml` (modified)
+  - `test/tasks_provider_test.dart` (modified)
+  - `windows/runner/Runner.rc` (modified)
+  - `test/search_params_test.dart` (untracked)
+  - `test/toyoko_api_test.dart` (untracked)
 
 ### 2026-06-14 - Released direct installer update flow as `v1.0.4`
 

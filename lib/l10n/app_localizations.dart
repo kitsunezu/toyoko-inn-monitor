@@ -184,6 +184,12 @@ abstract class AppLocalizations {
   /// **'房型'**
   String get labelRoomType;
 
+  /// No description provided for @optionNoPreference.
+  ///
+  /// In zh, this message translates to:
+  /// **'不選擇'**
+  String get optionNoPreference;
+
   /// No description provided for @optionNoSmoking.
   ///
   /// In zh, this message translates to:

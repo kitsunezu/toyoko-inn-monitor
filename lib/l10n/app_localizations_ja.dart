@@ -51,6 +51,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get labelRoomType => '客室タイプ';
 
   @override
+  String get optionNoPreference => '指定なし';
+
+  @override
   String get optionNoSmoking => '禁煙';
 
   @override

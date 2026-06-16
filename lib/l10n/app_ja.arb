@@ -18,6 +18,7 @@
   "labelPeople": "人数",
   "labelRooms": "部屋数",
   "labelRoomType": "客室タイプ",
+  "optionNoPreference": "指定なし",
   "optionNoSmoking": "禁煙",
   "optionSmoking": "喫煙",
   "labelTargetPrice": "目標最高価格 (¥)",

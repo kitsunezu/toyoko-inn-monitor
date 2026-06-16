@@ -4,8 +4,8 @@ String buildBookingUrl({
   required String checkin,
   required String checkout,
   int rooms = 1,
-  int people = 2,
-  String smokingType = 'noSmoking',
+  int people = 1,
+  String smokingType = 'all',
 }) {
   return 'https://www.toyoko-inn.com/china/search/result/room_plan/'
       '?hotel=$hotelCode'

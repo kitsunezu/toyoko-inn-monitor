@@ -4,9 +4,11 @@ import 'package:toyoko_inn_monitor/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/models/search_params.dart';
 import '../../core/services/date_scan_service.dart';
 import '../../data/locations.dart';
 import '../../providers/date_scan_provider.dart';
+import '../../providers/search_params_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/date_utils.dart';
 import '../../utils/url_utils.dart';
@@ -34,6 +36,7 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
   @override
   Widget build(BuildContext context) {
     final scanState = ref.watch(dateScanProvider);
+    final bookingParams = ref.watch(searchParamsProvider);
     final l = AppLocalizations.of(context)!;
     final cs = Theme.of(context).colorScheme;
 
@@ -184,7 +187,11 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
             // ?�?� Results ?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�
             if (scanState.results.isNotEmpty)
               Expanded(
-                child: _ScanResults(results: scanState.results, city: _city),
+                child: _ScanResults(
+                  results: scanState.results,
+                  city: _city,
+                  bookingParams: bookingParams,
+                ),
               )
             else if (!scanState.scanning)
               Expanded(
@@ -276,6 +283,7 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
   void _startScan() {
     final cityHotels = kLocations[_city] ?? [];
     if (cityHotels.isEmpty) return;
+    final params = ref.read(searchParamsProvider);
     final names = Map.fromEntries(
       cityHotels.map((c) => MapEntry(c, kHotelNames[c] ?? c)),
     );
@@ -286,6 +294,9 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
           endDate: _endDate,
           hotelCodes: cityHotels,
           hotelNames: names,
+          numPeople: params.numPeople,
+          numRooms: params.numRooms,
+          smokingType: params.smokingType,
         );
   }
 }
@@ -295,8 +306,13 @@ class _DateScanPanelState extends ConsumerState<DateScanPanel> {
 class _ScanResults extends StatelessWidget {
   final List<DateScanResult> results;
   final String city;
+  final SearchParams bookingParams;
 
-  const _ScanResults({required this.results, required this.city});
+  const _ScanResults({
+    required this.results,
+    required this.city,
+    required this.bookingParams,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -333,7 +349,11 @@ class _ScanResults extends StatelessWidget {
         const SizedBox(height: 12),
         Expanded(
           flex: 2,
-          child: _PriceList(results: results, minPrice: minPrice),
+          child: _PriceList(
+            results: results,
+            minPrice: minPrice,
+            bookingParams: bookingParams,
+          ),
         ),
       ],
     );
@@ -557,7 +577,13 @@ class _ScanChart extends StatelessWidget {
 class _PriceList extends StatelessWidget {
   final List<DateScanResult> results;
   final int minPrice;
-  const _PriceList({required this.results, required this.minPrice});
+  final SearchParams bookingParams;
+
+  const _PriceList({
+    required this.results,
+    required this.minPrice,
+    required this.bookingParams,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -641,6 +667,9 @@ class _PriceList extends StatelessWidget {
       hotelCode: r.hotelCode!,
       checkin: r.date,
       checkout: checkout,
+      rooms: bookingParams.numRooms,
+      people: bookingParams.numPeople,
+      smokingType: bookingParams.smokingType,
     );
     await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }

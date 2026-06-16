@@ -541,6 +541,7 @@ class _TaskDetails extends StatelessWidget {
 
   static String _smokingLabel(String value, AppLocalizations l) {
     return switch (value) {
+      'all' => l.optionNoPreference,
       'smoking' => l.optionSmoking,
       _ => l.optionNoSmoking,
     };

@@ -6,7 +6,7 @@ class SearchParams {
   final String checkout; // YYYY-MM-DD
   final int numPeople; // 1-6
   final int numRooms; // 1-4
-  final String smokingType; // 'noSmoking' | 'smoking'
+  final String smokingType; // 'all' | 'noSmoking' | 'smoking'
   final int? targetPrice; // null means monitor only
   final int intervalSec; // 查詢間隔 (秒)
   final String stopMode; // 'never' | 'attempts' | 'minutes' | 'matches'
@@ -19,7 +19,7 @@ class SearchParams {
     required this.checkout,
     required this.numPeople,
     this.numRooms = 1,
-    this.smokingType = 'noSmoking',
+    this.smokingType = 'all',
     required this.targetPrice,
     this.intervalSec = 15,
     this.stopMode = 'never',
@@ -75,9 +75,9 @@ class SearchParams {
     hotelCodes: (json['hotelCodes'] as List?)?.cast<String>() ?? [],
     checkin: json['checkin'] as String? ?? '',
     checkout: json['checkout'] as String? ?? '',
-    numPeople: json['numPeople'] as int? ?? 2,
+    numPeople: json['numPeople'] as int? ?? 1,
     numRooms: json['numRooms'] as int? ?? 1,
-    smokingType: json['smokingType'] as String? ?? 'noSmoking',
+    smokingType: _normalizeSmokingType(json['smokingType'] as String?),
     targetPrice: json.containsKey('targetPrice')
         ? json['targetPrice'] as int?
         : 5000,
@@ -88,3 +88,10 @@ class SearchParams {
 }
 
 const _unset = Object();
+
+String _normalizeSmokingType(String? value) {
+  return switch (value) {
+    'all' || 'noSmoking' || 'smoking' => value!,
+    _ => 'all',
+  };
+}
