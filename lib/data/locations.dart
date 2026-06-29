@@ -951,7 +951,7 @@ const Map<String, HotelLocationInfo> kHotelDetails = {
     address:
         '3-4-31 Tsutsujigaoka, Miyagino-ku, Sendai city, Miyagi 983-0852 Japan',
     phone: '022-256-1045',
-    status: '2025.12.11 翻新',
+    status: '',
   ),
   '00024': HotelLocationInfo(
     name: '仙台東口2號店',
