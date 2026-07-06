@@ -3161,7 +3161,7 @@ const Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '廣島縣',
     address: '3-33 Takara-machi, Kure City, Hiroshima 737-0029 Japan',
     phone: '0823-23-1045',
-    status: '2026.07.02 計畫開業',
+    status: '2026.07.02 開業',
   ),
   '00046': HotelLocationInfo(
     name: '鳥取站南口',
