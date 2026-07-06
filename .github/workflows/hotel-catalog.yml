@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: '0 2 * * 1'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   check:
     runs-on: windows-latest
@@ -28,7 +32,31 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Sync official hotel catalog
+        if: github.event_name == 'schedule'
+        run: dart run tool/sync_hotels.dart --audit-json tool/hotel_catalog_audit.json
+
+      - name: Format synced catalog
+        if: github.event_name == 'schedule'
+        run: dart format lib/data/locations.dart
+
+      - name: Create catalog update pull request
+        if: github.event_name == 'schedule'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: automation/update-hotel-catalog
+          delete-branch: true
+          commit-message: 'chore: update hotel catalog'
+          title: 'chore: update hotel catalog'
+          body: |
+            Updates the generated Toyoko Inn hotel catalog from the official Traditional Chinese hotel list.
+
+            This PR was created automatically by the scheduled Hotel Catalog Check workflow.
+          add-paths: |
+            lib/data/locations.dart
+
       - name: Check official hotel catalog
+        if: github.event_name != 'schedule'
         run: dart run tool/sync_hotels.dart --check --audit-json tool/hotel_catalog_audit.json
 
       - name: Analyze

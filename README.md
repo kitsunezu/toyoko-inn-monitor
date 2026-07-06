@@ -76,6 +76,11 @@ dart format lib\data\locations.dart tool\sync_hotels.dart test\hotel_catalog_tes
 dart run tool/sync_hotels.dart --check
 ```
 
+The scheduled Hotel Catalog Check workflow refreshes the generated catalog and
+opens or updates a pull request when the official list changes. Pull requests
+and manual workflow runs still use `--check` to verify the checked-in catalog is
+current.
+
 For optional RAG-style review, write the sync diff as JSON and pass it to the
 LangChain helper. Without `OPENAI_API_KEY`, the helper prints a deterministic
 summary and exits without calling an LLM.

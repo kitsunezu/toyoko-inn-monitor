@@ -28,7 +28,7 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-Use `dart run tool/sync_hotels.dart` to refresh `lib/data/locations.dart` from the official Toyoko Inn hotel list. Use `dart run tool/sync_hotels.dart --check` in CI or before PRs to verify the generated catalog is current.
+Use `dart run tool/sync_hotels.dart` to refresh `lib/data/locations.dart` from the official Toyoko Inn hotel list. Use `dart run tool/sync_hotels.dart --check` before PRs to verify the generated catalog is current. The scheduled Hotel Catalog Check workflow refreshes the catalog and opens or updates an automated PR when the official list changes; PR and manual workflow runs still perform the check-only validation.
 
 ## Coding Style & Naming Conventions
 
