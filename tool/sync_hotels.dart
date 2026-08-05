@@ -3,6 +3,7 @@ import 'dart:io';
 
 const officialHotelListUrl = 'https://www.toyoko-inn.com/china/hotel_list/';
 const defaultOutputPath = 'lib/data/locations.dart';
+const defaultJsonOutputPath = 'assets/hotel_catalog.json';
 
 const appLocationOrder = [
   '北海道 (Hokkaido)',
@@ -101,6 +102,8 @@ Future<int> runSyncHotels(List<String> args) async {
   final outputPath = _optionValue(args, '--output') ?? defaultOutputPath;
   final url = _optionValue(args, '--url') ?? officialHotelListUrl;
   final auditJsonPath = _optionValue(args, '--audit-json');
+  final jsonOutputPath =
+      _optionValue(args, '--json-output') ?? defaultJsonOutputPath;
 
   final html = inputPath == null
       ? await _fetch(url)
@@ -126,7 +129,16 @@ Future<int> runSyncHotels(List<String> args) async {
   }
 
   await outputFile.writeAsString(generateLocationsDart(official));
+  final jsonOutputFile = File(jsonOutputPath);
+  await jsonOutputFile.parent.create(recursive: true);
+  await jsonOutputFile.writeAsString(
+    const JsonEncoder.withIndent('  ').convert({
+      'sourceUrl': official.sourceUrl,
+      'hotels': [for (final hotel in official.hotels) hotel.toJson()],
+    }),
+  );
   stdout.writeln('Updated $outputPath with ${official.hotels.length} hotels.');
+  stdout.writeln('Updated $jsonOutputPath.');
   return 0;
 }
 
@@ -189,17 +201,17 @@ HotelCatalog parseHotelCatalog(
 ExistingCatalog parseExistingLocations(String source) {
   final locationBlock = _extractMapLiteral(
     source,
-    'const Map<String, List<String>> kLocations',
+    'Map<String, List<String>> kLocations',
   );
   final namesBlock = _extractMapLiteral(
     source,
-    'const Map<String, String> kHotelNames',
+    'Map<String, String> kHotelNames',
   );
   final detailsBlock =
-      source.contains('const Map<String, HotelLocationInfo> kHotelDetails')
+      source.contains('Map<String, HotelLocationInfo> kHotelDetails')
       ? _extractMapLiteral(
           source,
-          'const Map<String, HotelLocationInfo> kHotelDetails',
+          'Map<String, HotelLocationInfo> kHotelDetails',
         )
       : null;
 
@@ -319,7 +331,7 @@ String generateLocationsDart(HotelCatalog catalog) {
     ..writeln("  final String status;")
     ..writeln("}")
     ..writeln()
-    ..writeln('const Map<String, List<String>> kLocations = {');
+    ..writeln('final Map<String, List<String>> kLocations = {');
 
   final locationCodes = catalog.locationCodes;
   for (final location in appLocationOrder) {
@@ -335,7 +347,7 @@ String generateLocationsDart(HotelCatalog catalog) {
   buffer
     ..writeln('};')
     ..writeln()
-    ..writeln('const Map<String, String> kHotelNames = {');
+    ..writeln('final Map<String, String> kHotelNames = {');
 
   for (final hotel in catalog.hotelsInAppOrder) {
     buffer.writeln("  '${hotel.code}': '${_escapeDartString(hotel.name)}',");
@@ -344,7 +356,7 @@ String generateLocationsDart(HotelCatalog catalog) {
   buffer
     ..writeln('};')
     ..writeln()
-    ..writeln('const Map<String, HotelLocationInfo> kHotelDetails = {');
+    ..writeln('final Map<String, HotelLocationInfo> kHotelDetails = {');
 
   for (final hotel in catalog.hotelsInAppOrder) {
     buffer
@@ -747,12 +759,13 @@ void _writeCodeList(
 
 const _usage = '''
 Usage:
-  dart run tool/sync_hotels.dart [--check] [--input file] [--output file] [--audit-json file]
+  dart run tool/sync_hotels.dart [--check] [--input file] [--output file] [--json-output file] [--audit-json file]
 
 Options:
   --check             Compare the generated catalog with lib/data/locations.dart.
   --input <file>      Parse a saved official hotel-list HTML file instead of fetching.
   --output <file>     Output Dart catalog path. Defaults to lib/data/locations.dart.
+  --json-output <file> Runtime JSON path. Defaults to assets/hotel_catalog.json.
   --url <url>         Official hotel-list URL. Defaults to the Traditional Chinese page.
   --audit-json <file> Write diff data for optional RAG/LangChain review tooling.
 ''';

@@ -5,9 +5,11 @@ import 'dart:io';
 
 import 'db/app_database.dart';
 import 'core/services/settings_service.dart';
+import 'core/services/hotel_catalog_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/history_service.dart';
 import 'providers/settings_provider.dart';
+import 'providers/hotel_catalog_provider.dart';
 import 'providers/poller_provider.dart';
 import 'providers/tasks_provider.dart';
 import 'app.dart';
@@ -33,6 +35,8 @@ Future<void> main() async {
   final db = AppDatabase();
   final settings = SettingsService();
   await settings.init();
+  final hotelCatalog = HotelCatalogService();
+  await hotelCatalog.init();
   final notif = NotificationService();
   await notif.init();
   final history = HistoryService(db);
@@ -41,6 +45,7 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         settingsServiceProvider.overrideWithValue(settings),
+        hotelCatalogServiceProvider.overrideWithValue(hotelCatalog),
         notificationServiceProvider.overrideWithValue(notif),
         historyServiceProvider.overrideWithValue(history),
         dbProvider.overrideWithValue(db),

@@ -28,7 +28,7 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-Use `dart run tool/sync_hotels.dart` to refresh `lib/data/locations.dart` from the official Toyoko Inn hotel list. Use `dart run tool/sync_hotels.dart --check` before PRs to verify the generated catalog is current. The scheduled Hotel Catalog Check workflow refreshes the catalog and opens or updates an automated PR when the official list changes; PR and manual workflow runs still perform the check-only validation.
+Use `dart run tool/sync_hotels.dart` to refresh `lib/data/locations.dart` and `assets/hotel_catalog.json` from the official Toyoko Inn hotel list. Use `dart run tool/sync_hotels.dart --check` before PRs to verify the generated catalog is current. Scheduled and manual Hotel Catalog Check runs commit catalog changes directly to `main`; pull request runs remain check-only validation.
 
 ## Coding Style & Naming Conventions
 
@@ -89,6 +89,8 @@ Runtime monitoring behavior is split between `lib/core/services/` and Riverpod p
 The app now emphasizes a focused monitoring dashboard with a single highest-priority task, alert feed, history charts, and richer task status presentation. Monitor tasks can run with or without a target price, keep the latest hotel price snapshots, and honor settings-driven browser open and desktop notification behavior.
 
 Search, task creation, and date-scan flows share booking filters for guest count, room count, and smoking preference, including an `all` / no-preference smoking option. The Toyoko API layer can also supplement the availability API response with member-plan pricing parsed from the booking page when member inventory is present.
+
+Installed apps can refresh the hotel catalog from Settings without waiting for a new application release. Runtime catalog downloads use `assets/hotel_catalog.json`, validate the complete hotel set before applying it, and persist the last valid catalog locally.
 
 Release delivery is dual-format: GitHub Releases publish both an installer and a portable ZIP package. The in-app update flow reads the latest release assets, downloads the `ToyokoInnMonitor-x.y.z-setup.exe` installer directly, and launches it for the user; it falls back to the release page only when the installer asset is missing.
 
@@ -154,6 +156,15 @@ Agents should keep `AGENTS.md` synchronized with routing, release, and workflow 
 - `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-08-05 - Added automatic and in-app hotel catalog updates
+
+- Release version: `1.0.6+7`; tag target: `v1.0.6`.
+- Scheduled and manual Hotel Catalog Check runs now commit generated catalog changes directly to `main` instead of attempting to create a pull request.
+- Pull request runs remain check-only validation.
+- The sync tool now generates both `lib/data/locations.dart` and the runtime `assets/hotel_catalog.json` payload.
+- Settings includes a one-click catalog refresh; downloaded catalogs are validated and persisted before being applied.
+- The official refresh detected 365 hotels, including new hotel code `00376`.
 
 ### 2026-06-16 - Published booking-filter updates as `v1.0.5`
 

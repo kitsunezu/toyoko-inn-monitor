@@ -19,7 +19,7 @@ class HotelLocationInfo {
   final String status;
 }
 
-const Map<String, List<String>> kLocations = {
+final Map<String, List<String>> kLocations = {
   '北海道 (Hokkaido)': [
     '00003',
     '00084',
@@ -185,6 +185,7 @@ const Map<String, List<String>> kLocations = {
     '00082',
     '00175',
     '00332',
+    '00376',
     '00228',
     '00189',
     '00056',
@@ -379,7 +380,7 @@ const Map<String, List<String>> kLocations = {
   '韓國其他 (Other Korea)': ['00277', '00234', '00297', '00310', '00335'],
 };
 
-const Map<String, String> kHotelNames = {
+final Map<String, String> kHotelNames = {
   '00003': '北海道鄂霍次克網走站前',
   '00084': '北海道釧路十字街',
   '00067': '北海道十勝帶廣站前',
@@ -532,6 +533,7 @@ const Map<String, String> kHotelNames = {
   '00082': '日立站前',
   '00175': '土浦站東口',
   '00332': '取手站東口',
+  '00376': '筑波站',
   '00228': '研究學園站前',
   '00189': '守谷站前',
   '00056': '宇都宮站前1號店',
@@ -746,7 +748,7 @@ const Map<String, String> kHotelNames = {
   '00335': '昌原',
 };
 
-const Map<String, HotelLocationInfo> kHotelDetails = {
+final Map<String, HotelLocationInfo> kHotelDetails = {
   '00003': HotelLocationInfo(
     name: '北海道鄂霍次克網走站前',
     region: '北海道',
@@ -1988,6 +1990,14 @@ const Map<String, HotelLocationInfo> kHotelDetails = {
     phone: '0297-70-1045',
     status: '',
   ),
+  '00376': HotelLocationInfo(
+    name: '筑波站',
+    region: '關東',
+    prefecture: '茨城縣',
+    address: '1-9-9 Takezono, Tsukuba City, Ibaraki 305-0032 Japan',
+    phone: '029-856-1045',
+    status: '2026.09.10 計畫開業',
+  ),
   '00228': HotelLocationInfo(
     name: '研究學園站前',
     region: '關東',
@@ -2361,8 +2371,8 @@ const Map<String, HotelLocationInfo> kHotelDetails = {
     region: '東海、甲信越、北陸',
     prefecture: '岐阜縣',
     address: '7-7-7 Kanda-cho, Gifu City, Gifu 500-8833 Japan',
-    phone: '050-1793-7089',
-    status: '2026.07.30 計畫開業',
+    phone: '058-201-1745',
+    status: '2026.07.30 開業',
   ),
   '00209': HotelLocationInfo(
     name: '岐阜羽島站新幹線南口',

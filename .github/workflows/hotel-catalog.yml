@@ -13,7 +13,10 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+
+concurrency:
+  group: hotel-catalog-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
+  cancel-in-progress: true
 
 jobs:
   check:
@@ -21,7 +24,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.sha || 'main' }}
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -33,30 +38,15 @@ jobs:
         run: flutter pub get
 
       - name: Sync official hotel catalog
-        if: github.event_name == 'schedule'
+        if: github.event_name != 'pull_request'
         run: dart run tool/sync_hotels.dart --audit-json tool/hotel_catalog_audit.json
 
-      - name: Format synced catalog
-        if: github.event_name == 'schedule'
+      - name: Format generated catalog
+        if: github.event_name != 'pull_request'
         run: dart format lib/data/locations.dart
 
-      - name: Create catalog update pull request
-        if: github.event_name == 'schedule'
-        uses: peter-evans/create-pull-request@v8
-        with:
-          branch: automation/update-hotel-catalog
-          delete-branch: true
-          commit-message: 'chore: update hotel catalog'
-          title: 'chore: update hotel catalog'
-          body: |
-            Updates the generated Toyoko Inn hotel catalog from the official Traditional Chinese hotel list.
-
-            This PR was created automatically by the scheduled Hotel Catalog Check workflow.
-          add-paths: |
-            lib/data/locations.dart
-
       - name: Check official hotel catalog
-        if: github.event_name != 'schedule'
+        if: github.event_name == 'pull_request'
         run: dart run tool/sync_hotels.dart --check --audit-json tool/hotel_catalog_audit.json
 
       - name: Analyze
@@ -64,3 +54,17 @@ jobs:
 
       - name: Test
         run: flutter test
+
+      - name: Commit catalog updates
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          git add lib/data/locations.dart assets/hotel_catalog.json
+          if (git diff --cached --quiet) {
+            Write-Host "Hotel catalog is already up to date."
+            exit 0
+          }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update hotel catalog"
+          git push origin HEAD:main

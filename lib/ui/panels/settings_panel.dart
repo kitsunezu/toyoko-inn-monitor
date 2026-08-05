@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/settings_provider.dart';
 import '../../providers/update_provider.dart';
+import '../../providers/hotel_catalog_provider.dart';
 import '../../core/services/settings_service.dart';
 import '../../core/services/update_service.dart';
 
@@ -130,6 +131,11 @@ class SettingsPanel extends ConsumerWidget {
 
           const SizedBox(height: 16),
 
+          _SectionHeader(l.columnHotel),
+          Card(child: _HotelCatalogTile()),
+
+          const SizedBox(height: 16),
+
           // About
           _SectionHeader(l.sectionAbout),
           Card(
@@ -158,6 +164,41 @@ class SettingsPanel extends ConsumerWidget {
   void _setLocale(WidgetRef ref, SettingsService settings, String loc) {
     settings.setLocale(loc);
     ref.read(localeProvider.notifier).state = loc;
+  }
+}
+
+class _HotelCatalogTile extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+    final state = ref.watch(hotelCatalogUpdateProvider);
+    final updating = state.status == HotelCatalogUpdateStatus.updating;
+    final subtitle = switch (state.status) {
+      HotelCatalogUpdateStatus.updating => l.updateChecking,
+      HotelCatalogUpdateStatus.updated => l.updateLatest,
+      HotelCatalogUpdateStatus.failed => l.updateCheckFailed,
+      HotelCatalogUpdateStatus.idle =>
+        state.updatedAt == null
+            ? null
+            : state.updatedAt!.toLocal().toString().split('.').first,
+    };
+    return ListTile(
+      leading: const Icon(Icons.domain_outlined),
+      title: Text(l.columnHotel),
+      subtitle: subtitle == null ? null : Text(subtitle),
+      trailing: updating
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : FilledButton.tonalIcon(
+              onPressed: () =>
+                  ref.read(hotelCatalogUpdateProvider.notifier).update(),
+              icon: const Icon(Icons.refresh),
+              label: Text(l.btnCheckUpdate),
+            ),
+    );
   }
 }
 

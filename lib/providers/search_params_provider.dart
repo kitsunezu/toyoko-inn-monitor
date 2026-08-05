@@ -3,6 +3,7 @@ import '../core/models/search_params.dart';
 import '../data/locations.dart';
 import '../utils/date_utils.dart';
 import 'settings_provider.dart';
+import 'hotel_catalog_provider.dart';
 
 /// 目前在編輯中的搜尋條件（未必在執行）
 final searchParamsProvider =
@@ -13,6 +14,7 @@ final searchParamsProvider =
 class SearchParamsNotifier extends Notifier<SearchParams> {
   @override
   SearchParams build() {
+    ref.watch(hotelCatalogUpdateProvider);
     final s = ref.read(settingsServiceProvider);
     final location = s.location;
     final codes = kLocations[location] ?? [];
