@@ -2044,7 +2044,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '栃木縣',
     address: '1-1-11 Kutsukake, Nasushiobara City, Tochigi 329-3133 Japan',
     phone: '0287-65-9045',
-    status: '2026.03.16 開業',
+    status: '',
   ),
   '08001': HotelLocationInfo(
     name: '療養飯店獨協醫科大學',
@@ -3261,7 +3261,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '山口縣',
     address: '1-4-10 Chuo-cho, Ube City, Yamaguchi 755-0045 Japan',
     phone: '0836-36-1045',
-    status: '2026.08.05 計畫開業',
+    status: '2026.08.05 開業',
   ),
   '00174': HotelLocationInfo(
     name: '下關海峽夢之塔前',
