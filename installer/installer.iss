@@ -3,7 +3,7 @@
 ; Usage: ISCC /DAppVersion="1.2.3" installer.iss
 
 #ifndef AppVersion
-  #define AppVersion "1.0.6"
+  #define AppVersion "1.0.7"
 #endif
 
 #define AppName      "Toyoko Inn Monitor"

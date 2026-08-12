@@ -113,17 +113,25 @@ class PollerService {
       final matches = <HotelPrice>[];
       final targetPrice = params.targetPrice;
       for (final h in hotels) {
+        final nightlyDetail = h.unavailableDates.isNotEmpty
+            ? '（缺房晚數：${h.unavailableDates.join(', ')}）'
+            : h.nightlyAvailabilityChecked && !h.available
+            ? '（每晚分開有房，但無法連續預訂）'
+            : '';
         if (h.available && targetPrice != null && h.price <= targetPrice) {
           _emit(PollerEventType.log, '  ⭐ ${h.name}: ${h.priceStr}  ← 符合目標!');
           matches.add(h);
         } else if (h.available) {
           _emit(PollerEventType.log, '  ✓  ${h.name}: ${h.priceStr}');
         } else if (h.price > 0 && !h.vacant) {
-          _emit(PollerEventType.log, '  ⚠  ${h.name}: ${h.priceStr} (房間不足)');
+          _emit(
+            PollerEventType.log,
+            '  ⚠  ${h.name}: ${h.priceStr} (房間不足)$nightlyDetail',
+          );
         } else if (h.maintenance) {
-          _emit(PollerEventType.log, '  🔧 ${h.name}: 維護中');
+          _emit(PollerEventType.log, '  🔧 ${h.name}: 維護中$nightlyDetail');
         } else {
-          _emit(PollerEventType.log, '  ─  ${h.name}: 無空房');
+          _emit(PollerEventType.log, '  ─  ${h.name}: 無空房$nightlyDetail');
         }
       }
 

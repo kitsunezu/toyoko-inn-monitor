@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:toyoko_inn_monitor/core/models/monitor_task.dart';
+import 'package:toyoko_inn_monitor/core/models/hotel_price.dart';
 import 'package:toyoko_inn_monitor/core/models/search_params.dart';
 import 'package:toyoko_inn_monitor/db/app_database.dart';
 import 'package:toyoko_inn_monitor/l10n/app_localizations.dart';
@@ -83,6 +84,39 @@ void main() {
       find.byType(DashboardBeamFrame),
     );
     expect(stoppedBeam.enabled, isFalse);
+  });
+
+  testWidgets('active monitor panel shows the nights without rooms', (
+    tester,
+  ) async {
+    final hotel = const HotelPrice(
+      code: '00100',
+      name: 'Tokyo Hotel',
+      price: 0,
+      vacant: false,
+      maintenance: false,
+      unavailableDates: ['2026-07-02'],
+      nightlyAvailabilityChecked: true,
+    );
+    final task = _task(status: TaskStatus.running).copyWith(
+      latestHotelPrices: [hotel],
+      lastPolledAt: DateTime(2026, 6, 13, 10),
+    );
+
+    await tester.pumpWidget(
+      _testApp(
+        locale: const Locale('zh'),
+        child: SizedBox(
+          width: 720,
+          height: 800,
+          child: ActiveMonitorPanel(task: task),
+        ),
+      ),
+    );
+
+    final context = tester.element(find.byType(ActiveMonitorPanel));
+    final l = AppLocalizations.of(context)!;
+    expect(find.text(l.unavailableNights('2026-07-02')), findsOneWidget);
   });
 }
 

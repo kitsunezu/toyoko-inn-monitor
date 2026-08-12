@@ -38,6 +38,79 @@ class ToyokoApi {
     String smokingType = 'all',
     Map<String, String> hotelNames = const {},
   }) async {
+    final hotels = await _fetchAvailabilityPrices(
+      hotelCodes: hotelCodes,
+      checkinDate: checkinDate,
+      checkoutDate: checkoutDate,
+      numPeople: numPeople,
+      numRooms: numRooms,
+      smokingType: smokingType,
+      hotelNames: hotelNames,
+    );
+    for (final code in hotelCodes) {
+      hotels.putIfAbsent(
+        code,
+        () => HotelPrice(
+          code: code,
+          name: hotelNames[code] ?? code,
+          price: 0,
+          vacant: false,
+          maintenance: false,
+        ),
+      );
+    }
+
+    final memberPrices = await Future.wait(
+      hotelCodes.map(
+        (code) => _fetchMemberRoomPlanPrice(
+          code: code,
+          name: hotelNames[code] ?? code,
+          checkinDate: checkinDate,
+          checkoutDate: checkoutDate,
+          numPeople: numPeople,
+          numRooms: numRooms,
+          smokingType: smokingType,
+        ),
+      ),
+    );
+
+    for (final memberPrice in memberPrices) {
+      if (memberPrice != null) {
+        hotels[memberPrice.code] = memberPrice;
+      }
+    }
+
+    await _addNightlyAvailabilityDetails(
+      hotels: hotels,
+      checkinDate: checkinDate,
+      checkoutDate: checkoutDate,
+      numPeople: numPeople,
+      numRooms: numRooms,
+      smokingType: smokingType,
+      hotelNames: hotelNames,
+    );
+
+    return hotelCodes.map((code) {
+      return hotels[code] ??
+          HotelPrice(
+            code: code,
+            name: hotelNames[code] ?? code,
+            price: 0,
+            vacant: false,
+            maintenance: false,
+          );
+    }).toList();
+  }
+
+  Future<Map<String, HotelPrice>> _fetchAvailabilityPrices({
+    required List<String> hotelCodes,
+    required String checkinDate,
+    required String checkoutDate,
+    required int numPeople,
+    required int numRooms,
+    required String smokingType,
+    required Map<String, String> hotelNames,
+  }) async {
     final inputData = {
       '0': {
         'json': {
@@ -66,7 +139,7 @@ class ToyokoApi {
     final prices =
         rawList[0]['result']['data']['json']['prices'] as Map<String, dynamic>;
 
-    final hotels = {
+    return {
       for (final e in prices.entries)
         e.key: HotelPrice.fromJson(
           e.key,
@@ -74,37 +147,50 @@ class ToyokoApi {
           hotelNames[e.key] ?? e.key,
         ),
     };
+  }
 
-    final memberPrices = await Future.wait(
-      hotelCodes.map(
-        (code) => _fetchMemberRoomPlanPrice(
-          code: code,
-          name: hotelNames[code] ?? code,
-          checkinDate: checkinDate,
-          checkoutDate: checkoutDate,
-          numPeople: numPeople,
-          numRooms: numRooms,
-          smokingType: smokingType,
+  Future<void> _addNightlyAvailabilityDetails({
+    required Map<String, HotelPrice> hotels,
+    required String checkinDate,
+    required String checkoutDate,
+    required int numPeople,
+    required int numRooms,
+    required String smokingType,
+    required Map<String, String> hotelNames,
+  }) async {
+    final stayDates = _stayDates(checkinDate, checkoutDate);
+    if (stayDates.length <= 1) return;
+
+    final unavailableCodes = hotels.values
+        .where((hotel) => !hotel.available)
+        .map((hotel) => hotel.code)
+        .toList();
+    if (unavailableCodes.isEmpty) return;
+
+    try {
+      final nightlyPrices = await Future.wait(
+        stayDates.map(
+          (date) => _fetchAvailabilityPrices(
+            hotelCodes: unavailableCodes,
+            checkinDate: date,
+            checkoutDate: _nextDate(date),
+            numPeople: numPeople,
+            numRooms: numRooms,
+            smokingType: smokingType,
+            hotelNames: hotelNames,
+          ),
         ),
-      ),
-    );
+      );
 
-    for (final memberPrice in memberPrices) {
-      if (memberPrice != null) {
-        hotels[memberPrice.code] = memberPrice;
+      for (final code in unavailableCodes) {
+        hotels[code] = hotels[code]!.withNightlyAvailability(
+          stayDates: stayDates,
+          nightlyPrices: [for (final prices in nightlyPrices) prices[code]],
+        );
       }
+    } catch (_) {
+      // The main stay result is still useful if the optional nightly check fails.
     }
-
-    return hotelCodes.map((code) {
-      return hotels[code] ??
-          HotelPrice(
-            code: code,
-            name: hotelNames[code] ?? code,
-            price: 0,
-            vacant: false,
-            maintenance: false,
-          );
-    }).toList();
   }
 
   Future<HotelPrice?> _fetchMemberRoomPlanPrice({
@@ -222,4 +308,21 @@ bool _matchesSmokingType(bool? isSmoking, String smokingType) {
     'noSmoking' => isSmoking == false,
     _ => true,
   };
+}
+
+List<String> _stayDates(String checkinDate, String checkoutDate) {
+  final checkin = DateTime.parse(checkinDate);
+  final checkout = DateTime.parse(checkoutDate);
+  return [
+    for (
+      var date = checkin;
+      date.isBefore(checkout);
+      date = date.add(const Duration(days: 1))
+    )
+      formatDate(date),
+  ];
+}
+
+String _nextDate(String date) {
+  return formatDate(DateTime.parse(date).add(const Duration(days: 1)));
 }

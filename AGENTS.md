@@ -58,37 +58,23 @@ Toyoko Inn Monitor is a Flutter Windows desktop app for tracking Toyoko Inn room
 
 Runtime monitoring behavior is split between `lib/core/services/` and Riverpod providers in `lib/providers/`. `PollerService`, `tasksProvider`, `pollerProvider`, and dashboard-specific providers keep the active task, recent polling state, alerts, and price history synchronized. Release/update behavior depends on `lib/core/constants.dart`, `lib/core/services/update_service.dart`, and `.github/workflows/release.yml`, so GitHub repository metadata and release asset names must stay aligned.
 
+For multi-night searches, `ToyokoApi` supplements an unavailable continuous-stay result with per-night availability checks. `HotelPrice` records the unavailable dates (or that every night is separately available), and the results/dashboard surfaces localize that detail for users.
+
 <!-- commit-and-push-with-agents:context:start -->
 ### Latest Project Context Signals
 
-- Last scan: `2026-06-14`.
-- Review `lib/app.dart` for architecture or project-context updates.
-- Review `lib/core/constants.dart` for architecture or project-context updates.
-- Review `lib/core/services/settings_service.dart` for architecture or project-context updates.
-- Review `lib/core/services/update_service.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_en.arb` for architecture or project-context updates.
-- Review `lib/l10n/app_ja.arb` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_en.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_ja.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_localizations_zh.dart` for architecture or project-context updates.
-- Review `lib/l10n/app_zh.arb` for architecture or project-context updates.
-- Review `lib/providers/tasks_provider.dart` for architecture or project-context updates.
-- Review `lib/providers/update_provider.dart` for architecture or project-context updates.
-- Review `lib/ui/app_shell.dart` for architecture or project-context updates.
-- Review `lib/ui/dashboard/dashboard_charts.dart` for architecture or project-context updates.
-- Review `lib/ui/dashboard/dashboard_page.dart` for architecture or project-context updates.
-- Review `lib/ui/dashboard/dashboard_style.dart` for architecture or project-context updates.
-- Review `lib/ui/dashboard/monitor_task_table.dart` for architecture or project-context updates.
-- Review `lib/ui/panels/tasks_panel.dart` for architecture or project-context updates.
-- Review `lib/ui/widgets/price_chart.dart` for architecture or project-context updates.
-- ... 2 more architecture-related file(s) omitted.
+- Last scan: `2026-08-12`.
+- Multi-night availability diagnostics span `lib/core/api/toyoko_api.dart`, `lib/core/models/hotel_price.dart`, and `lib/core/services/poller_service.dart`.
+- User-facing availability detail is rendered by `lib/ui/dashboard/monitor_task_table.dart` and `lib/ui/panels/results_panel.dart`.
+- Localization sources remain the ARB files; regenerate `lib/l10n/app_localizations*.dart` with `flutter gen-l10n`.
 <!-- commit-and-push-with-agents:context:end -->
 ## Available Features
 
 The app now emphasizes a focused monitoring dashboard with a single highest-priority task, alert feed, history charts, and richer task status presentation. Monitor tasks can run with or without a target price, keep the latest hotel price snapshots, and honor settings-driven browser open and desktop notification behavior.
 
 Search, task creation, and date-scan flows share booking filters for guest count, room count, and smoking preference, including an `all` / no-preference smoking option. The Toyoko API layer can also supplement the availability API response with member-plan pricing parsed from the booking page when member inventory is present.
+
+Unavailable multi-night stays now identify the exact nights without inventory. If every individual night is available but the full stay is not, the UI reports the continuous-stay restriction instead. These messages are available in English, Japanese, and Traditional Chinese.
 
 Installed apps can refresh the hotel catalog from Settings without waiting for a new application release. Runtime catalog downloads use `assets/hotel_catalog.json`, validate the complete hotel set before applying it, and persist the last valid catalog locally.
 
@@ -97,8 +83,9 @@ Release delivery is dual-format: GitHub Releases publish both an installer and a
 <!-- commit-and-push-with-agents:features:start -->
 ### Latest Feature Signals
 
-- Last scan: `2026-06-14`.
-- No feature path signal was detected; verify manually from `git diff`.
+- Last scan: `2026-08-12`.
+- Added per-night availability diagnostics for unavailable multi-night stays.
+- Added Japanese and Traditional Chinese README variants linked from the English README.
 <!-- commit-and-push-with-agents:features:end -->
 ## Common Commands
 
@@ -113,13 +100,13 @@ flutter analyze --no-fatal-infos
 flutter build windows --release
 ```
 
-If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.5`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
+If Flutter is not on `PATH`, use `C:\flutter\bin\flutter.bat` and `C:\flutter\bin\cache\dart-sdk\bin\dart.exe`. For a tagged release, bump the app version first, then push a semantic-version tag such as `v1.0.7`; `.github/workflows/release.yml` will publish both `ToyokoInnMonitor-x.y.z-setup.exe` and `ToyokoInnMonitor-x.y.z-portable.zip`.
 
 <!-- commit-and-push-with-agents:commands:start -->
 ### Latest Command Signals
 
-- Last scan: `2026-06-14`.
-- No command path signal was detected; verify manually from `git diff`.
+- Last scan: `2026-08-12`.
+- Release target: app version `1.0.7+8`, tag `v1.0.7`.
 <!-- commit-and-push-with-agents:commands:end -->
 ## Dependencies & Development Environment
 
@@ -130,7 +117,7 @@ Do not hand-edit generated localization or Drift outputs. Regenerate from ARB/sc
 <!-- commit-and-push-with-agents:environment:start -->
 ### Latest Dependency and Environment Signals
 
-- Last scan: `2026-06-14`.
+- Last scan: `2026-08-12`.
 - Dependency files: no direct path signal detected.
 - Development environment files: no direct path signal detected.
 <!-- commit-and-push-with-agents:environment:end -->
@@ -141,7 +128,7 @@ No active agents have been documented yet.
 <!-- commit-and-push-with-agents:active:start -->
 ### Recently Touched Agent Definitions
 
-- Last scan: `2026-06-14`.
+- Last scan: `2026-08-12`.
 - `AGENTS`: `AGENTS.md`.
 <!-- commit-and-push-with-agents:active:end -->
 ## Agent Capabilities & Tools
@@ -151,11 +138,20 @@ Agents should keep `AGENTS.md` synchronized with routing, release, and workflow 
 <!-- commit-and-push-with-agents:capabilities:start -->
 ### Latest Agent-Related Change Signals
 
-- Last scan: `2026-06-14`.
-- `github/workflows/release.yml` (modified)
+- Last scan: `2026-08-12`.
 - `AGENTS.md` (modified)
 <!-- commit-and-push-with-agents:capabilities:end -->
 ## Recent Changes
+
+### 2026-08-12 - Prepared multi-night availability details for `v1.0.7`
+
+- Branch: `main`.
+- Release version: `1.0.7+8`; tag target: `v1.0.7`.
+- Multi-night searches now perform optional per-night availability checks when a continuous stay is unavailable.
+- Results, dashboard task details, and polling logs distinguish missing nights from a continuous-stay restriction.
+- Added localized availability messages and Japanese/Traditional Chinese README variants.
+- Added model and widget coverage for the new availability details.
+- Synchronized with the four upstream commits that published `v1.0.6` before preparing this release.
 
 ### 2026-08-05 - Added automatic and in-app hotel catalog updates
 
@@ -392,6 +388,6 @@ Version changes are cross-cutting in this repo: `pubspec.yaml` drives the runtim
 <!-- commit-and-push-with-agents:architecture:start -->
 ### Latest Change Footprint
 
-- Last scan: `2026-06-14`.
-- Most affected areas: `lib` (22), `test` (3), `github` (1), `AGENTS.md` (1), `README.md` (1), `installer` (1), `pubspec.yaml` (1), `windows` (1).
+- Last scan: `2026-08-12`.
+- Most affected areas: `lib` (12), `README` files (3), `test` (2), `AGENTS.md` (1), `installer` (1), `pubspec.yaml` (1), `windows` (1).
 <!-- commit-and-push-with-agents:architecture:end -->

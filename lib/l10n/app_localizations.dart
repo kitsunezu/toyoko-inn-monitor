@@ -346,6 +346,18 @@ abstract class AppLocalizations {
   /// **'最低價'**
   String get columnLowestPrice;
 
+  /// No description provided for @unavailableNights.
+  ///
+  /// In zh, this message translates to:
+  /// **'缺房晚數：{dates}'**
+  String unavailableNights(String dates);
+
+  /// No description provided for @noContinuousStay.
+  ///
+  /// In zh, this message translates to:
+  /// **'每晚分開有房，但無法連續預訂'**
+  String get noContinuousStay;
+
   /// No description provided for @cantOpenBrowser.
   ///
   /// In zh, this message translates to:

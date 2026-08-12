@@ -140,6 +140,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get columnLowestPrice => 'Lowest Price';
 
   @override
+  String unavailableNights(String dates) {
+    return 'No rooms for: $dates';
+  }
+
+  @override
+  String get noContinuousStay =>
+      'Each night is available separately, but not as one continuous stay';
+
+  @override
   String get cantOpenBrowser => 'Cannot open browser';
 
   @override

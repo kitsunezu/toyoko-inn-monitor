@@ -70,6 +70,13 @@
   "noDataYet": "No data yet. Start monitoring first.",
   "columnHotel": "Hotel",
   "columnLowestPrice": "Lowest Price",
+  "unavailableNights": "No rooms for: {dates}",
+  "@unavailableNights": {
+    "placeholders": {
+      "dates": { "type": "String" }
+    }
+  },
+  "noContinuousStay": "Each night is available separately, but not as one continuous stay",
   "cantOpenBrowser": "Cannot open browser",
   "noChartData": "No data",
 

@@ -622,6 +622,9 @@ class _HotelLinks extends StatelessWidget {
                 task: task,
                 price: compactPrice(latest?.price),
                 highlight: matchedCodes.contains(code),
+                unavailableDates: latest?.unavailableDates ?? const [],
+                nightlyAvailabilityChecked:
+                    latest?.nightlyAvailabilityChecked ?? false,
               );
             },
           );
@@ -657,6 +660,8 @@ class _HotelLinkRow extends StatelessWidget {
   final MonitorTask task;
   final String? price;
   final bool highlight;
+  final List<String> unavailableDates;
+  final bool nightlyAvailabilityChecked;
 
   const _HotelLinkRow({
     required this.code,
@@ -664,6 +669,8 @@ class _HotelLinkRow extends StatelessWidget {
     required this.task,
     this.price,
     this.highlight = false,
+    this.unavailableDates = const [],
+    this.nightlyAvailabilityChecked = false,
   });
 
   @override
@@ -671,6 +678,11 @@ class _HotelLinkRow extends StatelessWidget {
     final l = AppLocalizations.of(context)!;
     final palette = DashboardPalette.of(context);
     final color = highlight ? palette.success : palette.primary;
+    final availabilityMessage = unavailableDates.isNotEmpty
+        ? l.unavailableNights(unavailableDates.join(', '))
+        : nightlyAvailabilityChecked
+        ? l.noContinuousStay
+        : null;
 
     return Tooltip(
       message: l.dashboardOpenBooking,
@@ -680,41 +692,62 @@ class _HotelLinkRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.hotel_outlined, size: 16, color: color),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    decoration: TextDecoration.underline,
-                    decorationColor: color.withValues(alpha: 0.5),
+              Row(
+                children: [
+                  Icon(Icons.hotel_outlined, size: 16, color: color),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: color,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.underline,
+                        decorationColor: color.withValues(alpha: 0.5),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  if (price != null)
+                    Text(
+                      price!,
+                      style: TextStyle(
+                        color: palette.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    )
+                  else
+                    Text(
+                      code,
+                      style: TextStyle(color: palette.textMuted, fontSize: 11),
+                    ),
+                  const SizedBox(width: 6),
+                  Icon(Icons.open_in_new, size: 13, color: palette.textMuted),
+                ],
               ),
-              const SizedBox(width: 8),
-              if (price != null)
-                Text(
-                  price!,
-                  style: TextStyle(
-                    color: palette.textPrimary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
+              if (availabilityMessage != null) ...[
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: Text(
+                    availabilityMessage,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: palette.warning,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                )
-              else
-                Text(
-                  code,
-                  style: TextStyle(color: palette.textMuted, fontSize: 11),
                 ),
-              const SizedBox(width: 6),
-              Icon(Icons.open_in_new, size: 13, color: palette.textMuted),
+              ],
             ],
           ),
         ),

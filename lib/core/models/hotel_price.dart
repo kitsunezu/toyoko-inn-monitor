@@ -9,6 +9,8 @@ class HotelPrice {
   final int price; // 0 = 無報價
   final bool vacant; // existEnoughVacantRooms
   final bool maintenance; // isUnderMaintenance
+  final List<String> unavailableDates;
+  final bool nightlyAvailabilityChecked;
 
   const HotelPrice({
     required this.code,
@@ -16,6 +18,8 @@ class HotelPrice {
     required this.price,
     required this.vacant,
     required this.maintenance,
+    this.unavailableDates = const [],
+    this.nightlyAvailabilityChecked = false,
   });
 
   /// 真正可訂房：有報價 + 有足夠空房 + 不在維護中
@@ -35,6 +39,41 @@ class HotelPrice {
     if (price <= 0) return AppColors.noRoom;
     if (!vacant) return AppColors.warning;
     return AppColors.available;
+  }
+
+  HotelPrice copyWith({
+    List<String>? unavailableDates,
+    bool? nightlyAvailabilityChecked,
+  }) {
+    return HotelPrice(
+      code: code,
+      name: name,
+      price: price,
+      vacant: vacant,
+      maintenance: maintenance,
+      unavailableDates: unavailableDates ?? this.unavailableDates,
+      nightlyAvailabilityChecked:
+          nightlyAvailabilityChecked ?? this.nightlyAvailabilityChecked,
+    );
+  }
+
+  HotelPrice withNightlyAvailability({
+    required List<String> stayDates,
+    required List<HotelPrice?> nightlyPrices,
+  }) {
+    if (stayDates.length != nightlyPrices.length) {
+      throw ArgumentError(
+        'Stay dates and nightly prices must have equal length',
+      );
+    }
+
+    return copyWith(
+      unavailableDates: [
+        for (var index = 0; index < stayDates.length; index++)
+          if (nightlyPrices[index]?.available != true) stayDates[index],
+      ],
+      nightlyAvailabilityChecked: true,
+    );
   }
 
   factory HotelPrice.fromJson(

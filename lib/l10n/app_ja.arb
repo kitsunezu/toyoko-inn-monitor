@@ -70,6 +70,13 @@
   "noDataYet": "データなし。まず監視を開始してください",
   "columnHotel": "ホテル",
   "columnLowestPrice": "最安値",
+  "unavailableNights": "空室なし：{dates}",
+  "@unavailableNights": {
+    "placeholders": {
+      "dates": { "type": "String" }
+    }
+  },
+  "noContinuousStay": "各泊は個別に空室がありますが、連泊では予約できません",
   "cantOpenBrowser": "ブラウザを開けません",
   "noChartData": "データなし",
 

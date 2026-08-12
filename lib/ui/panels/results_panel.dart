@@ -117,6 +117,11 @@ class _PriceTableTab extends ConsumerWidget {
                     separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, i) {
                       final h = sorted[i];
+                      final availabilityMessage = h.unavailableDates.isNotEmpty
+                          ? l.unavailableNights(h.unavailableDates.join(', '))
+                          : h.nightlyAvailabilityChecked && !h.available
+                          ? l.noContinuousStay
+                          : null;
                       return InkWell(
                         mouseCursor: SystemMouseCursors.click,
                         onTap: () => _openUrl(context, h, ps),
@@ -128,14 +133,34 @@ class _PriceTableTab extends ConsumerWidget {
                           child: Row(
                             children: [
                               Expanded(
-                                child: Text(
-                                  h.name,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: h.available
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.outline,
-                                  ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      h.name,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: h.available
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.primary
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.outline,
+                                      ),
+                                    ),
+                                    if (availabilityMessage != null) ...[
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        availabilityMessage,
+                                        style: const TextStyle(
+                                          color: AppColors.warning,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
                                 ),
                               ),
                               Text(

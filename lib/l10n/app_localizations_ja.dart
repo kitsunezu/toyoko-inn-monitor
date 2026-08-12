@@ -140,6 +140,14 @@ class AppLocalizationsJa extends AppLocalizations {
   String get columnLowestPrice => '最安値';
 
   @override
+  String unavailableNights(String dates) {
+    return '空室なし：$dates';
+  }
+
+  @override
+  String get noContinuousStay => '各泊は個別に空室がありますが、連泊では予約できません';
+
+  @override
   String get cantOpenBrowser => 'ブラウザを開けません';
 
   @override

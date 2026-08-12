@@ -70,6 +70,13 @@
   "noDataYet": "尚無資料，請先開始監控",
   "columnHotel": "飯店",
   "columnLowestPrice": "最低價",
+  "unavailableNights": "缺房晚數：{dates}",
+  "@unavailableNights": {
+    "placeholders": {
+      "dates": { "type": "String" }
+    }
+  },
+  "noContinuousStay": "每晚分開有房，但無法連續預訂",
   "cantOpenBrowser": "無法開啟瀏覽器",
   "noChartData": "尚無資料",
 

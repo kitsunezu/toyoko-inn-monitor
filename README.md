@@ -1,6 +1,10 @@
 # Toyoko Inn Monitor
 
 <p align="center">
+  English ｜ <a href="README.zh-TW.md">繁體中文</a> ｜ <a href="README.ja.md">日本語</a>
+</p>
+
+<p align="center">
   <img src="windows/runner/resources/app_icon_source.png" alt="Toyoko Inn Monitor icon" width="120">
 </p>
 

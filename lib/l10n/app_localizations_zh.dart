@@ -140,6 +140,14 @@ class AppLocalizationsZh extends AppLocalizations {
   String get columnLowestPrice => '最低價';
 
   @override
+  String unavailableNights(String dates) {
+    return '缺房晚數：$dates';
+  }
+
+  @override
+  String get noContinuousStay => '每晚分開有房，但無法連續預訂';
+
+  @override
   String get cantOpenBrowser => '無法開啟瀏覽器';
 
   @override
