@@ -1632,6 +1632,16 @@
       "status": ""
     },
     {
+      "code": "00377",
+      "name": "大船站西口",
+      "region": "關東",
+      "prefecture": "神奈川縣",
+      "appLocation": "神奈川 (Kanagawa)",
+      "address": "1-1-6 Dai, Kamakura City, Kanagawa 247-0061 Japan",
+      "phone": "0467-42-1045",
+      "status": "2026.10.30 計畫開業"
+    },
+    {
       "code": "00115",
       "name": "湘南鎌倉藤澤站北口",
       "region": "關東",
