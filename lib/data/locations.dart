@@ -2006,7 +2006,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '茨城縣',
     address: '1-9-9 Takezono, Tsukuba City, Ibaraki 305-0032 Japan',
     phone: '029-856-1045',
-    status: '2026.09.10 計畫開業',
+    status: '2026.09.10 開業',
   ),
   '00228': HotelLocationInfo(
     name: '研究學園站前',
