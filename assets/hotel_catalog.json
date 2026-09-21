@@ -2152,6 +2152,16 @@
       "status": ""
     },
     {
+      "code": "00380",
+      "name": "豐橋站前大通",
+      "region": "東海、甲信越、北陸",
+      "prefecture": "愛知縣",
+      "appLocation": "名古屋愛知 (Nagoya)",
+      "address": "3-2-1 Ekimae-odori, Toyohashi city, Aichi 440-0888 Japan",
+      "phone": "0532-53-1045",
+      "status": "2026.11.05 計畫開業"
+    },
+    {
       "code": "00138",
       "name": "名古屋尾張一宮站前",
       "region": "東海、甲信越、北陸",
