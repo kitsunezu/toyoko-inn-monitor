@@ -2029,7 +2029,7 @@
       "appLocation": "靜岡 (Shizuoka)",
       "address": "329-4 Sunayamacho, Chuo Ward, Hamamatsu City, Shizuoka 430-0926 Japan",
       "phone": "053-452-3745",
-      "status": "2026.04.24 開業"
+      "status": ""
     },
     {
       "code": "00222",
@@ -2312,6 +2312,16 @@
       "status": ""
     },
     {
+      "code": "00344",
+      "name": "京都二條城南",
+      "region": "近畿",
+      "prefecture": "京都府",
+      "appLocation": "京都 (Kyoto)",
+      "address": "223 Hashiura-cho, Horikawadori Sanjo Sagaru, Nakagyo-ku, Kyoto city, Kyoto 604-8257 Japan",
+      "phone": "075-213-1045",
+      "status": ""
+    },
+    {
       "code": "00027",
       "name": "京都四條大宮",
       "region": "近畿",
@@ -2349,16 +2359,6 @@
       "appLocation": "京都 (Kyoto)",
       "address": "28 Naginataboko-cho, Shijokarasuma-dori, Higashi-hairu, Shimogyo-ku, Kyoto city, Kyoto 600-8008 Japan",
       "phone": "075-212-1045",
-      "status": ""
-    },
-    {
-      "code": "00344",
-      "name": "京都二條城南",
-      "region": "近畿",
-      "prefecture": "京都府",
-      "appLocation": "京都 (Kyoto)",
-      "address": "223 Hashiura-cho, Horikawadori Sanjo Sagaru, Nakagyo-ku, Kyoto city, Kyoto 604-8257 Japan",
-      "phone": "075-213-1045",
       "status": ""
     },
     {
@@ -2979,7 +2979,7 @@
       "appLocation": "中國地方 (Chugoku)",
       "address": "3-33 Takara-machi, Kure City, Hiroshima 737-0029 Japan",
       "phone": "0823-23-1045",
-      "status": "2026.07.02 開業"
+      "status": ""
     },
     {
       "code": "00046",

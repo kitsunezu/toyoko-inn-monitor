@@ -272,7 +272,7 @@ final Map<String, List<String>> kLocations = {
     '00359',
     '00321',
   ],
-  '京都 (Kyoto)': ['00027', '00233', '00040', '00053', '00344'],
+  '京都 (Kyoto)': ['00344', '00027', '00233', '00040', '00053'],
   '大阪 (Osaka)': [
     '00320',
     '00363',
@@ -618,11 +618,11 @@ final Map<String, String> kHotelNames = {
   '00249': '近鐵奈良站前',
   '00359': '天理站前',
   '00321': '奈良王寺站南口',
+  '00344': '京都二條城南',
   '00027': '京都四條大宮',
   '00233': '京都五條大宮',
   '00040': '京都五條烏丸',
   '00053': '京都四條烏丸',
-  '00344': '京都二條城南',
   '00320': '大阪門真市站前',
   '00363': '東大阪',
   '00016': '新大阪中央口本館',
@@ -2376,7 +2376,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     address:
         '329-4 Sunayamacho, Chuo Ward, Hamamatsu City, Shizuoka 430-0926 Japan',
     phone: '053-452-3745',
-    status: '2026.04.24 開業',
+    status: '',
   ),
   '00222': HotelLocationInfo(
     name: '掛川站新幹線南口',
@@ -2668,6 +2668,15 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     phone: '0745-34-1045',
     status: '',
   ),
+  '00344': HotelLocationInfo(
+    name: '京都二條城南',
+    region: '近畿',
+    prefecture: '京都府',
+    address:
+        '223 Hashiura-cho, Horikawadori Sanjo Sagaru, Nakagyo-ku, Kyoto city, Kyoto 604-8257 Japan',
+    phone: '075-213-1045',
+    status: '',
+  ),
   '00027': HotelLocationInfo(
     name: '京都四條大宮',
     region: '近畿',
@@ -2701,15 +2710,6 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     address:
         '28 Naginataboko-cho, Shijokarasuma-dori, Higashi-hairu, Shimogyo-ku, Kyoto city, Kyoto 600-8008 Japan',
     phone: '075-212-1045',
-    status: '',
-  ),
-  '00344': HotelLocationInfo(
-    name: '京都二條城南',
-    region: '近畿',
-    prefecture: '京都府',
-    address:
-        '223 Hashiura-cho, Horikawadori Sanjo Sagaru, Nakagyo-ku, Kyoto city, Kyoto 604-8257 Japan',
-    phone: '075-213-1045',
     status: '',
   ),
   '00320': HotelLocationInfo(
@@ -3191,7 +3191,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '廣島縣',
     address: '3-33 Takara-machi, Kure City, Hiroshima 737-0029 Japan',
     phone: '0823-23-1045',
-    status: '2026.07.02 開業',
+    status: '',
   ),
   '00046': HotelLocationInfo(
     name: '鳥取站南口',
