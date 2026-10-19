@@ -272,7 +272,7 @@ final Map<String, List<String>> kLocations = {
     '00359',
     '00321',
   ],
-  '京都 (Kyoto)': ['00344', '00027', '00233', '00040', '00053'],
+  '京都 (Kyoto)': ['00344', '00027', '00233', '00040', '00053', '00381'],
   '大阪 (Osaka)': [
     '00320',
     '00363',
@@ -623,6 +623,7 @@ final Map<String, String> kHotelNames = {
   '00233': '京都五條大宮',
   '00040': '京都五條烏丸',
   '00053': '京都四條烏丸',
+  '00381': 'JR宇治站南口',
   '00320': '大阪門真市站前',
   '00363': '東大阪',
   '00016': '新大阪中央口本館',
@@ -2711,6 +2712,14 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
         '28 Naginataboko-cho, Shijokarasuma-dori, Higashi-hairu, Shimogyo-ku, Kyoto city, Kyoto 600-8008 Japan',
     phone: '075-212-1045',
     status: '',
+  ),
+  '00381': HotelLocationInfo(
+    name: 'JR宇治站南口',
+    region: '近畿',
+    prefecture: '京都府',
+    address: '26-2 Uji Ichiban, Uji City, Kyoto 611-0021 Japan',
+    phone: '0774-21-1045',
+    status: '2026.12.24 計畫開業',
   ),
   '00320': HotelLocationInfo(
     name: '大阪門真市站前',

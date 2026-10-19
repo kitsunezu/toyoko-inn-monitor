@@ -2362,6 +2362,16 @@
       "status": ""
     },
     {
+      "code": "00381",
+      "name": "JR宇治站南口",
+      "region": "近畿",
+      "prefecture": "京都府",
+      "appLocation": "京都 (Kyoto)",
+      "address": "26-2 Uji Ichiban, Uji City, Kyoto 611-0021 Japan",
+      "phone": "0774-21-1045",
+      "status": "2026.12.24 計畫開業"
+    },
+    {
       "code": "00183",
       "name": "奈良新大宮站前",
       "region": "近畿",
