@@ -1802,26 +1802,6 @@
       "status": ""
     },
     {
-      "code": "00316",
-      "name": "上越妙高站西口",
-      "region": "東海、甲信越、北陸",
-      "prefecture": "新潟縣",
-      "appLocation": "甲信越北陸",
-      "address": "5-2-3 Yamato, Joetsu city, Niigata 943-0861 Japan",
-      "phone": "025-527-6045",
-      "status": ""
-    },
-    {
-      "code": "00331",
-      "name": "燕三條站前",
-      "region": "東海、甲信越、北陸",
-      "prefecture": "新潟縣",
-      "appLocation": "甲信越北陸",
-      "address": "3-132 Idomaki, Tsubame city, Niigata 959-1232 Japan",
-      "phone": "0256-66-1045",
-      "status": ""
-    },
-    {
       "code": "00060",
       "name": "新潟站前",
       "region": "東海、甲信越、北陸",
@@ -1839,6 +1819,26 @@
       "appLocation": "甲信越北陸",
       "address": "7-1168-2 Kami-okawamae-dori, Chuo-ku, Niigata city, Niigata 951-8068 Japan",
       "phone": "025-227-1045",
+      "status": ""
+    },
+    {
+      "code": "00316",
+      "name": "上越妙高站西口",
+      "region": "東海、甲信越、北陸",
+      "prefecture": "新潟縣",
+      "appLocation": "甲信越北陸",
+      "address": "5-2-3 Yamato, Joetsu city, Niigata 943-0861 Japan",
+      "phone": "025-527-6045",
+      "status": ""
+    },
+    {
+      "code": "00331",
+      "name": "燕三條站前",
+      "region": "東海、甲信越、北陸",
+      "prefecture": "新潟縣",
+      "appLocation": "甲信越北陸",
+      "address": "3-132 Idomaki, Tsubame city, Niigata 959-1232 Japan",
+      "phone": "0256-66-1045",
       "status": ""
     },
     {
@@ -2370,6 +2370,16 @@
       "address": "26-2 Uji Ichiban, Uji City, Kyoto 611-0021 Japan",
       "phone": "0774-21-1045",
       "status": "2026.12.24 計畫開業"
+    },
+    {
+      "code": "00382",
+      "name": "京都長岡京",
+      "region": "近畿",
+      "prefecture": "京都府",
+      "appLocation": "京都 (Kyoto)",
+      "address": "2-1-3 Kaiden, Nagaokakyo City, Kyoto 617-0826 Japan",
+      "phone": "075-956-1045",
+      "status": "2027.01.21 計畫開業"
     },
     {
       "code": "00183",

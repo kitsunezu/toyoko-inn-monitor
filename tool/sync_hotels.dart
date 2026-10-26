@@ -155,7 +155,7 @@ HotelCatalog parseHotelCatalog(
   final h2Pattern = RegExp(r'<h2\b[^>]*>(.*?)</h2>', dotAll: true);
   final h3Pattern = RegExp(r'<h3\b[^>]*>(.*?)</h3>', dotAll: true);
   final cardPattern = RegExp(
-    r'<li\b[^>]*HotelListCard_list-item[^>]*>(.*?)</li>',
+    r'<li\b[^>]*class="[^"]*\bHotelListCard[_-][^"\s]*list-item[^"]*"[^>]*>(.*?)</li>',
     dotAll: true,
   );
 
@@ -565,7 +565,7 @@ HotelEntry? _parseHotelCard(
       .toList();
   final tags =
       RegExp(
-            r'<div\b[^>]*class="[^"]*Tag_[^"]*"[^>]*>(.*?)</div>',
+            r'<div\b[^>]*class="[^"]*\bTag[_-][^"\s]*tag-component[^"]*"[^>]*>(.*?)</div>',
             dotAll: true,
           )
           .allMatches(card)

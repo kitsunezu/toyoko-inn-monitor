@@ -49,6 +49,41 @@ void main() {
     expect(kHotelDetails.keys.toSet(), allCodes);
     expect(allCodes.length, greaterThanOrEqualTo(300));
   });
+
+  test('parses hotel cards and status tags with the new CSS module names', () {
+    final html = _fixtureHtml
+        .replaceAll(
+          'HotelListCard_list-item__oci_B',
+          'HotelListCard-module-scss-module__rb7YVq__list-item',
+        )
+        .replaceAll(
+          'Tag_tag-component__cGANu',
+          'Tag-module-scss-module__yaWydG__tag-component',
+        )
+        .replaceAll(
+          'Tag_-gold__1QFRt',
+          'Tag-module-scss-module__yaWydG__-gold',
+        );
+    final catalog = parseHotelCatalog(html);
+
+    expect(catalog.hotels.length, 301);
+    final opening = catalog.byCode['00374']!;
+    expect(opening.name, '吳站');
+    expect(opening.prefecture, '廣島縣');
+    expect(opening.appLocation, '中國地方 (Chugoku)');
+    expect(opening.address, '3-33 Takara-machi, Kure City, Hiroshima');
+    expect(opening.phone, '0823-23-1045');
+    expect(opening.status, '2026.07.02 計畫開業');
+    expect(catalog.byCode['00011']!.status, '2025.12.11 翻新');
+    expect(catalog.byCode['00208']!.appLocation, '韓國首爾 (Seoul)');
+  });
+
+  test('rejects an incomplete catalog instead of overwriting valid data', () {
+    expect(
+      () => parseHotelCatalog('<section id="region-1"><h2>北海道</h2></section>'),
+      throwsFormatException,
+    );
+  });
 }
 
 String get _fixtureHtml {
