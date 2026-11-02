@@ -1665,7 +1665,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '神奈川縣',
     address: '1-1-6 Dai, Kamakura City, Kanagawa 247-0061 Japan',
     phone: '0467-42-1045',
-    status: '2026.10.30 計畫開業',
+    status: '2026.10.30 開業',
   ),
   '00115': HotelLocationInfo(
     name: '湘南鎌倉藤澤站北口',
