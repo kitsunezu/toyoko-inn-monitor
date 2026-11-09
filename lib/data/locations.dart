@@ -2237,7 +2237,7 @@ final Map<String, HotelLocationInfo> kHotelDetails = {
     prefecture: '愛知縣',
     address: '3-2-1 Ekimae-odori, Toyohashi city, Aichi 440-0888 Japan',
     phone: '0532-53-1045',
-    status: '2026.11.05 計畫開業',
+    status: '2026.11.05 開業',
   ),
   '00138': HotelLocationInfo(
     name: '名古屋尾張一宮站前',
